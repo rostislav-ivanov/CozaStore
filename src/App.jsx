@@ -1,4 +1,5 @@
 import Header from "./components/Header";
+import Slider from "./components/Slider";
 import Cart from "./components/Cart";
 import Banner from "./components/Banner";
 import Product from "./components/Product";
@@ -9,6 +10,7 @@ function App() {
   return (
     <>
       <Header />
+      <Slider />
       <Cart />
       <Banner />
       <Product />
