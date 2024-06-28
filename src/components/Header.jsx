@@ -18,7 +18,7 @@ export default function Header() {
     /* Header Component */
     <>
       <header>
-        <div className="container-menu-desktop">
+        <div className="container-menu-desktop fix-menu-desktop">
           <div className="top-bar">
             <div className="content-topbar flex-sb-m h-full container">
               <div className="left-top-bar">
