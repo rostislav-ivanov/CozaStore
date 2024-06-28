@@ -12,7 +12,6 @@ function App() {
     <>
       <Header />
       <Slider />
-      <Cart />
       <Banner />
       <Product />
       <Footer />

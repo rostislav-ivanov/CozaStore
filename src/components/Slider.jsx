@@ -5,7 +5,7 @@ export default function Slider() {
         <div className="slick1">
           <div
             className="item-slick1"
-            style={{ "background-image": "url(images/slide-01.jpg)" }}
+            style={{ backgroundImage: "url(images/slide-01.jpg)" }}
           >
             <div className="container h-full">
               <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
@@ -47,7 +47,7 @@ export default function Slider() {
 
           <div
             className="item-slick1"
-            style={{ "background-image": "url(images/slide-02.jpg)" }}
+            style={{ backgroundImage: "url(images/slide-02.jpg)" }}
           >
             <div className="container h-full">
               <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
@@ -90,7 +90,7 @@ export default function Slider() {
 
           <div
             className="item-slick1"
-            style={{ "background-image": "url(images/slide-03.jpg)" }}
+            style={{ backgroundImage: "url(images/slide-03.jpg)" }}
           >
             <div className="container h-full">
               <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
