@@ -5,6 +5,7 @@ import Banner from "./components/Banner";
 import Product from "./components/Product";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
+import Modal from "./components/Modal";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Product />
       <Footer />
       <BackToTop />
+      <Modal />
     </>
   );
 }
