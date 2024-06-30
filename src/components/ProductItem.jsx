@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function ProductItem({
   _id,
   name,
@@ -12,13 +13,12 @@ export default function ProductItem({
       <div className="block2">
         <div className="block2-pic hov-img0">
           <img src={image} alt={name} />
-
-          <a
-            href="#"
+          <Link
+            to={`/products/${_id}`}
             className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"
           >
             Quick View
-          </a>
+          </Link>
         </div>
 
         <div className="block2-txt flex-w flex-t p-t-14">

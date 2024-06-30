@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import ProductItem from "./ProductItem";
+import { getProducts } from "../services/productService";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3030/jsonstore/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(Object.values(data));
-        console.log(products);
-        setLoading(false);
-      });
+    getProducts().then((products) => {
+      setProducts(products);
+      setLoading(false);
+    });
   }, []);
 
   return (
