@@ -7,12 +7,10 @@ export default function Header() {
 
   const showCartHendler = () => {
     setShowCart(true);
-    console.log("showCart", showCart);
   };
 
   const hideCartHendler = () => {
     setShowCart(false);
-    console.log("showCart", showCart);
   };
 
   return (
@@ -49,7 +47,7 @@ export default function Header() {
           <div className="wrap-menu-desktop">
             <nav className="limiter-menu-desktop container">
               <a href="#" className="logo">
-                <img src="images/icons/logo-01.png" alt="IMG-LOGO" />
+                <img src="/images/icons/logo-01.png" alt="IMG-LOGO" />
               </a>
 
               <div className="menu-desktop">

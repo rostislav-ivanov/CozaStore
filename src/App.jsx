@@ -8,6 +8,9 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Details from "./components/Details";
 import NotFound from "./components/NotFound";
+import AboutTeam from "./components/AboutTeam";
+import AboutUs from "./components/AboutUs";
+import AboutMission from "./components/AboutMission";
 
 function App() {
   return (
@@ -16,7 +19,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Slider />} />
         <Route path="/products" element={<ProductList />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About />}>
+          <Route path="team" element={<AboutTeam />} />
+          <Route path="us" element={<AboutUs />} />
+          <Route path="mission" element={<AboutMission />} />
+        </Route>
         <Route path="/contact" element={<Contact />} />
         <Route path="/products/:id" element={<Details />} />
         {/* <Route path="/products/:id/:userId" element={<Details />} /> */}

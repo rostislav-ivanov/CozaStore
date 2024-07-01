@@ -7,6 +7,21 @@ export default function ProductList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // const abourtController = new AbortController();
+
+    // fetch("http://localhost:3030/jsonstore/products", {
+    //   signal: abourtController.signal,
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setProducts(Object.values(data));
+    //     setLoading(false);
+    //   });
+
+    // return () => {
+    //   abourtController.abort();
+    // };
+
     getProducts().then((products) => {
       setProducts(products);
       setLoading(false);

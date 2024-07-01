@@ -23,7 +23,7 @@ export default function Cart({ showCart, hideCartHendler }) {
           <ul className="header-cart-wrapitem w-full">
             <li className="header-cart-item flex-w flex-t m-b-12">
               <div className="header-cart-item-img">
-                <img src="images/item-cart-01.jpg" alt="IMG" />
+                <img src="/images/item-cart-01.jpg" alt="IMG" />
               </div>
 
               <div className="header-cart-item-txt p-t-8">
@@ -40,7 +40,7 @@ export default function Cart({ showCart, hideCartHendler }) {
 
             <li className="header-cart-item flex-w flex-t m-b-12">
               <div className="header-cart-item-img">
-                <img src="images/item-cart-02.jpg" alt="IMG" />
+                <img src="/images/item-cart-02.jpg" alt="IMG" />
               </div>
 
               <div className="header-cart-item-txt p-t-8">
@@ -57,7 +57,7 @@ export default function Cart({ showCart, hideCartHendler }) {
 
             <li className="header-cart-item flex-w flex-t m-b-12">
               <div className="header-cart-item-img">
-                <img src="images/item-cart-03.jpg" alt="IMG" />
+                <img src="/images/item-cart-03.jpg" alt="IMG" />
               </div>
 
               <div className="header-cart-item-txt p-t-8">
