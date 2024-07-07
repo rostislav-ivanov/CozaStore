@@ -3,18 +3,42 @@ import ProductItem from "./ProductItem";
 import * as productService from "../services/productService";
 import { Link, useParams } from "react-router-dom";
 
+const pageSize = 4;
+
 export default function ProductList() {
   const category = useParams().category || "";
 
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    productService.getAllProducts(category).then((products) => {
+    productService.getProductsCount(category).then((count) => {
+      setPage(1);
+      setTotalPages(Math.ceil(count / pageSize));
+    });
+  }, [category]);
+
+  useEffect(() => {
+    productService.getAllProducts(category, page, pageSize).then((products) => {
       setProducts(products);
       setLoading(false);
     });
-  }, [category]);
+  }, [category, page]);
+
+  const previewHandler = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const nextHandler = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+  console.log(page, totalPages);
 
   return (
     <section className="bg0 p-t-23 p-b-140">
@@ -315,12 +339,18 @@ export default function ProductList() {
           )}
         </div>
         <div className="flex-c-m flex-w w-full p-t-45">
-          <a
-            href="#"
+          <button
             className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04"
+            onClick={previewHandler}
           >
-            Load More
-          </a>
+            Preview
+          </button>
+          <button
+            className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04"
+            onClick={nextHandler}
+          >
+            Next
+          </button>
         </div>
       </div>
     </section>
