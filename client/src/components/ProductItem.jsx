@@ -22,7 +22,7 @@ export default function ProductItem({ _id, name, images, price }) {
               {name}
             </a>
 
-            <span className="stext-105 cl3">${price}</span>
+            <span className="stext-105 cl3">${price.toFixed(2)}</span>
           </div>
 
           <div className="block2-txt-child2 flex-r p-t-3">
