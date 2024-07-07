@@ -14,6 +14,7 @@ export default function ProductList() {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
+    setLoading(true);
     productService.getProductsCount(category).then((count) => {
       setPage(1);
       setTotalPages(Math.ceil(count / pageSize));
@@ -21,6 +22,7 @@ export default function ProductList() {
   }, [category]);
 
   useEffect(() => {
+    setLoading(true);
     productService.getAllProducts(category, page, pageSize).then((products) => {
       setProducts(products);
       setLoading(false);
@@ -38,7 +40,6 @@ export default function ProductList() {
       setPage(page + 1);
     }
   };
-  console.log(page, totalPages);
 
   return (
     <section className="bg0 p-t-23 p-b-140">
@@ -94,12 +95,14 @@ export default function ProductList() {
           <button
             className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04"
             onClick={previewHandler}
+            disabled={page === 1}
           >
             Preview
           </button>
           <button
             className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04"
             onClick={nextHandler}
+            disabled={page === totalPages}
           >
             Next
           </button>
