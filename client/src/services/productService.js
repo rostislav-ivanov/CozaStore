@@ -1,6 +1,14 @@
-const baseUrl = "http://localhost:3030/jsonstore";
+const baseUrl = "http://localhost:3030/data";
 
-export async function getProducts() {
+export async function getAllProducts() {
+  const query = `{
+    select: {
+      _id
+      name
+      images
+      price
+    }
+  }`;
   try {
     const response = await fetch(`${baseUrl}/products`);
     const data = await response.json();

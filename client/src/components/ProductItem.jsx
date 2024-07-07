@@ -1,18 +1,10 @@
 import { Link } from "react-router-dom";
-export default function ProductItem({
-  _id,
-  name,
-  image,
-  description,
-  price,
-  category,
-  stock,
-}) {
+export default function ProductItem({ _id, name, images, price }) {
   return (
     <div className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
       <div className="block2">
         <div className="block2-pic hov-img0">
-          <img src={image} alt={name} />
+          <img src={images[0]} alt={name} />
           <Link
             to={`/products/${_id}`}
             className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"
