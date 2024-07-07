@@ -18,22 +18,15 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Slider />} />
-        <Route path="/products" element={<ProductList categ="" />} />
-        <Route path="/products/women" element={<ProductList categ="women" />} />
-        <Route path="/products/men" element={<ProductList categ="man" />} />
-        <Route path="/products/bag" element={<ProductList categ="bag" />} />
-        <Route path="/products/shoes" element={<ProductList categ="shoes" />} />
-        <Route
-          path="/products/watches"
-          element={<ProductList categ="watches" />}
-        />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/products/:category" element={<ProductList />} />
+        <Route path="/products/:id" element={<Details />} />
         <Route path="/about" element={<About />}>
           <Route path="team" element={<AboutTeam />} />
           <Route path="us" element={<AboutUs />} />
           <Route path="mission" element={<AboutMission />} />
         </Route>
         <Route path="/contact" element={<Contact />} />
-        <Route path="/products/:id" element={<Details />} />
         {/* <Route path="/products/:id/:userId" element={<Details />} /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>

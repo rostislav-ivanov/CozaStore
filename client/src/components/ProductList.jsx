@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import ProductItem from "./ProductItem";
 import * as productService from "../services/productService";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-export default function ProductList({ categ }) {
-  const [category, setCategory] = useState(categ);
+export default function ProductList() {
+  const category = useParams().category || "";
+
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
@@ -23,33 +24,33 @@ export default function ProductList({ categ }) {
         </div>
         <div className="flex-w flex-sb-m p-b-52">
           <div className="flex-w flex-l-m filter-tope-group m-tb-10">
-            <Link to="/products" onClick={() => setCategory("")}>
+            <Link to="/products">
               <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
                 All Products
               </button>
             </Link>
 
-            <Link to="/products/women" onClick={() => setCategory("Women")}>
+            <Link to="/products/women">
               <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
                 Women
               </button>
             </Link>
-            <Link to="/products/men" onClick={() => setCategory("Man")}>
+            <Link to="/products/man">
               <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
                 Men
               </button>
             </Link>
-            <Link to="/products/bag" onClick={() => setCategory("bag")}>
+            <Link to="/products/bag">
               <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
                 Bag
               </button>
             </Link>
-            <Link to="/products/shoes" onClick={() => setCategory("shoes")}>
+            <Link to="/products/shoes">
               <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
                 Shoes
               </button>
             </Link>
-            <Link to="/products/watches" onClick={() => setCategory("watches")}>
+            <Link to="/products/watches">
               <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
                 Watches
               </button>

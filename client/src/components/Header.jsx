@@ -57,14 +57,7 @@ export default function Header() {
                   </li>
 
                   <li>
-                    <NavLink
-                      to="/products"
-                      style={({ isActive }) =>
-                        isActive ? { color: "#6c7ae0" } : { color: "0" }
-                      }
-                    >
-                      Shop
-                    </NavLink>
+                    <Link to="/products">Shop</Link>
                   </li>
 
                   <li>
