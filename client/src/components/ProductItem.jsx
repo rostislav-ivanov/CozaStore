@@ -32,12 +32,12 @@ export default function ProductItem({ _id, name, images, price }) {
             >
               <img
                 className="icon-heart1 dis-block trans-04"
-                src="images/icons/icon-heart-01.png"
+                src="/images/icons/icon-heart-01.png"
                 alt="ICON"
               />
               <img
                 className="icon-heart2 dis-block trans-04 ab-t-l"
-                src="images/icons/icon-heart-02.png"
+                src="/images/icons/icon-heart-02.png"
                 alt="ICON"
               />
             </a>

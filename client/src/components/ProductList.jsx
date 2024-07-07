@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import ProductItem from "./ProductItem";
 import * as productService from "../services/productService";
+import { Link } from "react-router-dom";
 
-export default function ProductList() {
-  const [products, setProducts] = useState([]);
+export default function ProductList({ categ }) {
+  const [category, setCategory] = useState(categ);
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    productService.getAllProducts().then((products) => {
+    productService.getAllProducts(category).then((products) => {
       setProducts(products);
       setLoading(false);
     });
-  }, []);
+  }, [category]);
 
   return (
     <section className="bg0 p-t-23 p-b-140">
@@ -21,47 +23,37 @@ export default function ProductList() {
         </div>
         <div className="flex-w flex-sb-m p-b-52">
           <div className="flex-w flex-l-m filter-tope-group m-tb-10">
-            <button
-              className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
-              data-filter="*"
-            >
-              All Products
-            </button>
+            <Link to="/products" onClick={() => setCategory("")}>
+              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                All Products
+              </button>
+            </Link>
 
-            <button
-              className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-              data-filter=".women"
-            >
-              Women
-            </button>
-
-            <button
-              className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-              data-filter=".men"
-            >
-              Men
-            </button>
-
-            <button
-              className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-              data-filter=".bag"
-            >
-              Bag
-            </button>
-
-            <button
-              className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-              data-filter=".shoes"
-            >
-              Shoes
-            </button>
-
-            <button
-              className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5"
-              data-filter=".watches"
-            >
-              Watches
-            </button>
+            <Link to="/products/women" onClick={() => setCategory("Women")}>
+              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                Women
+              </button>
+            </Link>
+            <Link to="/products/men" onClick={() => setCategory("Man")}>
+              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                Men
+              </button>
+            </Link>
+            <Link to="/products/bag" onClick={() => setCategory("bag")}>
+              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                Bag
+              </button>
+            </Link>
+            <Link to="/products/shoes" onClick={() => setCategory("shoes")}>
+              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                Shoes
+              </button>
+            </Link>
+            <Link to="/products/watches" onClick={() => setCategory("watches")}>
+              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                Watches
+              </button>
+            </Link>
           </div>
           <div className="flex-w flex-c-m m-tb-10">
             <div className="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
