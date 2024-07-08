@@ -44,7 +44,7 @@ export default function Header() {
   return (
     /* Header Component */
     <>
-      <header>
+      <header class="header-v4">
         <div
           className={`container-menu-desktop ${isFixed} ? "fix-menu-desktop" : ""`}
           ref={headerRef}
@@ -75,7 +75,7 @@ export default function Header() {
             </div>
           </div>
 
-          <div className="wrap-menu-desktop" ref={wrapMenuRef}>
+          <div className="wrap-menu-desktop how-shadow1" ref={wrapMenuRef}>
             <nav className="limiter-menu-desktop container">
               <a href="#" className="logo">
                 <img src="/images/icons/logo-01.png" alt="IMG-LOGO" />
