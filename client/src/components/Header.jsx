@@ -44,7 +44,7 @@ export default function Header() {
   return (
     /* Header Component */
     <>
-      <header class="header-v4">
+      <header className="header-v4">
         <div
           className={`container-menu-desktop ${isFixed} ? "fix-menu-desktop" : ""`}
           ref={headerRef}
