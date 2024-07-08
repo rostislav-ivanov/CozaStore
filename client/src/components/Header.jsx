@@ -77,28 +77,31 @@ export default function Header() {
 
           <div className="wrap-menu-desktop how-shadow1" ref={wrapMenuRef}>
             <nav className="limiter-menu-desktop container">
-              <a href="#" className="logo">
+              <Link to="/" className="logo">
                 <img src="/images/icons/logo-01.png" alt="IMG-LOGO" />
-              </a>
+              </Link>
+              <div className="flex-w flex-l-m filter-tope-group m-tb-10">
+                <Link to="/">
+                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                    Home
+                  </button>
+                </Link>
 
-              <div className="menu-desktop">
-                <ul className="main-menu">
-                  <li className="active-menu">
-                    <Link to="/">Home</Link>
-                  </li>
-
-                  <li>
-                    <Link to="/products">Shop</Link>
-                  </li>
-
-                  <li>
-                    <Link to="/about">About</Link>
-                  </li>
-
-                  <li>
-                    <Link to="/contact">Contact</Link>
-                  </li>
-                </ul>
+                <Link to="/products">
+                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                    Shop
+                  </button>
+                </Link>
+                <Link to="/about">
+                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                    About
+                  </button>
+                </Link>
+                <Link to="/contact">
+                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                    Contact
+                  </button>
+                </Link>
               </div>
 
               <div className="wrap-icon-header flex-w flex-r-m">
