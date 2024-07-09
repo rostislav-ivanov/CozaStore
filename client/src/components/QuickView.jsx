@@ -1,12 +1,16 @@
-export default function Modal() {
+export default function QuickView({ _id, closeQuickView }) {
+  console.log(_id);
+
   return (
-    /* Modal Component */
-    <div className="wrap-modal1 js-modal1 p-t-60 p-b-20">
+    <div className="wrap-modal1 js-modal1 p-t-60 p-b-20 show-modal1">
       <div className="overlay-modal1 js-hide-modal1"></div>
 
       <div className="container">
         <div className="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-          <button className="how-pos3 hov3 trans-04 js-hide-modal1">
+          <button
+            className="how-pos3 hov3 trans-04 js-hide-modal1"
+            onClick={closeQuickView}
+          >
             <img src="images/icons/icon-close.png" alt="CLOSE" />
           </button>
 
@@ -92,7 +96,6 @@ export default function Modal() {
                   ligula. Mauris consequat ornare feugiat.
                 </p>
 
-                {/* <!--  --> */}
                 <div className="p-t-33">
                   <div className="flex-w flex-r-m p-b-10">
                     <div className="size-203 flex-c-m respon6">Size</div>
@@ -139,6 +142,7 @@ export default function Modal() {
                           className="mtext-104 cl3 txt-center num-product"
                           type="number"
                           name="num-product"
+                          value="1"
                         />
 
                         <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
@@ -153,7 +157,6 @@ export default function Modal() {
                   </div>
                 </div>
 
-                {/* <!--  --> */}
                 <div className="flex-w flex-m p-l-100 p-t-40 respon7">
                   <div className="flex-m bor9 p-r-10 m-r-11">
                     <a
