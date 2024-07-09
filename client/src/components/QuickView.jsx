@@ -1,5 +1,22 @@
+import { useEffect, useState } from "react";
+import Carousel from "react-bootstrap/Carousel";
+
+import * as productService from "../services/productService";
+
 export default function QuickView({ _id, closeQuickView }) {
   console.log(_id);
+  const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    productService.getProductById(_id).then((product) => {
+      setProduct(product);
+      setLoading(false);
+      console.log(product);
+      console.log(product.images);
+    });
+  }, [_id]);
 
   return (
     <div className="wrap-modal1 js-modal1 p-t-60 p-b-20 show-modal1">
@@ -11,90 +28,37 @@ export default function QuickView({ _id, closeQuickView }) {
             className="how-pos3 hov3 trans-04 js-hide-modal1"
             onClick={closeQuickView}
           >
-            <img src="images/icons/icon-close.png" alt="CLOSE" />
+            <img src="/images/icons/icon-close.png" alt="CLOSE" />
           </button>
 
           <div className="row">
             <div className="col-md-6 col-lg-7 p-b-30">
               <div className="p-l-25 p-r-30 p-lr-0-lg">
-                <div className="wrap-slick3 flex-sb flex-w">
-                  <div className="wrap-slick3-dots"></div>
-                  <div className="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-                  <div className="slick3 gallery-lb">
-                    <div
-                      className="item-slick3"
-                      data-thumb="images/product-detail-01.jpg"
-                    >
-                      <div className="wrap-pic-w pos-relative">
-                        <img
-                          src="images/product-detail-01.jpg"
-                          alt="IMG-PRODUCT"
-                        />
-
-                        <a
-                          className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                          href="images/product-detail-01.jpg"
-                        >
-                          <i className="fa fa-expand"></i>
-                        </a>
-                      </div>
-                    </div>
-
-                    <div
-                      className="item-slick3"
-                      data-thumb="images/product-detail-02.jpg"
-                    >
-                      <div className="wrap-pic-w pos-relative">
-                        <img
-                          src="images/product-detail-02.jpg"
-                          alt="IMG-PRODUCT"
-                        />
-
-                        <a
-                          className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                          href="images/product-detail-02.jpg"
-                        >
-                          <i className="fa fa-expand"></i>
-                        </a>
-                      </div>
-                    </div>
-
-                    <div
-                      className="item-slick3"
-                      data-thumb="images/product-detail-03.jpg"
-                    >
-                      <div className="wrap-pic-w pos-relative">
-                        <img
-                          src="images/product-detail-03.jpg"
-                          alt="IMG-PRODUCT"
-                        />
-
-                        <a
-                          className="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                          href="images/product-detail-03.jpg"
-                        >
-                          <i className="fa fa-expand"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <Carousel fade>
+                  {product.images &&
+                    product.images.map((image, index) => (
+                      <Carousel.Item
+                        style={{
+                          height: "70vh",
+                        }}
+                        key={index}
+                      >
+                        <img src={image} alt="IMG-PRODUCT" />
+                      </Carousel.Item>
+                    ))}
+                </Carousel>
               </div>
             </div>
 
             <div className="col-md-6 col-lg-5 p-b-30">
               <div className="p-r-50 p-t-5 p-lr-0-lg">
                 <h4 className="mtext-105 cl2 js-name-detail p-b-14">
-                  Lightweight Jacket
+                  {product.name}
                 </h4>
 
                 <span className="mtext-106 cl2"> $58.79 </span>
 
-                <p className="stext-102 cl3 p-t-23">
-                  Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus
-                  ligula. Mauris consequat ornare feugiat.
-                </p>
+                <p className="stext-102 cl3 p-t-23">{product.description}</p>
 
                 <div className="p-t-33">
                   <div className="flex-w flex-r-m p-b-10">
@@ -102,12 +66,12 @@ export default function QuickView({ _id, closeQuickView }) {
 
                     <div className="size-204 respon6-next">
                       <div className="rs1-select2 bor8 bg0">
-                        <select className="js-select2" name="time">
+                        <select className="js-select2" name="size">
                           <option>Choose an option</option>
-                          <option>Size S</option>
-                          <option>Size M</option>
-                          <option>Size L</option>
-                          <option>Size XL</option>
+                          {product.sizes &&
+                            product.sizes.map((size) => (
+                              <option key={size}>{size}</option>
+                            ))}
                         </select>
                         <div className="dropDownSelect2"></div>
                       </div>
@@ -119,12 +83,12 @@ export default function QuickView({ _id, closeQuickView }) {
 
                     <div className="size-204 respon6-next">
                       <div className="rs1-select2 bor8 bg0">
-                        <select className="js-select2" name="time">
+                        <select className="js-select2" name="color">
                           <option>Choose an option</option>
-                          <option>Red</option>
-                          <option>Blue</option>
-                          <option>White</option>
-                          <option>Grey</option>
+                          {product.colors &&
+                            product.colors.map((color) => (
+                              <option key={color}>{color}</option>
+                            ))}
                         </select>
                         <div className="dropDownSelect2"></div>
                       </div>
@@ -142,7 +106,7 @@ export default function QuickView({ _id, closeQuickView }) {
                           className="mtext-104 cl3 txt-center num-product"
                           type="number"
                           name="num-product"
-                          value="1"
+                          defaultValue="1"
                         />
 
                         <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
