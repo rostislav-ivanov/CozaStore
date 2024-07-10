@@ -16,6 +16,7 @@ import { BagProvider } from "./context/bagContext";
 function App() {
   return (
     <BagProvider>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />} />
