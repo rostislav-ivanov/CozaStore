@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
+import usePersistedState from "../hooks/usePresistedState";
 
 export const BagContext = createContext();
 
 export const BagProvider = ({ children }) => {
-  const [bag, setBag] = useState([]);
+  const [bag, setBag] = usePersistedState("bag", []);
 
   const addItem = (item) => {
     setBag([...bag, item]);

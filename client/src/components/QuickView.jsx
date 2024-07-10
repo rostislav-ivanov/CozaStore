@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 
 import * as productService from "../services/productService";
+import { BagContext } from "../context/bagContext";
 
 export default function QuickView({ _id, closeQuickView }) {
   const [product, setProduct] = useState({
@@ -16,6 +17,7 @@ export default function QuickView({ _id, closeQuickView }) {
     quantity: 1,
   });
   const [loading, setLoading] = useState(true);
+  const { bag, addItem, removeItem } = useContext(BagContext);
 
   useEffect(() => {
     setLoading(true);
@@ -36,6 +38,9 @@ export default function QuickView({ _id, closeQuickView }) {
       quantity: product.quantity,
     };
     console.log(item);
+    console.log(bag);
+
+    addItem(item);
     closeQuickView();
   };
 
