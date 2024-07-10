@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 
-import * as productService from "../services/productService";
-import { BagContext } from "../context/bagContext";
+import * as productService from "../../services/productService";
+import { BagContext } from "../../context/bagContext";
+import styles from "./QuickView.module.css";
 
 export default function QuickView({ _id, closeQuickView }) {
   const [product, setProduct] = useState({
@@ -17,7 +18,8 @@ export default function QuickView({ _id, closeQuickView }) {
     quantity: 1,
   });
   const [loading, setLoading] = useState(true);
-  const { bag, addItem, removeItem } = useContext(BagContext);
+  const { addItem } = useContext(BagContext);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setLoading(true);
@@ -27,7 +29,19 @@ export default function QuickView({ _id, closeQuickView }) {
     });
   }, [_id]);
 
+  const validateInputs = () => {
+    const newErrors = {};
+    if (!product.size) newErrors.size = "Size is required.";
+    if (!product.color) newErrors.color = "Color is required.";
+    if (product.quantity <= 0)
+      newErrors.quantity = "Quantity must be greater than 0.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const addItemHandler = (product) => {
+    console.log(product);
+    if (!validateInputs()) return;
     const item = {
       _id: product._id,
       name: product.name,
@@ -37,9 +51,6 @@ export default function QuickView({ _id, closeQuickView }) {
       color: product.color,
       quantity: product.quantity,
     };
-    console.log(item);
-    console.log(bag);
-
     addItem(item);
     closeQuickView();
   };
@@ -99,7 +110,7 @@ export default function QuickView({ _id, closeQuickView }) {
                   <p className="stext-102 cl3 p-t-23">{product.description}</p>
 
                   <div className="p-t-33">
-                    <div className="flex-w p-b-20">
+                    <div className="flex-w">
                       <div className="size-203  respon6">Size</div>
 
                       <select
@@ -109,15 +120,18 @@ export default function QuickView({ _id, closeQuickView }) {
                           setProduct({ ...product, size: e.target.value })
                         }
                       >
-                        <option>Choose an option</option>
+                        <option value="">Choose a size</option>
                         {product.sizes &&
                           product.sizes.map((size) => (
                             <option key={size}>{size}</option>
                           ))}
                       </select>
                     </div>
+                    {errors.size && (
+                      <div className={styles.error}>{errors.size}</div>
+                    )}
 
-                    <div className="flex-w p-b-20">
+                    <div className="flex-w p-t-20">
                       <div className="size-203  respon6">Color</div>
                       <select
                         name="color"
@@ -126,16 +140,18 @@ export default function QuickView({ _id, closeQuickView }) {
                           setProduct({ ...product, color: e.target.value })
                         }
                       >
-                        <option>Choose an option</option>
+                        <option value="">Choose a color</option>
                         {product.colors &&
                           product.colors.map((color) => (
                             <option key={color}>{color}</option>
                           ))}
                       </select>
-                      <div className="dropDownSelect2"></div>
                     </div>
+                    {errors.color && (
+                      <div className={styles.error}>{errors.color}</div>
+                    )}
 
-                    <div className="flex-w flex-r-m p-b-10">
+                    <div className="flex-w flex-r-m p-t-20">
                       <div className="size-204 flex-w flex-m respon6-next">
                         <div className="wrap-num-product flex-w m-r-20 m-tb-10">
                           <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -166,7 +182,9 @@ export default function QuickView({ _id, closeQuickView }) {
                             ></i>
                           </div>
                         </div>
-
+                        {errors.quantity && (
+                          <div className={styles.error}>{errors.quantity}</div>
+                        )}
                         <button
                           className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail m-t-20"
                           onClick={() => {

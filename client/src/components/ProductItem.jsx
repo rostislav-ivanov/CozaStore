@@ -1,5 +1,5 @@
 import { useState } from "react";
-import QuickView from "./QuickView";
+import QuickView from "./QuickView/QuickView";
 
 export default function ProductItem({ _id, name, images, price }) {
   const [showQuickView, setShowQuickView] = useState(false);
