@@ -11,11 +11,11 @@ import AboutTeam from "./components/AboutTeam";
 import AboutUs from "./components/AboutUs";
 import AboutMission from "./components/AboutMission";
 import Home from "./components/Home";
+import { BagProvider } from "./context/bagContext";
 
 function App() {
   return (
-    <>
-      <Header />
+    <BagProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />} />
@@ -32,7 +32,7 @@ function App() {
       </Routes>
       <Footer />
       <BackToTop />
-    </>
+    </BagProvider>
   );
 }
 
