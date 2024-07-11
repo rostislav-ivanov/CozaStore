@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Details from "./components/Details";
+import Details from "./components/Details/Details";
 import NotFound from "./components/NotFound";
 import AboutTeam from "./components/AboutTeam";
 import AboutUs from "./components/AboutUs";
@@ -21,7 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:category" element={<ProductList />} />
-        <Route path="/products/:id" element={<Details />} />
+        <Route path="/details/:id" element={<Details />} />
         <Route path="/about" element={<About />}>
           <Route path="team" element={<AboutTeam />} />
           <Route path="us" element={<AboutUs />} />

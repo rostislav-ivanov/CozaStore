@@ -1,5 +1,6 @@
 import { useState } from "react";
 import QuickView from "./QuickView/QuickView";
+import { Link } from "react-router-dom";
 
 export default function ProductItem({ _id, name, images, price }) {
   const [showQuickView, setShowQuickView] = useState(false);
@@ -25,12 +26,12 @@ export default function ProductItem({ _id, name, images, price }) {
         </div>
         <div className="block2-txt flex-w flex-t p-t-14">
           <div className="block2-txt-child1 flex-col-l ">
-            <a
-              href="product-detail.html"
+            <Link
+              to={`/details/${_id}`}
               className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6"
             >
               {name}
-            </a>
+            </Link>
 
             <span className="stext-105 cl3">${price.toFixed(2)}</span>
           </div>
