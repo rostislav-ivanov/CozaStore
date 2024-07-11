@@ -1449,8 +1449,8 @@
     products: {
       "53d4dbf5-7f41-47ba-b485-43eccb91cb95": {
         name: "Esprit Ruffle Shirt",
-        images: ["/images/product-01.jpg"],
-        descriptios: "Description of product Esprit Ruffle Shirt",
+        images: ["/images/product-01.jpg", "/images/product-02.jpg"],
+        description: "Description of product Esprit Ruffle Shirt",
         price: 16.64,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1462,7 +1462,7 @@
       "f5929b5c-bca4-4026-8e6e-c09e73908f77": {
         name: "Herschel supply",
         images: ["/images/product-02.jpg"],
-        descriptios: "Description of product Herschel supply",
+        description: "Description of product Herschel supply",
         price: 35.31,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1474,7 +1474,7 @@
       "c7f51805-242b-45ed-ae3e-80b68605141b": {
         name: "Only Check Trouser",
         images: ["/images/product-03.jpg"],
-        descriptios: "Description of product Only Check Trouser",
+        description: "Description of product Only Check Trouser",
         price: 25.5,
         category: "Man",
         sizes: ["S", "M", "L", "XL"],
@@ -1486,7 +1486,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051404": {
         name: "Classic Trench Coat",
         images: ["/images/product-04.jpg"],
-        descriptios: "Description of product Classic Trench Coat",
+        description: "Description of product Classic Trench Coat",
         price: 75.0,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1498,7 +1498,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051405": {
         name: "Front Pocket Jumper",
         images: ["/images/product-05.jpg"],
-        descriptios: "Description of product Front Pocket Jumper",
+        description: "Description of product Front Pocket Jumper",
         price: 34.75,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1510,7 +1510,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051406": {
         name: "Vintage Inspired Classic",
         images: ["/images/product-06.jpg"],
-        descriptios: "Description of product Vintage Inspired Classic",
+        description: "Description of product Vintage Inspired Classic",
         price: 93.2,
         category: "Watches",
         sizes: [],
@@ -1522,7 +1522,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051407": {
         name: "Shirt in Stretch Cotton",
         images: ["/images/product-07.jpg"],
-        descriptios: "Description of product Shirt in Stretch Cotton",
+        description: "Description of product Shirt in Stretch Cotton",
         price: 52.66,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1534,7 +1534,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051408": {
         name: "Pieces Metallic Printed",
         images: ["/images/product-08.jpg"],
-        descriptios: "Description of product Pieces Metallic Printed",
+        description: "Description of product Pieces Metallic Printed",
         price: 18.96,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1546,7 +1546,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051409": {
         name: "Converse All Star Hi Plimsolls",
         images: ["/images/product-09.jpg"],
-        descriptios: "Description of product Converse All Star Hi Plimsolls",
+        description: "Description of product Converse All Star Hi Plimsolls",
         price: 75,
         category: "Shoes",
         sizes: ["36", "37", "38", "39"],
@@ -1558,7 +1558,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051410": {
         name: "Femme T-Shirt In Stripe",
         images: ["/images/product-10.jpg"],
-        descriptios: "Description of product Femme T-Shirt In Stripe",
+        description: "Description of product Femme T-Shirt In Stripe",
         price: 25.85,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1570,7 +1570,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051411": {
         name: "Herschel supply",
         images: ["/images/product-11.jpg"],
-        descriptios: "Description of product Herschel supply",
+        description: "Description of product Herschel supply",
         price: 63.16,
         category: "Man",
         sizes: ["S", "M", "L", "XL"],
@@ -1582,7 +1582,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051412": {
         name: "Herschel supply",
         images: ["/images/product-12.jpg"],
-        descriptios: "Description of product Herschel supply",
+        description: "Description of product Herschel supply",
         price: 63.15,
         category: "Man",
         sizes: ["85", "90", "95", "100"],
@@ -1594,7 +1594,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051413": {
         name: "T-Shirt with Sleeve",
         images: ["/images/product-13.jpg"],
-        descriptios: "Description of product T-Shirt with Sleeve",
+        description: "Description of product T-Shirt with Sleeve",
         price: 18.49,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1606,7 +1606,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051414": {
         name: "Pretty Little Thing",
         images: ["/images/product-14.jpg"],
-        descriptios: "Description of product Pretty Little Thing",
+        description: "Description of product Pretty Little Thing",
         price: 54.79,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],
@@ -1618,7 +1618,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051415": {
         name: "Mini Silver Mesh Watch",
         images: ["/images/product-15.jpg"],
-        descriptios: "Description of product Mini Silver Mesh Watch",
+        description: "Description of product Mini Silver Mesh Watch",
         price: 86.85,
         category: "Watches",
         sizes: [],
@@ -1630,7 +1630,7 @@
       "c7f51805-242b-45ed-ae3e-80b686051416": {
         name: "Square Neck Back",
         images: ["/images/product-16.jpg"],
-        descriptios: "Description of product Square Neck Back",
+        description: "Description of product Square Neck Back",
         price: 29.64,
         category: "Women",
         sizes: ["S", "M", "L", "XL"],

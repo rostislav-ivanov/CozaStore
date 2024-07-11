@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Slider from "./components/Slider";
 import ProductList from "./components/ProductList";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
@@ -11,13 +10,15 @@ import NotFound from "./components/NotFound";
 import AboutTeam from "./components/AboutTeam";
 import AboutUs from "./components/AboutUs";
 import AboutMission from "./components/AboutMission";
+import Home from "./components/Home";
+import { BagProvider } from "./context/bagContext";
 
 function App() {
   return (
-    <>
+    <BagProvider>
       <Header />
       <Routes>
-        <Route path="/" element={<Slider />} />
+        <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:category" element={<ProductList />} />
         <Route path="/products/:id" element={<Details />} />
@@ -32,7 +33,7 @@ function App() {
       </Routes>
       <Footer />
       <BackToTop />
-    </>
+    </BagProvider>
   );
 }
 
