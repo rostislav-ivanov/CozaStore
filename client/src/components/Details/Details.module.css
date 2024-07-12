@@ -1,0 +1,5 @@
+.error {
+  color: red;
+  font-size: 0.875rem; /* Small font size for error messages */
+  margin-top: 0.25rem; /* Small margin to separate from input */
+}

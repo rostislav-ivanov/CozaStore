@@ -1,16 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
+import { useParams, useNavigate } from "react-router-dom";
 
+import Carousel from "react-bootstrap/Carousel";
 import * as productService from "../../services/productService";
 import { BagContext } from "../../context/bagContext";
-import styles from "./QuickView.module.css";
+import styles from "./Details.module.css";
 
-export default function QuickView({ _id, closeQuickView }) {
+export default function Details() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
     images: [],
     price: 0,
     description: "",
+    material: "",
     sizes: [],
     size: "",
     colors: [],
@@ -24,13 +28,13 @@ export default function QuickView({ _id, closeQuickView }) {
   useEffect(() => {
     setLoading(true);
     productService
-      .getProductById(_id)
+      .getDetailsById(id)
       .then((data) => {
         setProduct((prev) => ({ ...prev, ...data }));
         setLoading(false);
       })
       .catch(() => navigate("/NotFound", { replace: true }));
-  }, [_id]);
+  }, [id]);
 
   const validateInputs = () => {
     const newErrors = {};
@@ -55,7 +59,6 @@ export default function QuickView({ _id, closeQuickView }) {
       quantity: product.quantity,
     };
     addItem(item);
-    closeQuickView();
   };
 
   const minusQuantityHandler = () => {
@@ -69,20 +72,12 @@ export default function QuickView({ _id, closeQuickView }) {
   };
 
   return (
-    <div className="wrap-modal1 js-modal1 p-t-60 p-b-20 show-modal1">
-      <div className="overlay-modal1 js-hide-modal1"></div>
-
-      <div className="container">
-        {loading && <div>Loading...</div>}
-        {!loading && (
-          <div className="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-            <button
-              className="how-pos3 hov3 trans-04 js-hide-modal1"
-              onClick={closeQuickView}
-            >
-              <img src="/images/icons/icon-close.png" alt="CLOSE" />
-            </button>
-
+    <section className="sec-product-detail bg0 p-t-65 p-b-60">
+      {loading && <div>Loading...</div>}
+      {!loading && !product && <div>Product not found</div>}
+      {!loading && product && (
+        <>
+          <div className="container">
             <div className="row">
               <div className="col-md-6 col-lg-7 p-b-30">
                 <div className="p-l-25 p-r-30 p-lr-0-lg">
@@ -234,9 +229,66 @@ export default function QuickView({ _id, closeQuickView }) {
                 </div>
               </div>
             </div>
+
+            <div className="bor10 m-t-50 p-t-43 p-b-40">
+              {/* <!-- Tab01 --> */}
+              <div className="tab01">
+                {/* <!-- Nav tabs --> */}
+                <ul className="nav nav-tabs" role="tablist">
+                  <li className="nav-item p-b-10">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#description"
+                      role="tab"
+                    >
+                      Description
+                    </a>
+                  </li>
+
+                  <li className="nav-item p-b-10">
+                    <a
+                      className="nav-link"
+                      data-toggle="tab"
+                      href="#information"
+                      role="tab"
+                    >
+                      Material
+                    </a>
+                  </li>
+                </ul>
+
+                {/* <!-- Tab panes --> */}
+                <div className="tab-content p-t-43">
+                  {/* <!-- - --> */}
+                  <div
+                    className="tab-pane fade show active"
+                    id="description"
+                    role="tabpanel"
+                  >
+                    <div className="how-pos2 p-lr-15-md">
+                      <p className="stext-102 cl6">{product.description}</p>
+                    </div>
+                  </div>
+
+                  {/* <!-- - --> */}
+                  <div
+                    className="tab-pane fade"
+                    id="information"
+                    role="tabpanel"
+                  >
+                    <div className="row">
+                      <div className="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+                        {product.material}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    </div>
+        </>
+      )}
+    </section>
   );
 }

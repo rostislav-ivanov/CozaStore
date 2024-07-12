@@ -27,10 +27,14 @@ export async function getProductsCount(category) {
 }
 
 export async function getProductById(id) {
-  const query = encodeURI(
-    `select=_id,name,images,price,description,sizes,colors`
-  );
+  const query = encodeURI(`select=_id,name,images,price,sizes,colors`);
   const response = await fetch(`${baseUrl}/${id}?${query}`);
+  const data = await response.json();
+  return data;
+}
+
+export async function getDetailsById(id) {
+  const response = await fetch(`${baseUrl}/${id}`);
   const data = await response.json();
   return data;
 }

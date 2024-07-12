@@ -4,12 +4,9 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <Carousel fade>
-      <Carousel.Item
-        style={{
-          backgroundImage: "url(images/slide-01.jpg)",
-          height: "50vh",
-        }}
-      >
+      <Carousel.Item className="block2-pic hov-img0">
+        <img src="/images/slide-01.jpg" alt="IMG-PRODUCT" />
+
         <Carousel.Caption>
           <div className="container h-full">
             <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
@@ -29,12 +26,8 @@ function Home() {
           </div>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item
-        style={{
-          backgroundImage: "url(images/slide-02.jpg)",
-          height: "50vh",
-        }}
-      >
+      <Carousel.Item className="block2-pic hov-img0">
+        <img src="/images/slide-02.jpg" alt="IMG-PRODUCT" />
         <Carousel.Caption>
           <div className="container h-full">
             <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
@@ -53,12 +46,8 @@ function Home() {
           </div>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item
-        style={{
-          backgroundImage: "url(images/slide-03.jpg)",
-          height: "50vh",
-        }}
-      >
+      <Carousel.Item className="block2-pic hov-img0">
+        <img src="/images/slide-03.jpg" alt="IMG-PRODUCT" />
         <Carousel.Caption>
           <div className="container h-full">
             <div className="flex-col-l-m h-full p-t-100 p-b-30 respon5">
