@@ -1,17 +1,17 @@
 import { Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import ProductList from "./components/ProductList";
-import Footer from "./components/Footer";
-import BackToTop from "./components/BackToTop";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import BackToTop from "./components/backToTop/BackToTop";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Details from "./components/Details/Details";
-import NotFound from "./components/NotFound";
+import Details from "./components/details/Details";
+import NotFound from "./components/notFound/NotFound";
 import AboutTeam from "./components/AboutTeam";
 import AboutUs from "./components/AboutUs";
 import AboutMission from "./components/AboutMission";
-import Home from "./components/Home";
+import Home from "./components/home/Home";
 import { BagProvider } from "./context/bagContext";
+import ProductLists from "./components/productsList/ProductsList";
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/products/:category" element={<ProductList />} />
+        <Route path="/products" element={<ProductLists />} />
+        <Route path="/products/:category" element={<ProductLists />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/about" element={<About />}>
           <Route path="team" element={<AboutTeam />} />

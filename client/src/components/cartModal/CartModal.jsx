@@ -1,10 +1,6 @@
-export default function Cart({ showCart, hideCartHendler }) {
+export default function CartModal({ showCart, hideCartHendler }) {
   return (
-    <div
-      className={`wrap-header-cart js-panel-cart ${
-        showCart && "show-header-cart"
-      }`}
-    >
+    <div className="wrap-header-cart js-panel-cart show-header-cart">
       <div className="s-full js-hide-cart"></div>
 
       <div className="header-cart flex-col-l p-l-65 p-r-25">

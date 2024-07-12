@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import ProductItem from "./ProductItem";
-import * as productService from "../services/productService";
 import { Link, useParams } from "react-router-dom";
+
+import * as productService from "../../services/productService";
+import ProductItem from "../productItem/ProductItem";
 
 const pageSize = 4;
 
-export default function ProductList() {
+export default function ProductLists() {
   const category = useParams().category || "";
 
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import QuickView from "./QuickView/QuickView";
 import { Link } from "react-router-dom";
+
+import QuickView from "../quickView/QuickView";
 
 export default function ProductItem({ _id, name, images, price }) {
   const [showQuickView, setShowQuickView] = useState(false);

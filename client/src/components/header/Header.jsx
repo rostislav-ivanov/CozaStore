@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import Cart from "./Cart";
+
+import CartModal from "../cartModal/CartModal";
 import { Link } from "react-router-dom";
 
 export default function Header() {
@@ -149,7 +150,7 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <Cart showCart={showCart} hideCartHendler={hideCartHendler} />
+      {showCart && <CartModal hideCartHendler={hideCartHendler} />}
     </>
   );
 }
