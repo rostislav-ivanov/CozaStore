@@ -33,9 +33,9 @@ export default function CartModal({ hideCartHendler }) {
         {bag.length > 0 && (
           <div className="header-cart-content flex-w js-pscroll">
             <ul className="header-cart-wrapitem w-full">
-              {bag.map((item) => (
+              {bag.map((item, index) => (
                 <li
-                  key={item.id}
+                  key={index}
                   className="header-cart-item flex-w flex-t m-b-12"
                 >
                   <div className="header-cart-item-img">
@@ -58,7 +58,7 @@ export default function CartModal({ hideCartHendler }) {
                     </span>
 
                     <span className="header-cart-item-info">
-                      {item.quantity} x ${Number(item.price).toFixed(2)}
+                      {item.quantity} x $ {Number(item.price).toFixed(2)}
                     </span>
                   </div>
                 </li>
@@ -67,7 +67,7 @@ export default function CartModal({ hideCartHendler }) {
 
             <div className="w-full">
               <div className="header-cart-total w-full p-tb-40">
-                Total: ${Number(total).toFixed(2)}
+                Total: $ {Number(total).toFixed(2)}
               </div>
 
               <div className="header-cart-buttons flex-w w-full">

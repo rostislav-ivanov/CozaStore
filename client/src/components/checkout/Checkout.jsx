@@ -1,4 +1,13 @@
+import { useContext, useState } from "react";
+import { BagContext } from "../../context/bagContext";
+
 export default function Checkout() {
+  const { bag, removeItem, updateItem } = useContext(BagContext);
+  const subTotal = bag.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
   return (
     <form className="bg0 p-t-75 p-b-85">
       <div className="container">
@@ -17,84 +26,65 @@ export default function Checkout() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="table_row">
-                      <td className="column-1">
-                        <div className="how-itemcart1">
-                          <img src="images/item-cart-04.jpg" alt="IMG" />
-                        </div>
-                      </td>
-                      <td className="column-2">Fresh Strawberries</td>
-                      <td className="column-3">$ 36.00</td>
-                      <td className="column-4">
-                        <div className="wrap-num-product flex-w m-l-auto m-r-0">
-                          <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                            <i className="fs-16 zmdi zmdi-minus"></i>
+                    {bag.map((item, index) => (
+                      <tr key={index} className="table_row">
+                        <td className="column-1">
+                          <div className="how-itemcart1">
+                            <img src={item.image} alt="IMG" />
                           </div>
-
-                          <input
-                            className="mtext-104 cl3 txt-center num-product"
-                            type="number"
-                            name="num-product1"
-                            defaultValue="1"
-                          />
-
-                          <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                            <i className="fs-16 zmdi zmdi-plus"></i>
+                        </td>
+                        <td className="column-2">
+                          <div className="row">
+                            <span> {item.name}</span>
+                            <span>Color: {item.color}</span>
+                            <span>Size: {item.size}</span>
                           </div>
-                        </div>
-                      </td>
-                      <td className="column-5">$ 36.00</td>
-                    </tr>
+                        </td>
+                        <td className="column-3">$ {item.price.toFixed(2)}</td>
+                        <td className="column-4">
+                          <div className="wrap-num-product flex-w m-l-auto m-r-0">
+                            <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                              <i
+                                className="fs-16 zmdi zmdi-minus"
+                                onClick={() =>
+                                  updateItem(index, item.quantity - 1)
+                                }
+                              ></i>
+                            </div>
 
-                    <tr className="table_row">
-                      <td className="column-1">
-                        <div className="how-itemcart1">
-                          <img src="images/item-cart-05.jpg" alt="IMG" />
-                        </div>
-                      </td>
-                      <td className="column-2">Lightweight Jacket</td>
-                      <td className="column-3">$ 16.00</td>
-                      <td className="column-4">
-                        <div className="wrap-num-product flex-w m-l-auto m-r-0">
-                          <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                            <i className="fs-16 zmdi zmdi-minus"></i>
+                            <input
+                              className="mtext-104 cl3 txt-center num-product"
+                              type="number"
+                              name="quantity"
+                              value={Number(item.quantity)}
+                              onChange={(e) =>
+                                updateItem(index, Number(e.target.value))
+                              }
+                            />
+
+                            <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                              <i
+                                className="fs-16 zmdi zmdi-plus"
+                                onClick={() =>
+                                  updateItem(index, item.quantity + 1)
+                                }
+                              ></i>
+                            </div>
                           </div>
-
-                          <input
-                            className="mtext-104 cl3 txt-center num-product"
-                            type="number"
-                            name="num-product2"
-                            defaultValue="1"
-                          />
-
-                          <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                            <i className="fs-16 zmdi zmdi-plus"></i>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="column-5">$ 16.00</td>
-                    </tr>
+                        </td>
+                        <td className="column-5">
+                          ${" "}
+                          {(bag[index].price * bag[index].quantity).toFixed(2)}
+                          <i
+                            style={{ cursor: "pointer" }}
+                            className="fs-16 hov-cl1 p-l-20 zmdi zmdi-delete"
+                            onClick={() => removeItem(index)}
+                          ></i>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-              </div>
-
-              <div className="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-                <div className="flex-w flex-m m-r-20 m-tb-5">
-                  <input
-                    className="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5"
-                    type="text"
-                    name="coupon"
-                    placeholder="Coupon Code"
-                  />
-
-                  <div className="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-                    Apply coupon
-                  </div>
-                </div>
-
-                <div className="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-                  Update Cart
-                </div>
               </div>
             </div>
           </div>
@@ -109,7 +99,7 @@ export default function Checkout() {
                 </div>
 
                 <div className="size-209">
-                  <span className="mtext-110 cl2">$79.65</span>
+                  <span className="mtext-110 cl2">$ {subTotal.toFixed(2)}</span>
                 </div>
               </div>
 

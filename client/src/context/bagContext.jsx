@@ -10,13 +10,29 @@ export const BagProvider = ({ children }) => {
     setBag([...bag, item]);
   };
 
-  const removeItem = (itemId) => {
-    setBag(bag.filter((item) => item.id !== itemId));
+  const updateItem = (index, quantity) => {
+    if (quantity <= 0) {
+      return;
+    }
+
+    setBag(
+      bag.map((item, i) => {
+        if (i === index) {
+          return { ...item, quantity };
+        }
+        return item;
+      })
+    );
+  };
+
+  const removeItem = (indexItem) => {
+    setBag(bag.filter((item, index) => index !== indexItem));
   };
 
   const values = {
     bag,
     addItem,
+    updateItem,
     removeItem,
   };
 
