@@ -12,6 +12,7 @@ import AboutMission from "./components/AboutMission";
 import Home from "./components/home/Home";
 import { BagProvider } from "./context/bagContext";
 import ProductLists from "./components/productsList/ProductsList";
+import Checkout from "./components/checkout/Checkout";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/products" element={<ProductLists />} />
         <Route path="/products/:category" element={<ProductLists />} />
         <Route path="/details/:id" element={<Details />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/about" element={<About />}>
           <Route path="team" element={<AboutTeam />} />
           <Route path="us" element={<AboutUs />} />
