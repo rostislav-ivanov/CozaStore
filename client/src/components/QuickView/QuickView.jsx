@@ -4,8 +4,10 @@ import Carousel from "react-bootstrap/Carousel";
 import * as productService from "../../services/productService";
 import { BagContext } from "../../context/bagContext";
 import styles from "./QuickView.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function QuickView({ _id, closeQuickView }) {
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
     images: [],
