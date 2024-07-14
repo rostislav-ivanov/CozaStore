@@ -1,5 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
 import { BagContext } from "../../context/bagContext";
+import styles from "./Checkout.module.css";
+import * as shippingService from "../../services/shippingService";
 
 export default function Checkout() {
   const { bag, removeItem, updateItem } = useContext(BagContext);
@@ -8,8 +11,100 @@ export default function Checkout() {
     0
   );
 
+  const [cities, setCities] = useState([]);
+  const [city, setCity] = useState("");
+  const [offices, setOffices] = useState([]);
+  const [office, setOffice] = useState("");
+  const [shippingPrice, setShippingPrice] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    shippingService.getCities().then((data) => {
+      setCities(data);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!city.id) {
+      return;
+    }
+    setLoading(true);
+    shippingService.getOffices(city.id).then((data) => {
+      setOffices(data);
+      setLoading(false);
+    });
+  }, [city]);
+
+  const cityHandler = (e) => {
+    const id = e.target.options[e.target.selectedIndex].id;
+    const name = e.target.value;
+    setCity({ id, name });
+    setShippingPrice("");
+    setErrors({ ...errors, city: "" });
+  };
+
+  const officeHandler = (e) => {
+    const id = e.target.options[e.target.selectedIndex].id;
+    const name = e.target.value;
+    setOffice({ id, name });
+    setErrors({ ...errors, office: "" });
+    setShippingPrice(4.99);
+  };
+
+  const validateInputs = () => {
+    const newErrors = {};
+    if (!city) {
+      newErrors.city = "City is required.";
+    }
+    if (!office) {
+      newErrors.office = "Office is required.";
+    }
+    if (!firstName) {
+      newErrors.firstName = "First name is required.";
+    }
+    if (!lastName) {
+      newErrors.lastName = "Last name is required.";
+    }
+    if (!phone) {
+      newErrors.phone = "Phone is required.";
+    }
+    setErrors(newErrors);
+    console.log(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (!validateInputs()) {
+      return;
+    }
+    const order = {
+      city: city.name,
+      office: office.name,
+      firstName,
+      lastName,
+      phone,
+      products: bag,
+      shippingPrice,
+      total: subTotal + shippingPrice,
+    };
+    console.log(order);
+    alert("Order placed successfully!");
+  };
+
   return (
-    <form className="bg0 p-t-75 p-b-85">
+    <form
+      className="bg0 p-t-75 p-b-85"
+      onSubmit={(e) => {
+        submitHandler(e);
+      }}
+    >
       <div className="container">
         <div className="row">
           <div className="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -109,45 +204,152 @@ export default function Checkout() {
                 </div>
 
                 <div className="size-209 p-r-18 p-r-0-sm w-full-ssm">
-                  <p className="stext-111 cl6 p-t-2">
-                    There are no shipping methods available. Please double check
-                    your address, or contact us if you need any help.
-                  </p>
-
+                  {shippingPrice != "" && (
+                    <div className="size-209">
+                      <span className="mtext-110 cl2">
+                        $ {Number(shippingPrice).toFixed(2)}
+                      </span>
+                    </div>
+                  )}
+                  {!shippingPrice && (
+                    <p className="stext-111 cl6 p-t-2">
+                      There are no shipping address selected. We ship only to
+                      Bulgaria by ECONT courier. Please select city and office
+                      of ECONT, or contact us if you need any help.
+                    </p>
+                  )}
                   <div className="p-t-15">
-                    <span className="stext-112 cl8">Calculate Shipping</span>
-
-                    <div className="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-                      <select className="js-select2" name="time">
-                        <option>Select a country...</option>
-                        <option>USA</option>
-                        <option>UK</option>
+                    {loading && <p>Loading...</p>}
+                    <div className="p-tb-10" hidden={loading}>
+                      {errors.city && (
+                        <div className={styles.error}>{errors.city}</div>
+                      )}
+                      <select
+                        className="stext-111 cl8 plh3 size-111 p-lr-15"
+                        name="city"
+                        id="city"
+                        onChange={cityHandler}
+                      >
+                        <option value="">Choose a city</option>
+                        {cities.length > 0 &&
+                          cities.map((city) => (
+                            <option
+                              key={city.id}
+                              id={city.id}
+                              value={city.name}
+                            >
+                              {city.name}
+                            </option>
+                          ))}
                       </select>
-                      <div className="dropDownSelect2"></div>
                     </div>
 
-                    <div className="bor8 bg0 m-b-12">
-                      <input
-                        className="stext-111 cl8 plh3 size-111 p-lr-15"
-                        type="text"
-                        name="state"
-                        placeholder="State /  country"
-                      />
-                    </div>
-
-                    <div className="bor8 bg0 m-b-22">
-                      <input
-                        className="stext-111 cl8 plh3 size-111 p-lr-15"
-                        type="text"
-                        name="postcode"
-                        placeholder="Postcode / Zip"
-                      />
-                    </div>
-
-                    <div className="flex-w">
-                      <div className="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-                        Update Totals
+                    {city && (
+                      <div className="p-tb-10" hidden={loading}>
+                        {errors.office && (
+                          <div className={styles.error}>{errors.office}</div>
+                        )}
+                        {offices.length <= 0 && (
+                          <p className="stext-111 cl6 p-t-2">
+                            There are no offices available in{" "}
+                            <strong>{city.name}</strong>. Please check other
+                            city, or contact us if you need any help.
+                          </p>
+                        )}
+                        {offices.length > 0 && (
+                          <select
+                            className="stext-111 cl8 plh3 size-111 p-lr-15"
+                            name="office"
+                            id="office"
+                            onChange={officeHandler}
+                          >
+                            <option value="">Choose a office</option>
+                            {offices.length > 0 &&
+                              offices.map((office) => (
+                                <option
+                                  key={office.id}
+                                  id={office.id}
+                                  value={office.name}
+                                >
+                                  {office.name}
+                                </option>
+                              ))}
+                          </select>
+                        )}
                       </div>
+                    )}
+                    {errors.firstName && (
+                      <div className={styles.error}>{errors.firstName}</div>
+                    )}
+
+                    <div className="bor8 bg0 m-tb-10">
+                      <input
+                        className="stext-111 cl8 plh3 size-111 p-lr-15"
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        value={firstName}
+                        onChange={(e) => {
+                          const firstName = e.target.value;
+                          setFirstName(firstName);
+                          if (firstName.length > 0) {
+                            setErrors({ ...errors, firstName: "" });
+                          } else {
+                            setErrors({
+                              ...errors,
+                              firstName: "First name is required.",
+                            });
+                          }
+                        }}
+                      />
+                    </div>
+                    {errors.lastName && (
+                      <div className={styles.error}>{errors.lastName}</div>
+                    )}
+                    <div className="bor8 bg0 m-tb-10">
+                      <input
+                        className="stext-111 cl8 plh3 size-111 p-lr-15"
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChange={(e) => {
+                          const lastName = e.target.value;
+                          setLastName(lastName);
+                          if (lastName.length > 0) {
+                            setErrors({ ...errors, lastName: "" });
+                          } else {
+                            setErrors({
+                              ...errors,
+                              lastName: "Last name is required.",
+                            });
+                          }
+                        }}
+                      />
+                    </div>
+                    {errors.phone && (
+                      <div className={styles.error}>{errors.phone}</div>
+                    )}
+                    <div className="bor8 bg0 m-tb-10">
+                      <input
+                        className="stext-111 cl8 plh3 size-111 p-lr-15"
+                        type="text"
+                        name="phone"
+                        placeholder="Phone"
+                        value={phone}
+                        onChange={(e) => {
+                          const phone = e.target.value;
+                          setPhone(phone);
+                          if (phone.length > 0) {
+                            setErrors({ ...errors, phone: "" });
+                          } else {
+                            setErrors({
+                              ...errors,
+                              phone: "Phone is required.",
+                            });
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -159,7 +361,9 @@ export default function Checkout() {
                 </div>
 
                 <div className="size-209 p-t-1">
-                  <span className="mtext-110 cl2">$79.65</span>
+                  <span className="mtext-110 cl2">
+                    $ {subTotal + shippingPrice}
+                  </span>
                 </div>
               </div>
 
