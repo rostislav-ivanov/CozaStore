@@ -13,29 +13,36 @@ import Home from "./components/home/Home";
 import { BagProvider } from "./context/bagContext";
 import ProductLists from "./components/productsList/ProductsList";
 import Checkout from "./components/checkout/Checkout";
+import { AuthProvider } from "./context/authContext";
+import Register from "./components/register/Register";
+import Login from "./components/login/Login";
 
 function App() {
   return (
-    <BagProvider>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductLists />} />
-        <Route path="/products/:category" element={<ProductLists />} />
-        <Route path="/details/:id" element={<Details />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/about" element={<About />}>
-          <Route path="team" element={<AboutTeam />} />
-          <Route path="us" element={<AboutUs />} />
-          <Route path="mission" element={<AboutMission />} />
-        </Route>
-        <Route path="/contact" element={<Contact />} />
-        {/* <Route path="/products/:id/:userId" element={<Details />} /> */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-      <BackToTop />
-    </BagProvider>
+    <AuthProvider>
+      <BagProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductLists />} />
+          <Route path="/products/:category" element={<ProductLists />} />
+          <Route path="/details/:id" element={<Details />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />}>
+            <Route path="team" element={<AboutTeam />} />
+            <Route path="us" element={<AboutUs />} />
+            <Route path="mission" element={<AboutMission />} />
+          </Route>
+          <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/products/:id/:userId" element={<Details />} /> */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+        <BackToTop />
+      </BagProvider>
+    </AuthProvider>
   );
 }
 
