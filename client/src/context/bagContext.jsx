@@ -29,11 +29,16 @@ export const BagProvider = ({ children }) => {
     setBag(bag.filter((item, index) => index !== indexItem));
   };
 
+  const clearBag = () => {
+    setBag([]);
+  };
+
   const values = {
     bag,
     addItem,
     updateItem,
     removeItem,
+    clearBag,
   };
 
   return <BagContext.Provider value={values}>{children}</BagContext.Provider>;

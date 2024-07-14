@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { BagContext } from "../../context/bagContext";
 import styles from "./Checkout.module.css";
 import * as shippingService from "../../services/shippingService";
+import * as orderService from "../../services/orderService";
 
 export default function Checkout() {
-  const { bag, removeItem, updateItem } = useContext(BagContext);
+  const { bag, removeItem, updateItem, clearBag } = useContext(BagContext);
   const subTotal = bag.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -21,6 +23,7 @@ export default function Checkout() {
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -75,11 +78,10 @@ export default function Checkout() {
       newErrors.phone = "Phone is required.";
     }
     setErrors(newErrors);
-    console.log(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (!validateInputs()) {
       return;
@@ -94,8 +96,15 @@ export default function Checkout() {
       shippingPrice,
       total: subTotal + shippingPrice,
     };
-    console.log(order);
-    alert("Order placed successfully!");
+    try {
+      const result = await orderService.createOrder(order);
+      clearBag();
+      alert(`Order placed successfully! Your order number is ${result._id}`);
+      navigate("/");
+    } catch (error) {
+      alert(error.message);
+      return;
+    }
   };
 
   return (
@@ -362,7 +371,7 @@ export default function Checkout() {
 
                 <div className="size-209 p-t-1">
                   <span className="mtext-110 cl2">
-                    $ {subTotal + shippingPrice}
+                    $ {Number(subTotal + shippingPrice).toFixed(2)}
                   </span>
                 </div>
               </div>
