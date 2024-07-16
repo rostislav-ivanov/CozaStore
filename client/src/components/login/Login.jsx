@@ -22,10 +22,6 @@ export default function Login() {
     if (name === "email" || name === undefined) {
       if (!values.email) {
         currentErrors.email = "Email is required";
-      } else if (
-        !values.email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)
-      ) {
-        currentErrors.email = "Email is invalid";
       } else {
         delete currentErrors.email;
       }
@@ -34,8 +30,6 @@ export default function Login() {
     if (name === "password" || name === undefined) {
       if (!values.password) {
         currentErrors.password = "Password is required";
-      } else if (values.password.length < 6) {
-        currentErrors.password = "Password must be at least 6 characters";
       } else {
         delete currentErrors.password;
       }
