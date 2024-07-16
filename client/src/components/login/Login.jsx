@@ -1,26 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
-import * as userService from "../../services/userService";
-import { AuthContext } from "../../context/authContext";
 import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import * as userService from "../../services/userService";
+import { AuthContext } from "../../context/authContext";
+
 export default function Login() {
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
+  const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
   const validate = (name) => {
     const currentErrors = { ...errors };
+    delete currentErrors.error;
 
     if (name === "email" || name === undefined) {
-      if (!values.email) {
+      if (!user.email) {
         currentErrors.email = "Email is required";
       } else {
         delete currentErrors.email;
@@ -28,7 +30,7 @@ export default function Login() {
     }
 
     if (name === "password" || name === undefined) {
-      if (!values.password) {
+      if (!user.password) {
         currentErrors.password = "Password is required";
       } else {
         delete currentErrors.password;
@@ -41,8 +43,8 @@ export default function Login() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setValues({
-      ...values,
+    setUser({
+      ...user,
       [name]: value,
     });
   };
@@ -61,13 +63,14 @@ export default function Login() {
     }
 
     try {
-      const response = await userService.login({ ...values });
+      const response = await userService.login({ ...user });
       if (response.code === 403) {
+        setUser({ email: "", password: "" });
         setErrors({ error: "Email or password don't match" });
         return;
       }
       setAuth(response);
-      navigate(-1);
+      navigate("/");
     } catch (error) {
       console.log(error.message);
     }
@@ -83,7 +86,7 @@ export default function Login() {
               type="email"
               placeholder="Enter email"
               name="email"
-              value={values.email}
+              value={user.email}
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={!!errors.email}
@@ -98,9 +101,9 @@ export default function Login() {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="Enter password"
               name="password"
-              value={values.password}
+              value={user.password}
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={!!errors.password}
@@ -115,7 +118,7 @@ export default function Login() {
 
           <div className="d-grid gap-2 pt-3">
             <Button variant="primary" type="submit">
-              Submit
+              Login
             </Button>
           </div>
           <p className="mt-3">
