@@ -6,9 +6,6 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Details from "./components/details/Details";
 import NotFound from "./components/notFound/NotFound";
-import AboutTeam from "./components/AboutTeam";
-import AboutUs from "./components/AboutUs";
-import AboutMission from "./components/AboutMission";
 import Home from "./components/home/Home";
 import { BagProvider } from "./context/bagContext";
 import ProductLists from "./components/productsList/ProductsList";
@@ -16,6 +13,10 @@ import Checkout from "./components/checkout/Checkout";
 import { AuthProvider } from "./context/authContext";
 import Register from "./components/register/Register";
 import Login from "./components/login/Login";
+import AuthGuard from "./components/guards/authGuard";
+import Profile from "./components/profile/Profile";
+import Orders from "./components/orders/Orders";
+import WishList from "./components/wishList/WishList";
 
 function App() {
   return (
@@ -27,16 +28,16 @@ function App() {
           <Route path="/products" element={<ProductLists />} />
           <Route path="/products/:category" element={<ProductLists />} />
           <Route path="/details/:id" element={<Details />} />
-          <Route path="/checkout" element={<Checkout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/about" element={<About />}>
-            <Route path="team" element={<AboutTeam />} />
-            <Route path="us" element={<AboutUs />} />
-            <Route path="mission" element={<AboutMission />} />
+          <Route path="/about" element={<About />} />
+          <Route element={<AuthGuard />}>
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/wish-list" element={<WishList />} />
           </Route>
           <Route path="/contact" element={<Contact />} />
-          {/* <Route path="/products/:id/:userId" element={<Details />} /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
