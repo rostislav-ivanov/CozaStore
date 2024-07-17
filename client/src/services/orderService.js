@@ -8,7 +8,6 @@ export async function createOrder(order) {
     if (!accessToken) {
       throw new Error("User is not logged in");
     }
-    const query = encodeURI("sortBy=_createdOn desc");
     const response = await fetch(baseUrl, {
       method: "POST",
       headers: {
