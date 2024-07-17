@@ -1,5 +1,9 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import { AuthContext } from "../../context/authContext";
 import * as userService from "../../services/userService";
@@ -14,35 +18,64 @@ export default function Register() {
   });
   const [errors, setErrors] = useState({});
 
-  const onSubmitRegisterHandler = async (e) => {
-    e.preventDefault();
+  const validate = (name) => {
+    const currentErrors = { ...errors };
+    delete currentErrors.error;
 
-    const currentErrors = {};
-    // Validate email with regex
-    if (user.email === "") {
-      currentErrors.email = "Email is required";
-    } else if (
-      !user.email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)
-    ) {
-      currentErrors.email = "Email is invalid";
+    if (name === "email" || name === undefined) {
+      if (!user.email) {
+        currentErrors.email = "Email is required";
+      } else if (
+        !user.email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)
+      ) {
+        currentErrors.email = "Email is invalid";
+      } else {
+        delete currentErrors.email;
+      }
     }
 
-    // Validate password min length 6
-    if (user.password === "") {
-      currentErrors.password = "Password is required";
-    } else if (user.password.length < 6) {
-      currentErrors.password = "Password must be at least 6 characters";
+    if (name === "password" || name === undefined) {
+      if (!user.password) {
+        currentErrors.password = "Password is required";
+      } else if (user.password.length < 6) {
+        currentErrors.password = "Password must be at least 6 characters";
+      } else {
+        delete currentErrors.password;
+      }
     }
 
-    // Validate confirm password
-    if (user.confirmPassword === "") {
-      currentErrors.confirmPassword = "Confirm password is required";
-    } else if (user.password !== user.confirmPassword) {
-      currentErrors.confirmPassword = "Passwords do not match";
+    if (name === "confirmPassword" || name === undefined) {
+      if (!user.confirmPassword) {
+        currentErrors.confirmPassword = "Confirm password is required";
+      } else if (user.password !== user.confirmPassword) {
+        currentErrors.confirmPassword = "Passwords do not match";
+      } else {
+        delete currentErrors.confirmPassword;
+      }
     }
+
+    setErrors(currentErrors);
+    return currentErrors;
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
+
+  const handleBlur = (event) => {
+    const { name, value } = event.target;
+    validate(name, value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const currentErrors = validate();
 
     if (Object.keys(currentErrors).length > 0) {
-      setErrors({ ...currentErrors });
       return;
     }
 
@@ -50,71 +83,86 @@ export default function Register() {
       const response = await userService.register(user);
       // If email already exists
       if (response.code > 200) {
-        currentErrors.error = response.message;
+        currentErrors.error = "A user with the same email already exists";
+        setUser({ ...user, password: "", confirmPassword: "" });
         setErrors({ ...currentErrors });
         return;
       }
       setAuth(response);
 
-      // Navigate back to the previous page
-      navigate(-1);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    // <!-- Register Page ( Only for Guest users ) -->
-    <section id="register-page" className="content auth">
-      <form id="register" onSubmit={onSubmitRegisterHandler}>
-        <div className="container">
-          <div className="brand-logo"></div>
-          <h1>Register</h1>
-          {errors.error && <span className="error">{errors.error}</span>}
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="maria@email.com"
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-          />
-          {errors.email && <span className="error">{errors.email}</span>}
+    <Row className="mt-5 mb-5 justify-content-center">
+      <Col className="col-4">
+        <Form noValidate onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.email}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.email}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <label htmlFor="pass">Password:</label>
-          <input
-            type="password"
-            name="password"
-            id="register-password"
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-          />
-          {errors.password && <span className="error">{errors.password}</span>}
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.password}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.password}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <label htmlFor="con-pass">Confirm Password:</label>
-          <input
-            type="password"
-            name="confirm-password"
-            id="confirm-password"
-            value={user.confirmPassword}
-            onChange={(e) =>
-              setUser({ ...user, confirmPassword: e.target.value })
-            }
-          />
-          {errors.confirmPassword && (
-            <span className="error">{errors.confirmPassword}</span>
-          )}
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirm password"
+              name="confirmPassword"
+              value={user.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.confirmPassword}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.confirmPassword}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <input className="btn submit" type="submit" value="Register" />
+          {errors.error && <p className="text-danger">{errors.error}</p>}
 
-          <p className="field">
-            <span>
-              If you already have profile click <Link to="/login">here</Link>
-            </span>
+          <div className="d-grid gap-2 pt-3">
+            <Button variant="primary" type="submit">
+              Register
+            </Button>
+          </div>
+          <p className="mt-3">
+            If you already have an account, click <Link to="/login">login</Link>
           </p>
-        </div>
-      </form>
-    </section>
+        </Form>
+      </Col>
+    </Row>
   );
 }

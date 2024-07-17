@@ -1,14 +1,32 @@
-import { useEffect, useRef, useState } from "react";
-
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link, useNavigate } from "react-router-dom";
 import Cart from "../cart/Cart";
+import { AuthContext } from "../../context/authContext";
+import { BagContext } from "../../context/bagContext";
+import * as userService from "../../services/userService";
 
 export default function Header() {
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { count } = useContext(BagContext);
   const [showCart, setShowCart] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const headerRef = useRef(null);
   const wrapMenuRef = useRef(null);
   const topBarRef = useRef(null);
+
+  const logoutHandler = async () => {
+    try {
+      await userService.logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAuth({});
+      localStorage.removeItem("auth");
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     const handelScroll = () => {
@@ -47,7 +65,9 @@ export default function Header() {
     <>
       <header className="header-v4">
         <div
-          className={`container-menu-desktop ${isFixed} ? "fix-menu-desktop" : ""`}
+          className={`container-menu-desktop ${
+            isFixed ? "fix-menu-desktop" : ""
+          }`}
           ref={headerRef}
         >
           <div className="top-bar" ref={topBarRef}>
@@ -83,70 +103,91 @@ export default function Header() {
               </Link>
               <div className="flex-w flex-l-m filter-tope-group m-tb-10">
                 <Link to="/">
-                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                  <button className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                     Home
                   </button>
                 </Link>
 
                 <Link to="/products">
-                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                  <button className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                     Shop
                   </button>
                 </Link>
                 <Link to="/about">
-                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                  <button className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                     About
                   </button>
                 </Link>
                 <Link to="/contact">
-                  <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                  <button className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                     Contact
                   </button>
                 </Link>
               </div>
-
               <div className="wrap-icon-header flex-w flex-r-m">
-                <div className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-                  <i className="zmdi zmdi-search"></i>
-                </div>
+                {/* Guest users */}
+                {!isAuthenticated && (
+                  <>
+                    <Link to="/login">
+                      <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                        Login
+                      </button>
+                    </Link>
+                    <Link to="/register">
+                      <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+                        Register
+                      </button>
+                    </Link>
+                  </>
+                )}
 
-                <div
-                  className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                  data-notify="2"
-                  onClick={showCartHendler}
-                >
-                  <i className="zmdi zmdi-shopping-cart"></i>
-                </div>
-
-                <a
-                  href="#"
-                  className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                  data-notify="0"
-                >
-                  <i className="zmdi zmdi-favorite-outline"></i>
-                </a>
+                {/* Authenticated users */}
+                {isAuthenticated && (
+                  <>
+                    <NavDropdown
+                      title="My Account"
+                      id="basic-nav-dropdown"
+                      className="stext-106 cl6 hov1 m-r-32 m-tb-5"
+                    >
+                      <NavDropdown.Item as={Link} to="/profile">
+                        <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">
+                          Profile
+                        </div>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/orders">
+                        <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">
+                          Orders
+                        </div>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/wish-list">
+                        <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">
+                          Wish List
+                        </div>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item onClick={logoutHandler}>
+                        <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">
+                          Logout
+                        </div>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                    <div
+                      className="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
+                      data-notify={count}
+                      onClick={showCartHendler}
+                    >
+                      <i className="zmdi zmdi-shopping-cart"></i>
+                    </div>
+                    <a
+                      href="#"
+                      className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                      data-notify="0"
+                    >
+                      <i className="zmdi zmdi-favorite-outline"></i>
+                    </a>
+                  </>
+                )}
               </div>
             </nav>
-          </div>
-        </div>
-
-        <div className="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-          <div className="container-search-header">
-            <button className="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-              <img src="images/icons/icon-close2.png" alt="CLOSE" />
-            </button>
-
-            <form className="wrap-search-header flex-w p-l-15">
-              <button className="flex-c-m trans-04">
-                <i className="zmdi zmdi-search"></i>
-              </button>
-              <input
-                className="plh3"
-                type="text"
-                name="search"
-                placeholder="Search..."
-              />
-            </form>
           </div>
         </div>
       </header>

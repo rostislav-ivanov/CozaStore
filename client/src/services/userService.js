@@ -1,11 +1,11 @@
-const apiUrl = "http://localhost:3030/users";
+const baseUrl = "http://localhost:3030/users";
 
 export async function login({ email, password }) {
   const user = {
     email,
     password,
   };
-  const response = await fetch(`${apiUrl}/login`, {
+  const response = await fetch(`${baseUrl}/login`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
@@ -18,7 +18,7 @@ export async function register({ email, password }) {
     email,
     password,
   };
-  const response = await fetch(`${apiUrl}/register`, {
+  const response = await fetch(`${baseUrl}/register`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
@@ -27,8 +27,10 @@ export async function register({ email, password }) {
 }
 
 export async function logout() {
-  const accessToken = localStorage.getItem("accessToken");
-  const response = await fetch(`${apiUrl}/logout`, {
+  const auth = localStorage.getItem("auth");
+  const authObj = JSON.parse(auth);
+  const accessToken = authObj.accessToken;
+  const response = await fetch(`${baseUrl}/logout`, {
     method: "get",
     headers: { "X-Authorization": accessToken },
   });

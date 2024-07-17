@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Nav from "react-bootstrap/Nav";
 
 import * as productService from "../../services/productService";
 import ProductItem from "../productItem/ProductItem";
@@ -47,37 +48,26 @@ export default function ProductLists() {
       <div className="container">
         <div className="flex-w flex-sb-m p-b-52">
           <div className="flex-w flex-l-m filter-tope-group m-tb-10">
-            <Link to="/products">
-              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+            <Nav.Link as={Link} to="/products">
+              <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                 All Products
-              </button>
-            </Link>
-
-            <Link to="/products/women">
-              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                Women
-              </button>
-            </Link>
-            <Link to="/products/man">
-              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                Men
-              </button>
-            </Link>
-            <Link to="/products/bag">
-              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                Bag
-              </button>
-            </Link>
-            <Link to="/products/shoes">
-              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                Shoes
-              </button>
-            </Link>
-            <Link to="/products/watches">
-              <button className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                Watches
-              </button>
-            </Link>
+              </div>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/products/women">
+              <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">Women</div>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/products/man">
+              <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">Men</div>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/products/bag">
+              <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">Bag</div>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/products/shoes">
+              <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">Shoes</div>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/products/watches">
+              <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">Watches</div>
+            </Nav.Link>
           </div>
         </div>
         <div className="row isotope-grid">

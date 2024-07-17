@@ -1,93 +1,132 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import * as userService from "../../services/userService";
 import { AuthContext } from "../../context/authContext";
-import { useContext, useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
-  const [values, setValues] = useState({
+  const [errors, setErrors] = useState({});
+  const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState({});
 
-  const onSubmitLoginHandler = async (e) => {
-    e.preventDefault();
-    const currentErrors = {};
-    // email is required
-    if (!values.email) {
-      currentErrors.email = "Email is required";
-    } else if (
-      !values.email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)
-    ) {
-      currentErrors.email = "Email is invalid";
+  const validate = (name) => {
+    const currentErrors = { ...errors };
+    delete currentErrors.error;
+
+    if (name === "email" || name === undefined) {
+      if (!user.email) {
+        currentErrors.email = "Email is required";
+      } else {
+        delete currentErrors.email;
+      }
     }
 
-    // password is required
-    if (!values.password) {
-      currentErrors.password = "Password is required";
+    if (name === "password" || name === undefined) {
+      if (!user.password) {
+        currentErrors.password = "Password is required";
+      } else {
+        delete currentErrors.password;
+      }
     }
+
+    setErrors(currentErrors);
+    return currentErrors;
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
+
+  const handleBlur = (event) => {
+    const { name, value } = event.target;
+    validate(name, value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const currentErrors = validate();
 
     if (Object.keys(currentErrors).length > 0) {
-      setErrors({ ...currentErrors });
       return;
     }
 
     try {
-      const response = await userService.login({ ...values });
-      // password or email is incorrect
+      const response = await userService.login({ ...user });
       if (response.code === 403) {
-        currentErrors.error = response.message;
-        setErrors({ ...currentErrors });
+        setUser({ email: "", password: "" });
+        setErrors({ error: "Email or password don't match" });
         return;
       }
-      // set auth context
       setAuth(response);
+      navigate("/");
     } catch (error) {
       console.log(error.message);
     }
-
-    // Navigate back to the previous page
-    navigate(-1);
   };
 
   return (
-    // <!-- Login Page ( Only for Guest users ) -->
-    <section id="login-page" className="auth">
-      <form id="login" onSubmit={onSubmitLoginHandler}>
-        <div className="container">
-          <div className="brand-logo"></div>
-          <h1>Login</h1>
-          {errors.error && <span className="error">{errors.error}</span>}
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Sokka@gmail.com"
-            value={values.email}
-            onChange={(e) => setValues({ ...values, email: e.target.value })}
-          />
-          {errors.email && <span className="error">{errors.email}</span>}
+    <Row className="mt-5 mb-5 justify-content-center">
+      <Col className="col-4">
+        <Form noValidate onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.email}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.email}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <label htmlFor="login-pass">Password:</label>
-          <input
-            type="password"
-            id="login-password"
-            name="password"
-            value={values.password}
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
-          />
-          {errors.password && <span className="error">{errors.password}</span>}
-          <input type="submit" className="btn submit" value="Login" />
-          <p className="field">
-            <span>
-              If you don't have profile click <Link to="/register">here</Link>
-            </span>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.password}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.password}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          {errors.error && <p className="text-danger">{errors.error}</p>}
+
+          <div className="d-grid gap-2 pt-3">
+            <Button variant="primary" type="submit">
+              Login
+            </Button>
+          </div>
+          <p className="mt-3">
+            If you don't have an account, click{" "}
+            <Link to="/register">register</Link>
           </p>
-        </div>
-      </form>
-    </section>
+        </Form>
+      </Col>
+    </Row>
   );
 }

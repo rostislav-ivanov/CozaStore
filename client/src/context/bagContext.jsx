@@ -33,12 +33,15 @@ export const BagProvider = ({ children }) => {
     setBag([]);
   };
 
+  const count = bag.reduce((acc, item) => acc + item.quantity, 0);
+
   const values = {
     bag,
     addItem,
     updateItem,
     removeItem,
     clearBag,
+    count,
   };
 
   return <BagContext.Provider value={values}>{children}</BagContext.Provider>;

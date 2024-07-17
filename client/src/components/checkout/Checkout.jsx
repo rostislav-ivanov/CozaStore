@@ -87,6 +87,7 @@ export default function Checkout() {
       return;
     }
     const order = {
+      status: "Unfulfilled",
       city: city.name,
       office: office.name,
       firstName,
@@ -99,7 +100,9 @@ export default function Checkout() {
     try {
       const result = await orderService.createOrder(order);
       clearBag();
-      alert(`Order placed successfully! Your order number is ${result._id}`);
+      alert(
+        `Order placed successfully! Your order number is #${result._createdOn}`
+      );
       navigate("/");
     } catch (error) {
       alert(error.message);
