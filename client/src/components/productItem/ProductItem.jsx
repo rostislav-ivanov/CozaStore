@@ -4,10 +4,12 @@ import Nav from "react-bootstrap/Nav";
 
 import QuickView from "../quickView/QuickView";
 import { AuthContext } from "../../context/authContext";
+import { UserContext } from "../../context/userContext";
 
 export default function ProductItem({ _id, name, images, price }) {
   const { isAuthenticated } = useContext(AuthContext);
   const [showQuickView, setShowQuickView] = useState(false);
+  const { isWish, addWish, removeWish } = useContext(UserContext);
 
   const closeQuickView = () => {
     setShowQuickView(false);
@@ -37,21 +39,24 @@ export default function ProductItem({ _id, name, images, price }) {
           </div>
           {isAuthenticated && (
             <div className="block2-txt-child2 flex-r p-t-3">
-              <a
-                href="#"
-                className="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
-              >
-                <img
-                  className="icon-heart1 dis-block trans-04"
-                  src="/images/icons/icon-heart-01.png"
-                  alt="ICON"
-                />
-                <img
-                  className="icon-heart2 dis-block trans-04 ab-t-l"
-                  src="/images/icons/icon-heart-02.png"
-                  alt="ICON"
-                />
-              </a>
+              <button className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                {!isWish(_id) && (
+                  <img
+                    className="icon-heart1 dis-block trans-04"
+                    src="/images/icons/icon-heart-01.png"
+                    alt="ICON"
+                    onClick={() => addWish(_id)}
+                  />
+                )}
+                {isWish(_id) && (
+                  <img
+                    className="icon-heart1 dis-block trans-04"
+                    src="/images/icons/icon-heart-02.png"
+                    alt="ICON"
+                    onClick={() => removeWish(_id)}
+                  />
+                )}
+              </button>
             </div>
           )}
         </div>
