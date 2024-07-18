@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cart from "../cart/Cart";
 import { AuthContext } from "../../context/authContext";
 import { BagContext } from "../../context/bagContext";
-import * as userService from "../../services/userService";
+import * as authService from "../../services/authService";
 
 export default function Header() {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
@@ -18,7 +18,7 @@ export default function Header() {
 
   const logoutHandler = async () => {
     try {
-      await userService.logout();
+      await authService.logout();
     } catch (error) {
       console.error(error);
     } finally {

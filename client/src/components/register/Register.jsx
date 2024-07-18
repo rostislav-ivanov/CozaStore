@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { AuthContext } from "../../context/authContext";
-import * as userService from "../../services/userService";
+import * as authService from "../../services/authService";
 
 export default function Register() {
   const { setAuth } = useContext(AuthContext);
@@ -80,7 +80,7 @@ export default function Register() {
     }
 
     try {
-      const response = await userService.register(user);
+      const response = await authService.register(user);
       // If email already exists
       if (response.code > 200) {
         currentErrors.error = "A user with the same email already exists";

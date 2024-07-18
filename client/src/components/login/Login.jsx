@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import * as userService from "../../services/userService";
+import * as authService from "../../services/authService";
 import { AuthContext } from "../../context/authContext";
 
 export default function Login() {
@@ -63,7 +63,7 @@ export default function Login() {
     }
 
     try {
-      const response = await userService.login({ ...user });
+      const response = await authService.login({ ...user });
       if (response.code === 403) {
         setUser({ email: "", password: "" });
         setErrors({ error: "Email or password don't match" });
