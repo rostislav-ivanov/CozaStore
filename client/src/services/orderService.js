@@ -2,17 +2,15 @@ const baseUrl = "http://localhost:3030/data/orders";
 
 export async function createOrder(order) {
   try {
-    const auth = localStorage.getItem("auth");
-    const authObj = JSON.parse(auth);
-    const accessToken = authObj.accessToken;
-    if (!accessToken) {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (!auth || !auth.accessToken) {
       throw new Error("User is not logged in");
     }
     const response = await fetch(baseUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Authorization": accessToken,
+        "X-Authorization": auth.accessToken,
       },
       body: JSON.stringify(order),
     });
@@ -30,18 +28,19 @@ export async function createOrder(order) {
 
 export async function getOrders() {
   try {
-    const auth = localStorage.getItem("auth");
-    const authObj = JSON.parse(auth);
-    const accessToken = authObj.accessToken;
-    if (!accessToken) {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (!auth || !auth.accessToken) {
       throw new Error("User is not logged in");
     }
 
-    const query = encodeURI("sortBy=_createdOn desc");
+    let query = new URLSearchParams({
+      where: `_ownerId="${auth._id}"`,
+      sortBy: "_createdOn",
+    });
 
-    const response = await fetch(`${baseUrl}?${query}`, {
+    const response = await fetch(`${baseUrl}?${query}%20desc`, {
       headers: {
-        "X-Authorization": accessToken,
+        "X-Authorization": auth.accessToken,
       },
     });
 
