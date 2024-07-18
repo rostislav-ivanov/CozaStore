@@ -11,6 +11,8 @@ export const UserProvider = ({ children }) => {
     wishList: {},
   });
 
+  const wishList = Object.keys(user.wishList);
+
   const isWish = (id) => {
     return id in user.wishList;
   };
@@ -36,6 +38,7 @@ export const UserProvider = ({ children }) => {
 
   const values = {
     user,
+    wishList,
     isWish,
     addWish,
     removeWish,

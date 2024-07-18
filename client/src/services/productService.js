@@ -38,3 +38,17 @@ export async function getDetailsById(id) {
   const data = await response.json();
   return data;
 }
+
+export async function getWishListProducts(ids) {
+  if (ids.length < 1) {
+    return [];
+  }
+  const query = encodeURI(
+    `select=_id,name,images,price&where=_id IN (${ids
+      .map((id) => `"${id}"`)
+      .join(",")})`
+  );
+  const response = await fetch(`${baseUrl}?${query}`);
+  const data = await response.json();
+  return Object.values(data);
+}
