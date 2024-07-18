@@ -1,13 +1,14 @@
 import { createContext } from "react";
 import usePresistedState from "../hooks/usePresistedState";
+import * as userService from "../services/userService";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = usePresistedState("user", {
-    firstName: "Ivan",
-    lastName: "Ivanov",
-    phone: "0888888888",
+    firstName: "",
+    lastName: "",
+    phone: "",
     wishList: {},
   });
 
@@ -17,23 +18,25 @@ export const UserProvider = ({ children }) => {
     return id in user.wishList;
   };
 
-  const addWish = (id) => {
-    setUser({
-      ...user,
-      wishList: {
-        ...user.wishList,
-        [id]: true,
-      },
-    });
+  const addWish = async (id) => {
+    const userData = { ...user, wishList: { ...user.wishList, [id]: true } };
+    setUser(userData);
+    try {
+      await userService.updateUser(userData);
+    } catch (error) {
+      alert("Failed to add wish");
+    }
   };
 
-  const removeWish = (id) => {
-    const newWishList = { ...user.wishList };
-    delete newWishList[id];
-    setUser({
-      ...user,
-      wishList: newWishList,
-    });
+  const removeWish = async (id) => {
+    const userData = { ...user, wishList: { ...user.wishList } };
+    delete userData.wishList[id];
+    setUser(userData);
+    try {
+      await userService.updateUser(userData);
+    } catch (error) {
+      alert("Failed to remove wish");
+    }
   };
 
   const values = {
