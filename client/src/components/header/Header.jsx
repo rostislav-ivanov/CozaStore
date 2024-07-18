@@ -1,15 +1,17 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { NavDropdown, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Cart from "../cart/Cart";
 import { AuthContext } from "../../context/authContext";
 import { BagContext } from "../../context/bagContext";
 import * as authService from "../../services/authService";
+import { UserContext } from "../../context/userContext";
 
 export default function Header() {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const { count } = useContext(BagContext);
+  const { wishList, setUser } = useContext(UserContext);
   const [showCart, setShowCart] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const headerRef = useRef(null);
@@ -22,8 +24,15 @@ export default function Header() {
     } catch (error) {
       console.error(error);
     } finally {
+      localStorage.removeItem("user");
       setAuth({});
       localStorage.removeItem("auth");
+      setUser({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        wishList: {},
+      });
       navigate("/");
     }
   };
@@ -74,24 +83,6 @@ export default function Header() {
             <div className="content-topbar flex-sb-m h-full container">
               <div className="left-top-bar">
                 Free shipping for standard order over $100
-              </div>
-
-              <div className="right-top-bar flex-w h-full">
-                <a href="#" className="flex-c-m trans-04 p-lr-25">
-                  Help & FAQs
-                </a>
-
-                <a href="#" className="flex-c-m trans-04 p-lr-25">
-                  My Account
-                </a>
-
-                <a href="#" className="flex-c-m trans-04 p-lr-25">
-                  EN
-                </a>
-
-                <a href="#" className="flex-c-m trans-04 p-lr-25">
-                  USD
-                </a>
               </div>
             </div>
           </div>
@@ -177,13 +168,14 @@ export default function Header() {
                     >
                       <i className="zmdi zmdi-shopping-cart"></i>
                     </div>
-                    <a
-                      href="#"
+                    <div
                       className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                      data-notify="0"
+                      data-notify={wishList.length}
                     >
-                      <i className="zmdi zmdi-favorite-outline"></i>
-                    </a>
+                      <Nav.Link as={Link} to="/wish-list">
+                        <i className="zmdi zmdi-favorite-outline"></i>
+                      </Nav.Link>
+                    </div>
                   </>
                 )}
               </div>

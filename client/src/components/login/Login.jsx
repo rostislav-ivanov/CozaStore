@@ -6,11 +6,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import * as authService from "../../services/authService";
+import * as userService from "../../services/userService";
 import { AuthContext } from "../../context/authContext";
+import { UserContext } from "../../context/userContext";
 
 export default function Login() {
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
+  const { setUser: setUserContext } = useContext(UserContext);
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState({
     email: "",
@@ -70,6 +73,8 @@ export default function Login() {
         return;
       }
       setAuth(response);
+      const extendedUser = await userService.getUser(response);
+      setUserContext(extendedUser);
       navigate("/");
     } catch (error) {
       console.log(error.message);

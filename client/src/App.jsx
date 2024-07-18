@@ -17,32 +17,35 @@ import AuthGuard from "./components/guards/authGuard";
 import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
 import WishList from "./components/wishList/WishList";
+import { UserProvider } from "./context/userContext";
 
 function App() {
   return (
     <AuthProvider>
-      <BagProvider>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ProductLists />} />
-          <Route path="/products/:category" element={<ProductLists />} />
-          <Route path="/details/:id" element={<Details />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/about" element={<About />} />
-          <Route element={<AuthGuard />}>
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/wish-list" element={<WishList />} />
-          </Route>
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
-        <BackToTop />
-      </BagProvider>
+      <UserProvider>
+        <BagProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<ProductLists />} />
+            <Route path="/products/:category" element={<ProductLists />} />
+            <Route path="/details/:_id" element={<Details />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/about" element={<About />} />
+            <Route element={<AuthGuard />}>
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/wish-list" element={<WishList />} />
+            </Route>
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+          <BackToTop />
+        </BagProvider>
+      </UserProvider>
     </AuthProvider>
   );
 }

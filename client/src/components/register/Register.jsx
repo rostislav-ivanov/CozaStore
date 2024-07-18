@@ -7,6 +7,8 @@ import Col from "react-bootstrap/Col";
 
 import { AuthContext } from "../../context/authContext";
 import * as authService from "../../services/authService";
+import * as userService from "../../services/userService";
+import { UserContext } from "../../context/userContext";
 
 export default function Register() {
   const { setAuth } = useContext(AuthContext);
@@ -16,6 +18,7 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+  const { setUser: setUserContext } = useContext(UserContext);
   const [errors, setErrors] = useState({});
 
   const validate = (name) => {
@@ -88,11 +91,13 @@ export default function Register() {
         setErrors({ ...currentErrors });
         return;
       }
+      await userService.extendUser(response.accessToken);
       setAuth(response);
-
+      const extendedUser = await userService.getUser(response);
+      setUserContext(extendedUser);
       navigate("/");
     } catch (error) {
-      console.error(error);
+      alert(`Failed to register: ${error.message}`);
     }
   };
 

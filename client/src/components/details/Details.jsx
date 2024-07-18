@@ -7,10 +7,12 @@ import { BagContext } from "../../context/bagContext";
 import styles from "./Details.module.css";
 import Cart from "../cart/Cart";
 import { AuthContext } from "../../context/authContext";
+import { UserContext } from "../../context/userContext";
 
 export default function Details() {
-  const { id } = useParams();
+  const { _id } = useParams();
   const { isAuthenticated } = useContext(AuthContext);
+  const { isWish, addWish, removeWish } = useContext(UserContext);
   const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
@@ -32,13 +34,13 @@ export default function Details() {
   useEffect(() => {
     setLoading(true);
     productService
-      .getDetailsById(id)
+      .getDetailsById(_id)
       .then((data) => {
         setProduct((prev) => ({ ...prev, ...data }));
         setLoading(false);
       })
       .catch(() => navigate("/NotFound", { replace: true }));
-  }, [id]);
+  }, [_id]);
 
   const validateInputs = () => {
     const newErrors = {};
@@ -191,54 +193,39 @@ export default function Details() {
                                 {errors.quantity}
                               </div>
                             )}
-                            <button
-                              className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail m-t-20"
-                              onClick={() => {
-                                addItemHandler(product);
-                              }}
-                            >
-                              Add to cart
-                            </button>
+                            <div className="d-flex justify-content-center align-items-center">
+                              <button
+                                className="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail m-t-20"
+                                onClick={() => {
+                                  addItemHandler(product);
+                                }}
+                              >
+                                Add to cart
+                              </button>
+                              {isAuthenticated && (
+                                <button className="btn-addwish-b2 dis-block pos-relative js-addwish-b2 ms-5">
+                                  {!isWish(_id) && (
+                                    <img
+                                      className="icon-heart1 dis-block trans-04"
+                                      src="/images/icons/icon-heart-01.png"
+                                      alt="ICON"
+                                      onClick={() => addWish(_id)}
+                                    />
+                                  )}
+                                  {isWish(_id) && (
+                                    <img
+                                      className="icon-heart1 dis-block trans-04"
+                                      src="/images/icons/icon-heart-02.png"
+                                      alt="ICON"
+                                      onClick={() => removeWish(_id)}
+                                    />
+                                  )}
+                                </button>
+                              )}
+                            </div>
                           </div>
                         </div>
                       )}
-                    </div>
-
-                    <div className="flex-w flex-m p-l-100 p-t-40 respon7">
-                      {isAuthenticated && (
-                        <div className="flex-m bor9 p-r-10 m-r-11">
-                          <a
-                            href="#"
-                            className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-                            data-tooltip="Add to Wishlist"
-                          >
-                            <i className="zmdi zmdi-favorite"></i>
-                          </a>
-                        </div>
-                      )}
-                      <a
-                        href="#"
-                        className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                        data-tooltip="Facebook"
-                      >
-                        <i className="fa fa-facebook"></i>
-                      </a>
-
-                      <a
-                        href="#"
-                        className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                        data-tooltip="Twitter"
-                      >
-                        <i className="fa fa-twitter"></i>
-                      </a>
-
-                      <a
-                        href="#"
-                        className="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                        data-tooltip="Google Plus"
-                      >
-                        <i className="fa fa-google-plus"></i>
-                      </a>
                     </div>
                   </div>
                 </div>

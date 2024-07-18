@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
-import Accordion from "react-bootstrap/Accordion";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
+import { Container, Accordion, Nav, Row, Col } from "react-bootstrap";
 import formatDate from "../../utils/convertISOtoDate";
 import * as orderService from "../../services/orderService";
 
@@ -34,7 +29,7 @@ export default function Orders() {
     <Container className="my-5">
       {orders.length < 1 && (
         <div className="text-center mt-5">
-          <h5>You have no orders</h5>
+          <h4 className="opacity-75">You have no orders</h4>
           <Nav.Link as={Link} to="/products">
             <div className="stext-106 cl6 hov1 my-4">Shop now</div>
           </Nav.Link>
