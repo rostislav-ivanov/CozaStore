@@ -1446,6 +1446,23 @@
     sessions: {},
   };
   var seedData = {
+    user: [
+      {
+        _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+        firstName: "Peter",
+        lastName: "Petrov",
+        phone: "0888888888",
+        wishList: {
+          "53d4dbf5-7f41-47ba-b485-43eccb91cb95": true,
+          "c7f51805-242b-45ed-ae3e-80b68605141b": true,
+          "c7f51805-242b-45ed-ae3e-80b686051407": true,
+          "c7f51805-242b-45ed-ae3e-80b686051408": true,
+          "c7f51805-242b-45ed-ae3e-80b686051410": true,
+        },
+        _createdOn: 1721306788279,
+        _id: "6761fe47-b0f3-4163-a78e-78a0eb0b2872",
+      },
+    ],
     orders: [
       {
         _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
