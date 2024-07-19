@@ -17,12 +17,12 @@ import AuthGuard from "./components/guards/authGuard";
 import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
 import WishList from "./components/wishList/WishList";
-import { UserProvider } from "./context/userContext";
+import { WishProvidr } from "./context/wishContext";
 
 function App() {
   return (
     <AuthProvider>
-      <UserProvider>
+      <WishProvidr>
         <BagProvider>
           <Header />
           <Routes>
@@ -45,7 +45,7 @@ function App() {
           <Footer />
           <BackToTop />
         </BagProvider>
-      </UserProvider>
+      </WishProvidr>
     </AuthProvider>
   );
 }

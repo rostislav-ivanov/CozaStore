@@ -2,14 +2,14 @@ import { useState, useEffect, useContext } from "react";
 
 import * as productService from "../../services/productService";
 import ProductItem from "../productItem/ProductItem";
-import { UserContext } from "../../context/userContext";
+import { WishContext } from "../../context/wishContext";
 import { Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function WishList() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const { wishList } = useContext(UserContext);
+  const { wishList } = useContext(WishContext);
 
   useEffect(() => {
     setLoading(true);

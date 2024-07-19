@@ -1,20 +1,19 @@
-const baseUrl = "http://localhost:3030/data/user";
+const baseUrl = "http://localhost:3030/data/wish";
 
-export async function extendUser(accessToken) {
-  if (!accessToken) {
-    throw new Error("User is not logged in");
-  }
+export async function createWish(auth) {
   try {
-    const response = await fetch(`${baseUrl}`, {
+    if (!auth || !auth.accessToken) {
+      throw new Error("User is not logged in");
+    }
+
+    const response = await fetch(baseUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Authorization": accessToken,
+        "X-Authorization": auth.accessToken,
       },
       body: JSON.stringify({
-        firstName: "",
-        lastName: "",
-        phone: "",
+        wishList: {},
       }),
     });
 
@@ -24,19 +23,21 @@ export async function extendUser(accessToken) {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Failed to extend user: ${error.message}`);
+    throw new Error(`Failed to create wish list: ${error.message}`);
   }
 }
 
-export async function getUser(auth) {
+export async function getWish(auth) {
   try {
     if (!auth || !auth.accessToken || !auth._id) {
       throw new Error("User is not logged in");
     }
 
-    const query = `?where=_ownerId%3D%22${auth._id}%22`;
+    const query = new URLSearchParams({
+      where: `_ownerId="${auth._id}"`,
+    });
 
-    const response = await fetch(`${baseUrl}${query}`, {
+    const response = await fetch(`${baseUrl}?${query}`, {
       method: "GET",
       headers: {
         "X-Authorization": auth.accessToken,
@@ -47,30 +48,31 @@ export async function getUser(auth) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
+    let data = await response.json();
     if (data.length < 1) {
-      throw new Error("User not found");
+      throw new Error("Wish list not found");
     }
+
     return data[0];
   } catch (error) {
-    throw new Error(`Failed to get user: ${error.message}`);
+    throw new Error(`Failed to get wish list: ${error.message}`);
   }
 }
 
-export async function updateUser(user) {
+export async function updateWish(wish) {
   try {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (!auth || !auth.accessToken) {
       throw new Error("User is not logged in");
     }
 
-    const response = await fetch(`${baseUrl}/${user._id}`, {
+    const response = await fetch(`${baseUrl}/${wish._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "X-Authorization": auth.accessToken,
       },
-      body: JSON.stringify({ ...user }),
+      body: JSON.stringify({ ...wish }),
     });
 
     if (!response.ok) {

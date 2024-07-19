@@ -33,7 +33,7 @@ export async function getOrders() {
       throw new Error("User is not logged in");
     }
 
-    let query = new URLSearchParams({
+    const query = new URLSearchParams({
       where: `_ownerId="${auth._id}"`,
       sortBy: "_createdOn",
     });

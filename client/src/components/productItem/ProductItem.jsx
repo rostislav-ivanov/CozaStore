@@ -4,12 +4,12 @@ import Nav from "react-bootstrap/Nav";
 
 import QuickView from "../quickView/QuickView";
 import { AuthContext } from "../../context/authContext";
-import { UserContext } from "../../context/userContext";
+import { WishContext } from "../../context/wishContext";
 
 export default function ProductItem({ _id, name, images, price }) {
   const { isAuthenticated } = useContext(AuthContext);
   const [showQuickView, setShowQuickView] = useState(false);
-  const { isWish, addWish, removeWish } = useContext(UserContext);
+  const { isWish, addWish, removeWish } = useContext(WishContext);
 
   const closeQuickView = () => {
     setShowQuickView(false);

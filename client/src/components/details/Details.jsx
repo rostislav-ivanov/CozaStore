@@ -7,12 +7,12 @@ import { BagContext } from "../../context/bagContext";
 import styles from "./Details.module.css";
 import Cart from "../cart/Cart";
 import { AuthContext } from "../../context/authContext";
-import { UserContext } from "../../context/userContext";
+import { WishContext } from "../../context/wishContext";
 
 export default function Details() {
   const { _id } = useParams();
   const { isAuthenticated } = useContext(AuthContext);
-  const { isWish, addWish, removeWish } = useContext(UserContext);
+  const { isWish, addWish, removeWish } = useContext(WishContext);
   const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
