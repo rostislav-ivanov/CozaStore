@@ -40,8 +40,10 @@ export default function QuickView({ _id, closeQuickView }) {
 
   const validateInputs = () => {
     const newErrors = {};
-    if (!product.size) newErrors.size = "Size is required.";
-    if (!product.color) newErrors.color = "Color is required.";
+    if ((product.sizes.length > 0) & !product.size)
+      newErrors.size = "Size is required.";
+    if ((product.colors.length > 0) & !product.color)
+      newErrors.color = "Color is required.";
     if (product.quantity <= 0)
       newErrors.quantity = "Quantity must be greater than 0.";
     setErrors(newErrors);
@@ -115,55 +117,64 @@ export default function QuickView({ _id, closeQuickView }) {
                   <span className="mtext-106 cl2"> ${product.price} </span>
 
                   <div className="p-t-33">
-                    <div className="flex-w">
-                      <div className="size-203  respon6">Size</div>
+                    {product.sizes && product.sizes.length > 0 && (
+                      <>
+                        {" "}
+                        <div className="flex-w">
+                          <div className="size-203  respon6">Size</div>
 
-                      <select
-                        name="size"
-                        id="size"
-                        onChange={(e) =>
-                          setProduct({ ...product, size: e.target.value })
-                        }
-                      >
-                        <option value="">Choose a size</option>
-                        {product.sizes &&
-                          product.sizes.map((size) => (
-                            <option key={size}>{size}</option>
-                          ))}
-                      </select>
-                    </div>
-                    {errors.size && (
-                      <div className={styles.error}>{errors.size}</div>
+                          <select
+                            name="size"
+                            id="size"
+                            onChange={(e) =>
+                              setProduct({ ...product, size: e.target.value })
+                            }
+                          >
+                            <option value="">Choose a size</option>
+                            {product.sizes &&
+                              product.sizes.map((size) => (
+                                <option key={size}>{size}</option>
+                              ))}
+                          </select>
+                        </div>
+                        {errors.size && (
+                          <div className={styles.error}>{errors.size}</div>
+                        )}
+                      </>
+                    )}
+                    {product.colors && product.colors.length > 0 && (
+                      <>
+                        <div className="flex-w p-t-20">
+                          <div className="size-203  respon6">Color</div>
+                          <select
+                            name="color"
+                            id="color"
+                            onChange={(e) =>
+                              setProduct({ ...product, color: e.target.value })
+                            }
+                          >
+                            <option value="">Choose a color</option>
+                            {product.colors &&
+                              product.colors.map((color) => (
+                                <option key={color}>{color}</option>
+                              ))}
+                          </select>
+                        </div>
+                        {errors.color && (
+                          <div className={styles.error}>{errors.color}</div>
+                        )}
+                      </>
                     )}
 
-                    <div className="flex-w p-t-20">
-                      <div className="size-203  respon6">Color</div>
-                      <select
-                        name="color"
-                        id="color"
-                        onChange={(e) =>
-                          setProduct({ ...product, color: e.target.value })
-                        }
-                      >
-                        <option value="">Choose a color</option>
-                        {product.colors &&
-                          product.colors.map((color) => (
-                            <option key={color}>{color}</option>
-                          ))}
-                      </select>
-                    </div>
-                    {errors.color && (
-                      <div className={styles.error}>{errors.color}</div>
-                    )}
                     {isAuthenticated && (
                       <div className="flex-w flex-r-m p-t-20">
                         <div className="size-204 flex-w flex-m respon6-next">
                           <div className="wrap-num-product flex-w m-r-20 m-tb-10">
-                            <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                              <i
-                                className="fs-16 zmdi zmdi-minus"
-                                onClick={minusQuantityHandler}
-                              ></i>
+                            <div
+                              className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"
+                              onClick={minusQuantityHandler}
+                            >
+                              <i className="fs-16 zmdi zmdi-minus"></i>
                             </div>
 
                             <input
@@ -180,11 +191,11 @@ export default function QuickView({ _id, closeQuickView }) {
                               }
                             />
 
-                            <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                              <i
-                                className="fs-16 zmdi zmdi-plus"
-                                onClick={plusQuantityHandler}
-                              ></i>
+                            <div
+                              className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
+                              onClick={plusQuantityHandler}
+                            >
+                              <i className="fs-16 zmdi zmdi-plus"></i>
                             </div>
                           </div>
                           {errors.quantity && (

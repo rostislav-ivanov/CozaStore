@@ -44,8 +44,10 @@ export default function Details() {
 
   const validateInputs = () => {
     const newErrors = {};
-    if (!product.size) newErrors.size = "Size is required.";
-    if (!product.color) newErrors.color = "Color is required.";
+    if ((product.sizes.length > 0) & !product.size)
+      newErrors.size = "Size is required.";
+    if ((product.colors.length > 0) & !product.color)
+      newErrors.color = "Color is required.";
     if (product.quantity <= 0)
       newErrors.quantity = "Quantity must be greater than 0.";
     setErrors(newErrors);
@@ -116,45 +118,58 @@ export default function Details() {
                     <span className="mtext-106 cl2"> ${product.price} </span>
 
                     <div className="p-t-33">
-                      <div className="flex-w">
-                        <div className="size-203  respon6">Size</div>
+                      {product.colors && product.colors.length > 0 && (
+                        <>
+                          {" "}
+                          <div className="flex-w">
+                            <div className="size-203  respon6">Size</div>
 
-                        <select
-                          name="size"
-                          id="size"
-                          onChange={(e) =>
-                            setProduct({ ...product, size: e.target.value })
-                          }
-                        >
-                          <option value="">Choose a size</option>
-                          {product.sizes &&
-                            product.sizes.map((size) => (
-                              <option key={size}>{size}</option>
-                            ))}
-                        </select>
-                      </div>
-                      {errors.size && (
-                        <div className={styles.error}>{errors.size}</div>
+                            <select
+                              name="size"
+                              id="size"
+                              onChange={(e) =>
+                                setProduct({ ...product, size: e.target.value })
+                              }
+                            >
+                              <option value="">Choose a size</option>
+                              {product.sizes &&
+                                product.sizes.map((size) => (
+                                  <option key={size}>{size}</option>
+                                ))}
+                            </select>
+                          </div>
+                          {errors.size && (
+                            <div className={styles.error}>{errors.size}</div>
+                          )}
+                        </>
                       )}
 
-                      <div className="flex-w p-t-20">
-                        <div className="size-203  respon6">Color</div>
-                        <select
-                          name="color"
-                          id="color"
-                          onChange={(e) =>
-                            setProduct({ ...product, color: e.target.value })
-                          }
-                        >
-                          <option value="">Choose a color</option>
-                          {product.colors &&
-                            product.colors.map((color) => (
-                              <option key={color}>{color}</option>
-                            ))}
-                        </select>
-                      </div>
-                      {errors.color && (
-                        <div className={styles.error}>{errors.color}</div>
+                      {product.sizes && product.sizes.length > 0 && (
+                        <>
+                          {" "}
+                          <div className="flex-w p-t-20">
+                            <div className="size-203  respon6">Color</div>
+                            <select
+                              name="color"
+                              id="color"
+                              onChange={(e) =>
+                                setProduct({
+                                  ...product,
+                                  color: e.target.value,
+                                })
+                              }
+                            >
+                              <option value="">Choose a color</option>
+                              {product.colors &&
+                                product.colors.map((color) => (
+                                  <option key={color}>{color}</option>
+                                ))}
+                            </select>
+                          </div>
+                          {errors.color && (
+                            <div className={styles.error}>{errors.color}</div>
+                          )}
+                        </>
                       )}
                       {isAuthenticated && (
                         <div className="flex-w flex-r-m p-t-20">
