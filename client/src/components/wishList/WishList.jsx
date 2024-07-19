@@ -23,7 +23,7 @@ export default function WishList() {
     <section className="bg0 p-t-10 p-b-140">
       {wishList.length < 1 && (
         <div className="text-center mt-5 ">
-          <h4 className="opacity-75">Your wish list is empty</h4>
+          <h4 className="opacity-75">Your wishes list is empty</h4>
           <Nav.Link as={Link} to="/products">
             <div className="stext-106 cl6 hov1 my-4">Shop now</div>
           </Nav.Link>

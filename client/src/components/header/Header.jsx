@@ -145,7 +145,7 @@ export default function Header() {
                           Orders
                         </div>
                       </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/wish-list">
+                      <NavDropdown.Item as={Link} to="/wishes-list">
                         <div className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                           Wish List
                         </div>
@@ -167,7 +167,7 @@ export default function Header() {
                       className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                       data-notify={wishList.length}
                     >
-                      <Nav.Link as={Link} to="/wish-list">
+                      <Nav.Link as={Link} to="/wishes-list">
                         <i className="zmdi zmdi-favorite-outline"></i>
                       </Nav.Link>
                     </div>
