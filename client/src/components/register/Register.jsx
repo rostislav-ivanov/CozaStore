@@ -94,8 +94,8 @@ export default function Register() {
       }
       await userService.extendUser(response.accessToken);
       setAuth(response);
-      const wish = await wishService.createWish(response);
-      setWish(wish);
+      const wishes = await wishService.createWish(response);
+      setWish(wishes);
       navigate("/");
     } catch (error) {
       alert(`Failed to register: ${error.message}`);

@@ -5,34 +5,37 @@ import * as wishService from "../services/wishService";
 export const WishContext = createContext();
 
 export const WishProvidr = ({ children }) => {
-  const [wish, setWish] = usePresistedState("wish", {
+  const [wishes, setWish] = usePresistedState("wishes", {
     wishList: {},
   });
 
-  const wishList = Object.keys(wish.wishList || {});
+  const wishList = Object.keys(wishes.wishList || {});
 
   const isWish = (id) => {
-    return id in wish.wishList;
+    return id in wishes.wishList;
   };
 
   const addWish = async (id) => {
-    const wishData = { ...wish, wishList: { ...wish.wishList, [id]: true } };
+    const wishData = {
+      ...wishes,
+      wishList: { ...wishes.wishList, [id]: true },
+    };
     setWish(wishData);
     try {
       await wishService.updateWish(wishData);
     } catch (error) {
-      alert("Failed to add wish");
+      alert("Failed to add wishes");
     }
   };
 
   const removeWish = async (id) => {
-    const wishData = { ...wish, wishList: { ...wish.wishList } };
+    const wishData = { ...wishes, wishList: { ...wishes.wishList } };
     delete wishData.wishList[id];
     setWish(wishData);
     try {
       await wishService.updateWish(wishData);
     } catch (error) {
-      alert("Failed to remove wish");
+      alert("Failed to remove wishes");
     }
   };
 

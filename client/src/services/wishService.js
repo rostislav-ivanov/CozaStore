@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/data/wish";
+const baseUrl = "http://localhost:3030/data/wishes";
 
 export async function createWish(auth) {
   try {
@@ -23,7 +23,7 @@ export async function createWish(auth) {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Failed to create wish list: ${error.message}`);
+    throw new Error(`Failed to create wishes list: ${error.message}`);
   }
 }
 
@@ -55,24 +55,24 @@ export async function getWish(auth) {
 
     return data[0];
   } catch (error) {
-    throw new Error(`Failed to get wish list: ${error.message}`);
+    throw new Error(`Failed to get wishes list: ${error.message}`);
   }
 }
 
-export async function updateWish(wish) {
+export async function updateWish(wishes) {
   try {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (!auth || !auth.accessToken) {
       throw new Error("User is not logged in");
     }
 
-    const response = await fetch(`${baseUrl}/${wish._id}`, {
+    const response = await fetch(`${baseUrl}/${wishes._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "X-Authorization": auth.accessToken,
       },
-      body: JSON.stringify({ ...wish }),
+      body: JSON.stringify({ ...wishes }),
     });
 
     if (!response.ok) {
@@ -81,6 +81,6 @@ export async function updateWish(wish) {
 
     return response.json();
   } catch (error) {
-    throw new Error(`Failed to add wish: ${error.message}`);
+    throw new Error(`Failed to add wishes: ${error.message}`);
   }
 }
