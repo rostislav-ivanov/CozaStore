@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 
 import { AuthContext } from "../../context/authContext";
 import * as authService from "../../services/authService";
-import * as userService from "../../services/userService";
+import * as profileService from "../../services/profileService";
 import * as wishService from "../../services/wishService";
 import { WishContext } from "../../context/wishContext";
 
@@ -92,7 +92,7 @@ export default function Register() {
         setErrors({ ...currentErrors });
         return;
       }
-      await userService.extendUser(response.accessToken);
+      await profileService.createProfile(response);
       setAuth(response);
       const wishes = await wishService.createWish(response);
       setWish(wishes);
