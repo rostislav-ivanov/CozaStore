@@ -6,12 +6,12 @@ import { BagContext } from "../../context/bagContext";
 import styles from "./QuickView.module.css";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-import { UserContext } from "../../context/userContext";
+import { WishContext } from "../../context/wishContext";
 
 export default function QuickView({ _id, closeQuickView }) {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
-  const { isWish, addWish, removeWish } = useContext(UserContext);
+  const { isWish, addWish, removeWish } = useContext(WishContext);
   const [product, setProduct] = useState({
     name: "",
     images: [],

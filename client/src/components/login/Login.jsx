@@ -6,14 +6,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import * as authService from "../../services/authService";
-import * as userService from "../../services/userService";
+import * as wishService from "../../services/wishService";
 import { AuthContext } from "../../context/authContext";
-import { UserContext } from "../../context/userContext";
+import { WishContext } from "../../context/wishContext";
 
 export default function Login() {
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
-  const { setUser: setUserContext } = useContext(UserContext);
+  const { setWish } = useContext(WishContext);
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState({
     email: "",
@@ -73,11 +73,11 @@ export default function Login() {
         return;
       }
       setAuth(response);
-      const extendedUser = await userService.getUser(response);
-      setUserContext(extendedUser);
+      const wishList = await wishService.getWish(response);
+      setWish(wishList);
       navigate("/");
     } catch (error) {
-      console.log(error.message);
+      alert(` ${error.message}`);
     }
   };
 

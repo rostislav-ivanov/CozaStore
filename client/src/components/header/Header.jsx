@@ -5,13 +5,13 @@ import Cart from "../cart/Cart";
 import { AuthContext } from "../../context/authContext";
 import { BagContext } from "../../context/bagContext";
 import * as authService from "../../services/authService";
-import { UserContext } from "../../context/userContext";
+import { WishContext } from "../../context/wishContext";
 
 export default function Header() {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const { count } = useContext(BagContext);
-  const { wishList, setUser } = useContext(UserContext);
+  const { wishList, setWish } = useContext(WishContext);
   const [showCart, setShowCart] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const headerRef = useRef(null);
@@ -27,12 +27,7 @@ export default function Header() {
       localStorage.removeItem("user");
       setAuth({});
       localStorage.removeItem("auth");
-      setUser({
-        firstName: "",
-        lastName: "",
-        phone: "",
-        wishList: {},
-      });
+      setWish({});
       navigate("/");
     }
   };

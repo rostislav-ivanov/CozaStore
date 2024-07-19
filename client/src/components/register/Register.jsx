@@ -8,17 +8,18 @@ import Col from "react-bootstrap/Col";
 import { AuthContext } from "../../context/authContext";
 import * as authService from "../../services/authService";
 import * as userService from "../../services/userService";
-import { UserContext } from "../../context/userContext";
+import * as wishService from "../../services/wishService";
+import { WishContext } from "../../context/wishContext";
 
 export default function Register() {
   const { setAuth } = useContext(AuthContext);
+  const { setWish } = useContext(WishContext);
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const { setUser: setUserContext } = useContext(UserContext);
   const [errors, setErrors] = useState({});
 
   const validate = (name) => {
@@ -93,8 +94,8 @@ export default function Register() {
       }
       await userService.extendUser(response.accessToken);
       setAuth(response);
-      const extendedUser = await userService.getUser(response);
-      setUserContext(extendedUser);
+      const wish = await wishService.createWish(response);
+      setWish(wish);
       navigate("/");
     } catch (error) {
       alert(`Failed to register: ${error.message}`);
