@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/jsonstore";
+const baseUrl = "https://cozastore-server.onrender.com/jsonstore";
 
 export async function sendMessage(message) {
   try {
