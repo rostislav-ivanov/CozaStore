@@ -1,5 +1,5 @@
 const baseUrl =
-  "http://demo.econt.com/ee/services/Nomenclatures/NomenclaturesService";
+  "https://demo.econt.com/ee/services/Nomenclatures/NomenclaturesService";
 const credentials = btoa("iasp-dev:1Asp-dev");
 const countryCode = "BGR";
 
