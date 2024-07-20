@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/data/products";
+const baseUrl = "https://cozastore-server.onrender.com/data/products";
 
 export async function getAllProducts(category, page = 1, pageSize = 6) {
   const offset = (page - 1) * pageSize;
