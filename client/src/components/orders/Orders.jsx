@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Accordion, Nav, Row, Col } from "react-bootstrap";
+
 import formatDate from "../../utils/convertISOtoDate";
 import * as orderService from "../../services/orderService";
 
 export default function Orders() {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const statusColors = {
     Unfulfilled: "text-secondary",
@@ -21,7 +23,11 @@ export default function Orders() {
         setOrders(orders);
       })
       .catch((error) => {
-        alert(error.message);
+        if (error.message.includes("403")) {
+          navigate("/login");
+        } else {
+          alert(error.message);
+        }
       });
   }, []);
 

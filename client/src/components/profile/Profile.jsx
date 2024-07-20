@@ -49,7 +49,11 @@ export default function Profile() {
         setInitialProfile(profileState);
         setLoading(false);
       } catch (error) {
-        alert(error.message);
+        if (error.message.includes("403")) {
+          navigate("/login");
+        } else {
+          alert(error.message);
+        }
         setLoading(false);
       }
     };
@@ -148,7 +152,11 @@ export default function Profile() {
       alert("Profile updated successfully");
       setInitialProfile(profile);
     } catch (error) {
-      alert(error.message);
+      if (error.message.includes("403")) {
+        navigate("/login");
+      } else {
+        alert(error.message);
+      }
       setLoading(false);
     }
   };

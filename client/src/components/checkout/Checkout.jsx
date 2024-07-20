@@ -50,7 +50,11 @@ export default function Checkout() {
         setOffice({ id: "", name: profileData.shippingOffice });
         setShippingPrice(profileData.shippingOffice ? 4.99 : "");
       } catch (error) {
-        alert(error.message);
+        if (error.message.includes("403")) {
+          navigate("/login");
+        } else {
+          alert(error.message);
+        }
       } finally {
         setLoading(false);
       }
