@@ -1,110 +1,90 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Container, Nav, Row, Col } from "react-bootstrap";
+
+import * as contactService from "../../services/contactService";
+
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+
+  const onSubmitHandler = async (e) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex pattern for basic email validation
+    e.preventDefault();
+    if (!email) {
+      setError("Please enter an email address.");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setError("");
+
+    try {
+      const responce = await contactService.subscribe({ email });
+      alert("Thank you for subscribing!");
+      setEmail("");
+    } catch (error) {
+      alert(`Failed to subscribe: ${error.message}`);
+    }
+  };
+
   return (
-    <footer className="bg3 p-t-75 p-b-32">
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-6 col-lg-3 p-b-50">
-            <h4 className="stext-301 cl0 p-b-30">Categories</h4>
+    <footer className="text-light bg-dark py-4">
+      <Container>
+        <Row>
+          <Col className="col-3">
+            <h4 className="mb-3">Categories</h4>
 
-            <ul>
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  {" "}
-                  Women{" "}
-                </a>
-              </li>
+            <Nav className="flex-column">
+              <Nav.Link as={Link} to="/products/women">
+                Women
+              </Nav.Link>
+              <Nav.Link as={Link} to="/products/man">
+                Men
+              </Nav.Link>
+              <Nav.Link as={Link} to="/products/bag">
+                Bag
+              </Nav.Link>
+              <Nav.Link as={Link} to="/products/shoes">
+                Shoes
+              </Nav.Link>
+              <Nav.Link as={Link} to="/products/watches">
+                Watches
+              </Nav.Link>
+            </Nav>
+          </Col>
 
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  {" "}
-                  Men{" "}
-                </a>
-              </li>
-
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  {" "}
-                  Shoes{" "}
-                </a>
-              </li>
-
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  {" "}
-                  Watches{" "}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="col-sm-6 col-lg-3 p-b-50">
-            <h4 className="stext-301 cl0 p-b-30">Help</h4>
-
-            <ul>
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  Track Order
-                </a>
-              </li>
-
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  {" "}
-                  Returns{" "}
-                </a>
-              </li>
-
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  Shipping
-                </a>
-              </li>
-
-              <li className="p-b-10">
-                <a href="#" className="stext-107 cl7 hov-cl1 trans-04">
-                  {" "}
-                  FAQs{" "}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="col-sm-6 col-lg-3 p-b-50">
-            <h4 className="stext-301 cl0 p-b-30">GET IN TOUCH</h4>
+          <Col className="col-5">
+            <h4 className="mb-3">Get In Touch</h4>
 
             <p className="stext-107 cl7 size-201">
-              Any questions? Let us know in store at 8th floor, 379 Hudson St,
-              New York, NY 10018 or call us on (+1) 96 716 6879
+              Any questions? Let us know in store at g.k. Zone B-5, Alexander
+              Stamboliyski Blvd. 101 A, 1303 Sofia or call us on +359 888 888
+              888 or send us an email to
+              <Nav as={Link} to="/contact-us">
+                cozastore@gmail.com
+              </Nav>
             </p>
+          </Col>
 
-            <div className="p-t-27">
-              <a href="#" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                <i className="fa fa-facebook"></i>
-              </a>
+          <Col className="col-4">
+            <h4 className="mb-3">Newsletter</h4>
 
-              <a href="#" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                <i className="fa fa-instagram"></i>
-              </a>
-
-              <a href="#" className="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                <i className="fa fa-pinterest-p"></i>
-              </a>
-            </div>
-          </div>
-
-          <div className="col-sm-6 col-lg-3 p-b-50">
-            <h4 className="stext-301 cl0 p-b-30">Newsletter</h4>
-
-            <form>
+            <form onSubmit={onSubmitHandler}>
               <div className="wrap-input1 w-full p-b-4">
                 <input
                   className="input1 bg-none plh1 stext-107 cl7"
                   type="text"
                   name="email"
-                  placeholder="email@example.com"
+                  placeholder="your email here"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="focus-input1 trans-04"></div>
               </div>
+              {error && <div className="text-danger">{error}</div>}
 
               <div className="p-t-18">
                 <button className="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
@@ -112,32 +92,9 @@ export default function Footer() {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-
-        <div className="p-t-40">
-          <div className="flex-c-m flex-w p-b-18">
-            <a href="#" className="m-all-1">
-              <img src="/images/icons/icon-pay-01.png" alt="ICON-PAY" />
-            </a>
-
-            <a href="#" className="m-all-1">
-              <img src="/images/icons/icon-pay-02.png" alt="ICON-PAY" />
-            </a>
-
-            <a href="#" className="m-all-1">
-              <img src="/images/icons/icon-pay-03.png" alt="ICON-PAY" />
-            </a>
-
-            <a href="#" className="m-all-1">
-              <img src="/images/icons/icon-pay-04.png" alt="ICON-PAY" />
-            </a>
-
-            <a href="#" className="m-all-1">
-              <img src="/images/icons/icon-pay-05.png" alt="ICON-PAY" />
-            </a>
-          </div>
-
+          </Col>
+        </Row>
+        <Row className="pt-2">
           <p className="stext-107 cl6 txt-center">
             Copyright &copy;
             <script>document.write(new Date().getFullYear());</script>
@@ -151,8 +108,8 @@ export default function Footer() {
               ThemeWagon
             </a>
           </p>
-        </div>
-      </div>
+        </Row>
+      </Container>
     </footer>
   );
 }
