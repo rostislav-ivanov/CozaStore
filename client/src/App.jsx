@@ -12,6 +12,7 @@ import { AuthProvider } from "./context/authContext";
 import Register from "./components/register/Register";
 import Login from "./components/login/Login";
 import AuthGuard from "./components/guards/authGuard";
+import AuthUserGuard from "./components/guards/authUserGuard";
 import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
 import WishList from "./components/wishList/WishList";
@@ -34,10 +35,12 @@ function App() {
               <Route path="/products" element={<ProductLists />} />
               <Route path="/products/:category" element={<ProductLists />} />
               <Route path="/details/:_id" element={<Details />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/contact-us" element={<ContactUs />} />
+              <Route element={<AuthUserGuard />}>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+              </Route>
               <Route element={<AuthGuard />}>
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/profile" element={<Profile />} />
