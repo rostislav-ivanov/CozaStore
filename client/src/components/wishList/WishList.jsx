@@ -13,10 +13,17 @@ export default function WishList() {
 
   useEffect(() => {
     setLoading(true);
-    productService.getWishListProducts(wishList).then((products) => {
-      setProducts(products);
-      setLoading(false);
-    });
+    productService
+      .getWishListProducts(wishList)
+      .then((products) => {
+        setProducts(products);
+      })
+      .catch((error) => {
+        alert(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [wishList]);
 
   return (
