@@ -99,12 +99,12 @@ export default function Header() {
                     Shop
                   </button>
                 </Link>
-                <Link to="/about">
+                <Link to="/about-us">
                   <button className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                     About
                   </button>
                 </Link>
-                <Link to="/contact">
+                <Link to="/contact-us">
                   <button className="stext-106 cl6 hov1 m-r-32 m-tb-5">
                     Contact
                   </button>
