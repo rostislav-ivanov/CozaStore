@@ -18,8 +18,10 @@ import WishList from "./components/wishList/WishList";
 import { WishProvidr } from "./context/wishContext";
 import ContactUs from "./components/contactUs/ContactUs";
 import AboutUs from "./components/aboutUs/AboutUs";
+import useScrollToTop from "./hooks/useScrollToTop";
 
 function App() {
+  useScrollToTop();
   return (
     <AuthProvider>
       <WishProvidr>
