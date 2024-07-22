@@ -35,10 +35,12 @@ export async function getOrders() {
 
     const query = new URLSearchParams({
       where: `_ownerId="${auth._id}"`,
-      sortBy: "_createdOn",
+      sortBy: "_createdOn desc",
     });
 
-    const response = await fetch(`${baseUrl}?${query}%20desc`, {
+    const queryString = query.toString().replace(/\+/g, "%20");
+
+    const response = await fetch(`${baseUrl}?${queryString}`, {
       headers: {
         "X-Authorization": auth.accessToken,
       },

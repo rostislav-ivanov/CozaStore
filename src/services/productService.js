@@ -2,12 +2,18 @@ const baseUrl = "http://localhost:3030/data/products";
 
 export async function getAllProducts(category, page = 1, pageSize = 6) {
   const offset = (page - 1) * pageSize;
-  const query = encodeURI(
-    `select=_id,name,images,price&where=category LIKE "${category}"&offset=${offset}&pageSize=${pageSize}`
-  );
+
+  const query = new URLSearchParams({
+    select: "_id,name,images,price",
+    offset,
+    pageSize,
+    where: `category LIKE "${category}"`,
+  });
+
+  const queryString = query.toString().replace(/\+/g, "%20");
 
   try {
-    const response = await fetch(`${baseUrl}?${query}`);
+    const response = await fetch(`${baseUrl}?${queryString}`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -21,9 +27,15 @@ export async function getAllProducts(category, page = 1, pageSize = 6) {
 }
 
 export async function getProductsCount(category) {
-  const query = encodeURI(`where=category LIKE "${category}"&count`);
+  const query = new URLSearchParams({
+    where: `category LIKE "${category}"`,
+    count: true,
+  });
+
+  const queryString = query.toString().replace(/\+/g, "%20");
+
   try {
-    const response = await fetch(`${baseUrl}?${query}`);
+    const response = await fetch(`${baseUrl}?${queryString}`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -37,7 +49,9 @@ export async function getProductsCount(category) {
 }
 
 export async function getProductById(id) {
-  const query = encodeURI(`select=_id,name,images,price,sizes,colors`);
+  const query = new URLSearchParams({
+    select: "_id,name,images,price,sizes,colors",
+  });
   const response = await fetch(`${baseUrl}/${id}?${query}`);
   const data = await response.json();
   return data;
@@ -59,13 +73,14 @@ export async function getWishListProducts(ids) {
       throw new Error("User is not logged in");
     }
 
-    const query = encodeURI(
-      `select=_id,name,images,price&where=_id IN (${ids
-        .map((id) => `"${id}"`)
-        .join(",")})`
-    );
+    const query = new URLSearchParams({
+      select: "_id,name,images,price",
+      where: `_id IN (${ids.map((id) => `"${id}"`).join(",")})`,
+    });
 
-    const response = await fetch(`${baseUrl}?${query}`, {
+    const queryString = query.toString().replace(/\+/g, "%20");
+
+    const response = await fetch(`${baseUrl}?${queryString}`, {
       method: "GET",
       headers: {
         "X-Authorization": auth.accessToken,
@@ -81,15 +96,4 @@ export async function getWishListProducts(ids) {
   } catch (error) {
     throw new Error(`Failed to get wishes: ${error.message}`);
   }
-  //   const query = encodeURI(
-  //     `select=_id,name,images,price&where=_id IN (${ids
-  //       .map((id) => `"${id}"`)
-  //       .join(",")})`
-  //   );
-  //   const response = await fetch(`${baseUrl}?${query}`, {
-  //   }
-  // )
-
-  //   const data = await response.json();
-  //   return Object.values(data);
 }
