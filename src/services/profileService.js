@@ -1,4 +1,4 @@
-const baseUrl = "https://cozastore-server.onrender.com/data/profiles";
+const baseUrl = "http://localhost:3030/data/profiles";
 
 export async function createProfile(auth) {
   if (!auth || !auth.accessToken) {
@@ -87,5 +87,43 @@ export async function updateProfile(profile) {
     return response.json();
   } catch (error) {
     throw new Error(`Failed to add wish: ${error.message}`);
+  }
+}
+
+export async function validateToken() {
+  const auth = JSON.parse(localStorage.getItem("auth"));
+
+  if (!auth) {
+    return;
+  }
+
+  if (!auth.accessToken || !auth._id) {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("wishes");
+    localStorage.removeItem("bag");
+    return;
+  }
+
+  try {
+    const query = new URLSearchParams({
+      where: `_ownerId="${auth._id}"`,
+    });
+
+    const response = await fetch(`${baseUrl}?${query}`, {
+      method: "GET",
+      headers: {
+        "X-Authorization": auth.accessToken,
+      },
+    });
+    if (!response.ok) {
+      localStorage.removeItem("auth");
+      localStorage.removeItem("wishes");
+      localStorage.removeItem("bag");
+      return;
+    }
+  } catch (error) {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("wishes");
+    localStorage.removeItem("bag");
   }
 }

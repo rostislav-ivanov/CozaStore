@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 
+import Spinner from "../spinner/Spinner";
 import * as productService from "../../services/productService";
 import ProductItem from "../productItem/ProductItem";
 
@@ -14,38 +15,89 @@ export default function ProductLists() {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [nextProducts, setNextProducts] = useState([]);
+  const [previewProducts, setPreviewProducts] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    productService.getProductsCount(category).then((count) => {
-      setPage(1);
-      setTotalPages(Math.ceil(count / pageSize));
-    });
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const products = await productService.getAllProducts(
+          category,
+          page,
+          pageSize
+        );
+        setProducts(products);
+        setLoading(false);
+        setPreviewProducts(products);
+      } catch (error) {
+        alert(`Error: ${error.message}`);
+        setLoading(false);
+      }
+    };
+
+    const fetchProductsCount = async () => {
+      try {
+        const count = await productService.getProductsCount(category);
+        const totalPages = Math.ceil(count / pageSize);
+        setTotalPages(totalPages);
+        if (page + 1 <= totalPages) {
+          prefetchPage(page + 1);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchProducts();
+    fetchProductsCount();
   }, [category]);
 
-  useEffect(() => {
-    setLoading(true);
-    productService.getAllProducts(category, page, pageSize).then((products) => {
-      setProducts(products);
-      setLoading(false);
-    });
-  }, [category, page]);
+  const prefetchPage = (p) => {
+    const fetchProducts = async () => {
+      try {
+        const products = await productService.getAllProducts(
+          category,
+          p,
+          pageSize
+        );
+        if (p > page) {
+          setNextProducts(products);
+        } else {
+          setPreviewProducts(products);
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+    fetchProducts();
+  };
 
   const previewHandler = () => {
     if (page > 1) {
+      setNextProducts(products);
+      setProducts(previewProducts);
+      if (page - 1 > 1) {
+        prefetchPage(page - 2);
+      }
       setPage(page - 1);
     }
   };
 
   const nextHandler = () => {
     if (page < totalPages) {
+      setPreviewProducts(products);
+      setProducts(nextProducts);
+      if (page + 1 < totalPages) {
+        prefetchPage(page + 2);
+      }
       setPage(page + 1);
     }
   };
 
   return (
     <section className="bg0 p-t-23 p-b-140">
-      <div className="container">
+      {loading && <Spinner />}
+      <div className={`container ${loading && "loadingOverlay"}`}>
         <div className="flex-w flex-sb-m p-b-52">
           <div className="flex-w flex-l-m filter-tope-group m-tb-10">
             <Nav.Link as={Link} to="/products">
@@ -88,7 +140,7 @@ export default function ProductLists() {
             Preview
           </button>
           <button
-            className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04"
+            className="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04 ms-4"
             onClick={nextHandler}
             disabled={page === totalPages}
           >

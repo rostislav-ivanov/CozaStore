@@ -4,26 +4,35 @@ import * as productService from "../../services/productService";
 import ProductItem from "../productItem/ProductItem";
 import { WishContext } from "../../context/wishContext";
 import { Container, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 export default function WishList() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const { wishList } = useContext(WishContext);
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-    productService
-      .getWishListProducts(wishList)
-      .then((products) => {
+    const fetchWishListProducts = async () => {
+      try {
+        setLoading(true);
+        const products = await productService.getWishListProducts(wishList);
         setProducts(products);
-      })
-      .catch((error) => {
-        alert(error.message);
-      })
-      .finally(() => {
+      } catch (error) {
+        if (error.message.includes("403")) {
+          setAuth({});
+          navigate("/login");
+        } else {
+          alert(error.message);
+        }
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchWishListProducts();
   }, [wishList]);
 
   return (

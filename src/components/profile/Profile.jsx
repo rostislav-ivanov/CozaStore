@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import * as profileService from "../../services/profileService";
 import * as shippingService from "../../services/shippingService";
 import styles from "./Profile.module.css";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 export default function Profile() {
   const [profile, setProfile] = useState({
@@ -19,6 +21,8 @@ export default function Profile() {
   const [offices, setOffices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -50,6 +54,7 @@ export default function Profile() {
         setLoading(false);
       } catch (error) {
         if (error.message.includes("403")) {
+          setAuth({});
           navigate("/login");
         } else {
           alert(error.message);
@@ -153,6 +158,7 @@ export default function Profile() {
       setInitialProfile(profile);
     } catch (error) {
       if (error.message.includes("403")) {
+        setAuth({});
         navigate("/login");
       } else {
         alert(error.message);

@@ -1,4 +1,4 @@
-const baseUrl = "https://cozastore-server.onrender.com/data/wishes";
+const baseUrl = "http://localhost:3030/data/wishes";
 
 export async function createWish(auth) {
   try {

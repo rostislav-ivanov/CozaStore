@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Accordion, Nav, Row, Col } from "react-bootstrap";
 
 import formatDate from "../../utils/convertISOtoDate";
+import { AuthContext } from "../../context/authContext";
 import * as orderService from "../../services/orderService";
 
 export default function Orders() {
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const statusColors = {
     Unfulfilled: "text-secondary",
@@ -24,6 +26,7 @@ export default function Orders() {
       })
       .catch((error) => {
         if (error.message.includes("403")) {
+          setAuth({});
           navigate("/login");
         } else {
           alert(error.message);

@@ -1,4 +1,4 @@
-const baseUrl = "https://cozastore-server.onrender.com/data/orders";
+const baseUrl = "http://localhost:3030/data/orders";
 
 export async function createOrder(order) {
   try {
