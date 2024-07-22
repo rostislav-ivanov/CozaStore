@@ -1,9 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import Spinner from "../spinner/Spinner";
+
+import styles from "./Profile.module.css";
 import * as profileService from "../../services/profileService";
 import * as shippingService from "../../services/shippingService";
-import styles from "./Profile.module.css";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 
 export default function Profile() {
@@ -175,14 +178,8 @@ export default function Profile() {
           <p className="text-center small">
             Your profile information is used for shipping purposes only.
           </p>
-          {loading && (
-            <div className={styles.spinnerContainer}>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </div>
-          )}
-          <div className={loading ? styles.loadingOverlay : ""}>
+          {loading && <Spinner />}
+          <div className={`container ${loading && "loadingOverlay"}`}>
             <Form
               className="border rounded p-3"
               style={{ pointerEvents: loading ? "none" : "auto" }}

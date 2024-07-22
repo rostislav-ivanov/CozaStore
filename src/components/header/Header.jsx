@@ -28,9 +28,9 @@ export default function Header() {
       localStorage.removeItem("auth");
       setAuth({});
       localStorage.removeItem("wishes");
-      setWish({});
+      setWish({ wishList: {} });
       localStorage.removeItem("bag");
-      setBag({});
+      setBag([]);
       navigate("/");
     }
   };
