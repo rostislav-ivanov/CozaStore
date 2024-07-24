@@ -175,11 +175,11 @@ export default function Details() {
                         <div className="flex-w flex-r-m p-t-20">
                           <div className="size-204 flex-w flex-m respon6-next">
                             <div className="wrap-num-product flex-w m-r-20 m-tb-10">
-                              <div className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                <i
-                                  className="fs-16 zmdi zmdi-minus"
-                                  onClick={minusQuantityHandler}
-                                ></i>
+                              <div
+                                className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"
+                                onClick={minusQuantityHandler}
+                              >
+                                <i className="fs-16 zmdi zmdi-minus"></i>
                               </div>
 
                               <input
@@ -196,11 +196,11 @@ export default function Details() {
                                 }
                               />
 
-                              <div className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                <i
-                                  className="fs-16 zmdi zmdi-plus"
-                                  onClick={plusQuantityHandler}
-                                ></i>
+                              <div
+                                className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
+                                onClick={plusQuantityHandler}
+                              >
+                                <i className="fs-16 zmdi zmdi-plus"></i>
                               </div>
                             </div>
                             {errors.quantity && (

@@ -9,9 +9,10 @@ import { WishContext } from "../../context/wishContext";
 
 export default function Header() {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
+  const { setBag } = useContext(BagContext);
+  const { wishList, setWish } = useContext(WishContext);
   const navigate = useNavigate();
   const { count } = useContext(BagContext);
-  const { wishList, setWish } = useContext(WishContext);
   const [showCart, setShowCart] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const headerRef = useRef(null);
@@ -24,10 +25,12 @@ export default function Header() {
     } catch (error) {
       console.error(error);
     } finally {
-      localStorage.removeItem("user");
-      setAuth({});
       localStorage.removeItem("auth");
-      setWish({});
+      setAuth({});
+      localStorage.removeItem("wishes");
+      setWish({ wishList: {} });
+      localStorage.removeItem("bag");
+      setBag([]);
       navigate("/");
     }
   };

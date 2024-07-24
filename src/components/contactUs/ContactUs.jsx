@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import Spinner from "../spinner/Spinner";
 
 import styles from "./ContactUs.module.css";
 import * as contactService from "../../services/contactService";
@@ -19,7 +20,7 @@ export default function ContactUs() {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -39,7 +40,7 @@ export default function ContactUs() {
         }
       } catch (error) {
         if (error.message.includes("403")) {
-          navigate("/login");
+          setAuth({});
         } else {
           alert(error.message);
         }
@@ -92,6 +93,7 @@ export default function ContactUs() {
       alert(`Message sent successfully. ${responce.content}`);
     } catch (error) {
       if (error.message.includes("403")) {
+        setAuth({});
         navigate("/login");
       } else {
         alert(error.message);
@@ -103,14 +105,8 @@ export default function ContactUs() {
 
   return (
     <Container className="justify-content-md-center py-5">
-      {loading && (
-        <div className={styles.spinnerContainer}>
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      )}
-      <div className={loading ? styles.loadingOverlay : ""}>
+      {loading && <Spinner />}
+      <div className={`container ${loading && "loadingOverlay"}`}>
         <h4 className="text-center pb-3 opacity-75">Contact us</h4>
         <Row>
           <Col md="4">

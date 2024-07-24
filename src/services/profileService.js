@@ -89,3 +89,41 @@ export async function updateProfile(profile) {
     throw new Error(`Failed to add wish: ${error.message}`);
   }
 }
+
+export async function validateToken() {
+  const auth = JSON.parse(localStorage.getItem("auth"));
+
+  if (!auth) {
+    return;
+  }
+
+  if (!auth.accessToken || !auth._id) {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("wishes");
+    localStorage.removeItem("bag");
+    return;
+  }
+
+  try {
+    const query = new URLSearchParams({
+      where: `_ownerId="${auth._id}"`,
+    });
+
+    const response = await fetch(`${baseUrl}?${query}`, {
+      method: "GET",
+      headers: {
+        "X-Authorization": auth.accessToken,
+      },
+    });
+    if (!response.ok) {
+      localStorage.removeItem("auth");
+      localStorage.removeItem("wishes");
+      localStorage.removeItem("bag");
+      return;
+    }
+  } catch (error) {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("wishes");
+    localStorage.removeItem("bag");
+  }
+}

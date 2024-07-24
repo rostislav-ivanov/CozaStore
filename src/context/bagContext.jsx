@@ -41,6 +41,7 @@ export const BagProvider = ({ children }) => {
     updateItem,
     removeItem,
     clearBag,
+    setBag,
     count,
   };
 
