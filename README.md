@@ -7,9 +7,9 @@ This is a e-commerce frontend application, created using ReactJS.
 | [Demo](#demo)
 | [Authentication](#authentication)
 | [Build](#build)
-| [What it does](#what-it-does)
-| - [Guest visitors can](#what-it-does)
-| - [Logged members can also](#what-it-does)
+| [What it does:](#what-it-does)
+| - [Guest visitors can](#guest-visitors-can)
+| - [Logged members can also](#logged-members-can-also)
 
 ## Demo
 
@@ -58,6 +58,10 @@ The website provides informative and functional webpages for browsing products a
 - ### Logged members can also:
   - [x] add product to cart
   - [x] see the products in bag
+  - [x] checkout
+    - [x] edit quantity of each product
+    - [x] remove product from cart
+    - [x] select shipping address
   - [x] add / remove wish
   - [x] see the wishes product
   - [x] manage their account details:
