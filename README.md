@@ -4,13 +4,13 @@ This is a e-commerce frontend application, created using ReactJS.
 
 | Contents
 |---
-| [Demo]
+| [Demo](#demo)
 | [Authentication](#authentication)
 | [Build](#build)
 
 ## Demo
 
-Demonstration of app can be see on: [@https://cozastore-client.onrender.com]
+Demonstration of app can be see on: https://cozastore-client.onrender.com
 
 ### Authentication
 
@@ -24,7 +24,7 @@ The user peter@abv.bg has seed data
 
 ## Build
 
-Before run client, run server [@cozatore-server](https://github.com/rostislav-ivanov/cozastore-server)
+Before run client, run server [cozatore-server](https://github.com/rostislav-ivanov/cozastore-server)
 
 ```
 node server.js
