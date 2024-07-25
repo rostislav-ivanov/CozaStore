@@ -8,14 +8,14 @@ This is a e-commerce frontend application, created using ReactJS.
 | [Authentication](#authentication)
 | [Build](#build)
 | [What it does:](#what-it-does)
-| - [Guest visitors can](#guest-visitors-can)
-| - [Logged members can also](#logged-members-can-also)
+| - [Guests](#guest-visitors-can)
+| - [Members](#logged-members-can-also)
 
 ## Demo
 
 Demonstration of app can be see on: https://cozastore-client.onrender.com
 
-### Authentication
+## Authentication
 
 The service is initialized with three users, which can be used for immediate testing:
 
