@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/users";
+const baseUrl = "https://cozastore-server.onrender.com/users";
 
 export async function login({ email, password }) {
   const user = {
