@@ -1,4 +1,4 @@
-const baseUrl = "https://cozastore-server.onrender.com/data/profiles";
+const baseUrl = "http://localhost:3030/data/profiles";
 
 export async function createProfile(auth) {
   if (!auth || !auth.accessToken) {
