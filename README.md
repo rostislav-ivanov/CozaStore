@@ -27,17 +27,21 @@ This project includes a `docker-compose.yml` file to simplify the process of set
 - [Docker Compose](https://docs.docker.com/compose/install/) installed (usually included with Docker Desktop).
 
 #### 1. Clone the repository:
-
 ```
 git clone https://github.com/rostislav-ivanov/cozastore-client
 cd cozastore-client
+
+```
+#### or you can download the `docker-compose.yml` file directly using the following `curl` command:
+```
+curl -O https://raw.githubusercontent.com/rostislav-ivanov/cozastore-client/main/docker-compose.yaml
 
 ```
 
 #### 2. Start the application:
 
 ```
-docker-compose up
+docker-compose up -d
 
 ```
 
