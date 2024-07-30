@@ -34,7 +34,7 @@ cd cozastore-client
 ```
 #### or you can download the `docker-compose.yml` file directly using the following `curl` command:
 ```
-curl -O https://raw.githubusercontent.com/rostislav-ivanov/cozastore-client/main/docker-compose.yaml
+curl -O https://raw.githubusercontent.com/rostislav-ivanov/cozastore-client/main/Docker-compose.yaml
 
 ```
 
