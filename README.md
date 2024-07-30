@@ -19,12 +19,12 @@ Demonstration of app can be see on: https://cozastore-client.onrender.com
 
 ## Running the Application with Docker
 
-This project includes a docker-compose.yml file to simplify the process of setting up and running the application using Docker.
+This project includes a `docker-compose.yml` file to simplify the process of setting up and running the application using Docker.
 
 #### Prerequisites
 
-- Docker installed on your local machine.
-- Docker Compose installed (usually included with Docker Desktop).
+- [Docker](https://www.docker.com/get-started) installed on your local machine.
+- [Docker Compose](https://docs.docker.com/compose/install/) installed (usually included with Docker Desktop).
 
 #### 1. Clone the repository:
 
