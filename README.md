@@ -5,6 +5,7 @@ This is a e-commerce frontend application, created using ReactJS.
 | Contents
 |---
 | [Demo](#demo)
+| [Running the Application with Docker](#docker)
 | [Authentication](#authentication)
 | [Build](#build)
 | [What it does:](#what-it-does)
@@ -14,6 +15,49 @@ This is a e-commerce frontend application, created using ReactJS.
 ## Demo
 
 Demonstration of app can be see on: https://cozastore-client.onrender.com
+
+## Docker
+
+This project includes a docker-compose.yml file to simplify the process of setting up and running the application using Docker.
+
+Prerequisites
+
+- Docker installed on your local machine.
+- Docker Compose installed (usually included with Docker Desktop).
+
+1. Clone the repository:
+
+```
+git clone https://github.com/rostislav-ivanov/cozastore-client
+cd cozastore-client
+
+```
+
+2. Start the application:
+
+```
+docker-compose up
+
+```
+
+3. Access the application:
+
+- Frontend: Visit `http://localhost:8080` to access the frontend application.
+- Backend: The backend API will be available at `http://localhost:3030`.
+
+4. Stop the application and remove containers:
+
+```
+docker-compose down
+
+```
+
+5. Stop the application and remove containers and images:
+
+```
+docker-compose down --rmi all
+
+```
 
 ## Authentication
 
