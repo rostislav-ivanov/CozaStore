@@ -1,0 +1,15 @@
+services:
+  cozastore-client:
+    ports:
+      - 8080:80
+    container_name: cozastore-client
+    image: rostislav1/cozastore-client
+  cazastore-server:
+    ports:
+      - 3030:3030
+    container_name: cozastore-server
+    image: rostislav1/cazastore-server
+# docker compose build    // to build the images
+# docker compose up -d   // to start the containers
+# docker compose down    // to stop the containers
+# docker compose down --rmi all    // to stop the containers and remove the images

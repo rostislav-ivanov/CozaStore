@@ -20,9 +20,9 @@ export const WishProvidr = ({ children }) => {
       ...wishes,
       wishList: { ...wishes.wishList, [id]: true },
     };
-    setWish(wishData);
     try {
-      await wishService.updateWish(wishData);
+      const responce = await wishService.updateWish(wishData);
+      setWish(wishData);
     } catch (error) {
       alert("Failed to add wishes");
     }
@@ -31,9 +31,9 @@ export const WishProvidr = ({ children }) => {
   const removeWish = async (id) => {
     const wishData = { ...wishes, wishList: { ...wishes.wishList } };
     delete wishData.wishList[id];
-    setWish(wishData);
     try {
       await wishService.updateWish(wishData);
+      setWish(wishData);
     } catch (error) {
       alert("Failed to remove wishes");
     }
