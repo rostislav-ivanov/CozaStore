@@ -6,7 +6,7 @@ This is a e-commerce frontend application, created using ReactJS.
 |---
 | [Demo](#demo)
 | [Running the Application with Docker](#running-the-application-with-docker)
-| [Build](#build)
+| [Getting Started](#getting-started)
 | [Authentication](#authentication)
 | [What it does:](#what-it-does)
 | - [Guests](#guest-visitors-can)
@@ -32,7 +32,7 @@ git clone https://github.com/rostislav-ivanov/cozastore-client
 cd cozastore-client
 
 ```
-#### or you can download the `docker-compose.yml` file directly using the following `curl` command:
+#### or alternatively, you can download the `docker-compose.yml` file:
 ```
 curl -O https://raw.githubusercontent.com/rostislav-ivanov/cozastore-client/main/Docker-compose.yaml
 
@@ -64,23 +64,33 @@ docker-compose down --rmi all
 
 ```
 
-## Build
+## Getting Started
 
-Before run client, run server [cozatore-server](https://github.com/rostislav-ivanov/cozastore-server)
+#### Prerequisites
 
+- [Node.js](https://nodejs.org/en): A JavaScript runtime for building and running the application.
+
+#### 1. To start the server, run the following commands in the terminal:
 ```
+git clone https://github.com/rostislav-ivanov/cozastore-server
+cd cozastore-server
 node server.js
 
 ```
 
-To build the client, run the following commands in the terminal:
-
+#### 2. To start the client, run the following commands in new terminal:
 ```
-npm init
+git clone https://github.com/rostislav-ivanov/cozastore-client
+cd cozastore-client
 npm install
 npm run dev
 
 ```
+
+#### 3. Access the application:
+
+- Frontend: Visit `http://localhost:5173` to access the frontend application.
+- Backend: The backend API will be available at `http://localhost:3030`.
 
 
 ## Authentication
