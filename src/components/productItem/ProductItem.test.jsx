@@ -1,9 +1,6 @@
-import { test, describe, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { AuthContext } from "../../context/authContext";
-import { WishContext } from "../../context/wishContext";
-import { BagProvider } from "../../context/bagContext";
+import { test, describe, expect } from "vitest";
+import { render, screen, fireEvent, waitFor } from "../../tests/test-utils";
+
 import ProductItem from "./ProductItem";
 import {
   mockProductData,
@@ -18,17 +15,7 @@ describe("ProductItem", () => {
   mockAuthContextValue.isAuthenticated = true;
 
   test("ProductItem renders correctly", () => {
-    render(
-      <MemoryRouter>
-        <AuthContext.Provider value={mockAuthContextValue}>
-          <WishContext.Provider value={mockWishContextValue}>
-            <BagProvider>
-              <ProductItem {...mockProductData} />
-            </BagProvider>
-          </WishContext.Provider>
-        </AuthContext.Provider>
-      </MemoryRouter>
-    );
+    render(<ProductItem {...mockProductData} />);
 
     // Check if the product name is rendered
     expect(screen.getByText(mockProductData.name)).toBeInTheDocument();
@@ -49,17 +36,7 @@ describe("ProductItem", () => {
 
   test("Quick View functionality works", async () => {
     productService.getProductById.mockResolvedValueOnce(mockProductData);
-    render(
-      <MemoryRouter>
-        <AuthContext.Provider value={mockAuthContextValue}>
-          <WishContext.Provider value={mockWishContextValue}>
-            <BagProvider>
-              <ProductItem {...mockProductData} />
-            </BagProvider>
-          </WishContext.Provider>
-        </AuthContext.Provider>
-      </MemoryRouter>
-    );
+    render(<ProductItem {...mockProductData} />);
 
     // Click the "Quick View" button to display the QuickView component
     const quickViewButton = screen.getByText("Quick View");
@@ -88,17 +65,7 @@ describe("ProductItem", () => {
 
   test("Product is not wish", () => {
     mockWishContextValue.isWish.mockReturnValue(false);
-    render(
-      <MemoryRouter>
-        <AuthContext.Provider value={mockAuthContextValue}>
-          <WishContext.Provider value={mockWishContextValue}>
-            <BagProvider>
-              <ProductItem {...mockProductData} />
-            </BagProvider>
-          </WishContext.Provider>
-        </AuthContext.Provider>
-      </MemoryRouter>
-    );
+    render(<ProductItem {...mockProductData} />);
 
     // Check if the wish button is rendered
     const wishButton = screen.getByAltText("ICON");
@@ -113,17 +80,7 @@ describe("ProductItem", () => {
 
   test("Product is wish", () => {
     mockWishContextValue.isWish.mockReturnValue(true);
-    render(
-      <MemoryRouter>
-        <AuthContext.Provider value={mockAuthContextValue}>
-          <WishContext.Provider value={mockWishContextValue}>
-            <BagProvider>
-              <ProductItem {...mockProductData} />
-            </BagProvider>
-          </WishContext.Provider>
-        </AuthContext.Provider>
-      </MemoryRouter>
-    );
+    render(<ProductItem {...mockProductData} />);
 
     // Check if the wish button is rendered
     const wishButton = screen.getByAltText("ICON");
@@ -137,17 +94,7 @@ describe("ProductItem", () => {
   });
 
   test("Check if the wish button is functional", () => {
-    render(
-      <MemoryRouter>
-        <AuthContext.Provider value={mockAuthContextValue}>
-          <WishContext.Provider value={mockWishContextValue}>
-            <BagProvider>
-              <ProductItem {...mockProductData} />
-            </BagProvider>
-          </WishContext.Provider>
-        </AuthContext.Provider>
-      </MemoryRouter>
-    );
+    render(<ProductItem {...mockProductData} />);
     const wishButton = screen.getByAltText("ICON");
     fireEvent.click(wishButton);
     expect(mockWishContextValue.addWish).toHaveBeenCalledWith(
@@ -158,17 +105,7 @@ describe("ProductItem", () => {
   // Check if Wish button is not visible when user is authenticated
   test("Wish button is not visible when user is not authenticated", () => {
     mockAuthContextValue.isAuthenticated = false;
-    render(
-      <MemoryRouter>
-        <AuthContext.Provider value={mockAuthContextValue}>
-          <WishContext.Provider value={mockWishContextValue}>
-            <BagProvider>
-              <ProductItem {...mockProductData} />
-            </BagProvider>
-          </WishContext.Provider>
-        </AuthContext.Provider>
-      </MemoryRouter>
-    );
+    render(<ProductItem {...mockProductData} />);
     const wishButton = screen.queryByAltText("ICON");
     expect(wishButton).toBeNull();
   });
