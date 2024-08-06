@@ -24,6 +24,7 @@ describe("Checkout component", () => {
   beforeEach(() => {
     mockBagContextValue.bag = [...mockBagDate];
     mockBagContextValue.count = mockCount;
+    shippingService.getCities.mockResolvedValue(mockCitiesData);
   });
 
   test("renders correctly", () => {
@@ -61,9 +62,8 @@ describe("Checkout component", () => {
   });
 
   test("display shipping address if it is in user profile", async () => {
-    profileService.getProfile.mockResolvedValue(mockProfileData);
-    shippingService.getCities.mockResolvedValue(mockCitiesData);
-    shippingService.getOffices.mockResolvedValue(mockOfficesData);
+    profileService.getProfile.mockResolvedValueOnce(mockProfileData);
+    shippingService.getOffices.mockResolvedValueOnce(mockOfficesData);
     render(<Checkout />);
     await waitFor(
       () => expect(profileService.getProfile).toHaveBeenCalled(),
@@ -80,9 +80,89 @@ describe("Checkout component", () => {
     expect(lastNameInput).toHaveValue(mockProfileData.lastName);
     const phoneInput = screen.getByPlaceholderText("Phone");
     expect(phoneInput).toHaveValue(mockProfileData.phone);
-    const cityOption = document.getElementById("city");
+    const cityOption = screen.getByTestId("city");
     expect(cityOption.value).toBe(mockProfileData.shippingCity);
-    const officeOption = document.getElementById("office");
+    const officeOption = screen.getByTestId("office");
     expect(officeOption.value).toBe(mockProfileData.shippingOffice);
+    const subTotal = mockBagDate.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    const subTotalElement = screen.getByTestId("subTotal");
+    expect(subTotalElement).toHaveTextContent(`$ ${subTotal.toFixed(2)}`);
+    const shippingElement = screen.getByTestId("shippingPrice");
+    expect(shippingElement).toHaveTextContent("$ 4.99");
+    const totalElement = screen.getByTestId("total");
+    expect(totalElement).toHaveTextContent(`$ ${(subTotal + 4.99).toFixed(2)}`);
+  });
+
+  test("display shipping address if it is NOT in user profile", async () => {
+    profileService.getProfile.mockResolvedValueOnce({});
+    shippingService.getOffices.mockResolvedValueOnce(mockOfficesData);
+    render(<Checkout />);
+    await waitFor(
+      () => expect(profileService.getProfile).toHaveBeenCalled(),
+      expect(shippingService.getCities).toHaveBeenCalled()
+    );
+    await waitFor(() =>
+      expect(
+        screen.queryByText(/There are no offices available in/)
+      ).not.toBeInTheDocument()
+    );
+    const firstNameInput = screen.getByPlaceholderText("First Name");
+    expect(firstNameInput).toHaveValue("");
+    const lastNameInput = screen.getByPlaceholderText("Last Name");
+    expect(lastNameInput).toHaveValue("");
+    const phoneInput = screen.getByPlaceholderText("Phone");
+    expect(phoneInput).toHaveValue("");
+    expect(screen.getByText("Choose a city")).toBeInTheDocument();
+    const subTotal = mockBagDate.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    const subTotalElement = screen.getByTestId("subTotal");
+    expect(subTotalElement).toHaveTextContent(`$ ${subTotal.toFixed(2)}`);
+    expect(screen.queryByTestId("shippingPrice")).not.toBeInTheDocument();
+    const totalElement = screen.getByTestId("total");
+    expect(totalElement).toHaveTextContent(`$ ${(subTotal + 0).toFixed(2)}`);
+  });
+
+  // test if on ckick "+" button the function updateItem is called with the right arguments
+  test("update item quantity on click '+' button", () => {
+    render(<Checkout />);
+    const plusButtons = [...screen.getAllByTestId("plus")];
+    plusButtons.forEach((button, index) => {
+      expect(button).toBeInTheDocument();
+      fireEvent.click(button);
+      expect(mockBagContextValue.updateItem).toHaveBeenCalledWith(
+        index,
+        mockBagDate[index].quantity + 1
+      );
+    });
+  });
+
+  // test if on ckick "-" button the function updateItem is called with the right arguments
+  test("update item quantity on click '-' button", () => {
+    render(<Checkout />);
+    const minusButtons = [...screen.getAllByTestId("minus")];
+    minusButtons.forEach((button, index) => {
+      expect(button).toBeInTheDocument();
+      fireEvent.click(button);
+      expect(mockBagContextValue.updateItem).toHaveBeenCalledWith(
+        index,
+        mockBagDate[index].quantity - 1
+      );
+    });
+  });
+
+  // test if input quantity is changed the function updateItem is called with the right arguments
+  test("update item quantity on change input", () => {
+    render(<Checkout />);
+    const quantityInputs = [...screen.getAllByTestId("quantity")];
+    quantityInputs.forEach((input, index) => {
+      expect(input).toBeInTheDocument();
+      fireEvent.change(input, { target: { value: 5 } });
+      expect(mockBagContextValue.updateItem).toHaveBeenCalledWith(index, 5);
+    });
   });
 });
