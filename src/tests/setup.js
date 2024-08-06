@@ -9,7 +9,29 @@ afterEach(() => {
 // Mock productService
 vi.mock("../services/productService", () => {
   return {
+    getAllProducts: vi.fn(),
     getProductById: vi.fn(),
+    getProductsCount: vi.fn(),
+    getDetailsById: vi.fn(),
+    getWishListProducts: vi.fn(),
+  };
+});
+
+// Mock profileService
+vi.mock("../services/profileService", () => {
+  return {
+    createProfile: vi.fn(),
+    getProfile: vi.fn(),
+    updateProfile: vi.fn(),
+    validateToken: vi.fn(),
+  };
+});
+
+// Mock shippingService
+vi.mock("../services/shippingService", () => {
+  return {
+    getCities: vi.fn(),
+    getOffices: vi.fn(),
   };
 });
 

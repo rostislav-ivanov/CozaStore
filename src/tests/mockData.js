@@ -9,7 +9,9 @@ export const mockProductData = {
   colors: ["Red", "Blue"],
 };
 
-export const mockAuthContextValue = { isAuthenticated: true };
+export const mockAuthContextValue = {
+  isAuthenticated: true,
+};
 
 export const mockWishContextValue = {
   isWish: vi.fn(),
@@ -51,3 +53,25 @@ export const mockBagContextValue = {
   clearBag: vi.fn(),
   count: 0,
 };
+
+export const mockProfileData = {
+  _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+  email: "peter@abv.bg",
+  firstName: "Peter",
+  lastName: "Petrov",
+  phone: "0888888888",
+  shippingCity: "София",
+  shippingOffice: "София Иван Вазов (бул. Витоша 150)",
+  _createdOn: 1721399083701,
+  _id: "403c1227-efce-4de0-b3bb-0030d31925c2",
+};
+
+export const mockCitiesData = [
+  { id: "1", name: "София" },
+  { id: "2", name: "Пловдив" },
+];
+
+export const mockOfficesData = [
+  { id: "1", name: "София Иван Вазов (бул. Витоша 150)" },
+  { id: "2", name: "София Лозенец (ул. Лозенец 15)" },
+];
