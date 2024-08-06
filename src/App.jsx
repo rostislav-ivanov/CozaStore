@@ -16,7 +16,7 @@ import AuthUserGuard from "./components/guards/authUserGuard";
 import Profile from "./components/profile/Profile";
 import Orders from "./components/orders/Orders";
 import WishList from "./components/wishList/WishList";
-import { WishProvidr } from "./context/wishContext";
+import { WishProvider } from "./context/wishContext";
 import ContactUs from "./components/contactUs/ContactUs";
 import AboutUs from "./components/aboutUs/AboutUs";
 import useScrollToTop from "./hooks/useScrollToTop";
@@ -27,7 +27,7 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <WishProvidr>
+        <WishProvider>
           <BagProvider>
             <Header />
             <Routes>
@@ -52,7 +52,7 @@ function App() {
             <Footer />
             <BackToTop />
           </BagProvider>
-        </WishProvidr>
+        </WishProvider>
       </AuthProvider>
     </ErrorBoundary>
   );

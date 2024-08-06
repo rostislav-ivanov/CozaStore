@@ -4,7 +4,7 @@ import * as wishService from "../services/wishService";
 
 export const WishContext = createContext();
 
-export const WishProvidr = ({ children }) => {
+export const WishProvider = ({ children }) => {
   const [wishes, setWish] = usePresistedState("wishes", {
     wishList: {},
   });

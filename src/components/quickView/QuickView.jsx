@@ -23,7 +23,7 @@ export default function QuickView({ _id, closeQuickView }) {
     color: "",
     quantity: 1,
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { addItem } = useContext(BagContext);
   const [errors, setErrors] = useState({});
 
