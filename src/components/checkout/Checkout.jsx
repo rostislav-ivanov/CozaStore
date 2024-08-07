@@ -193,6 +193,7 @@ export default function Checkout() {
                           <div className="wrap-num-product flex-w m-l-auto m-r-0">
                             <div
                               className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"
+                              data-testid="minus"
                               onClick={() =>
                                 updateItem(index, item.quantity - 1)
                               }
@@ -202,6 +203,7 @@ export default function Checkout() {
 
                             <input
                               className="mtext-104 cl3 txt-center num-product"
+                              data-testid="quantity"
                               type="number"
                               name="quantity"
                               value={Number(item.quantity)}
@@ -212,6 +214,7 @@ export default function Checkout() {
 
                             <div
                               className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
+                              data-testid="plus"
                               onClick={() =>
                                 updateItem(index, item.quantity + 1)
                               }
@@ -247,7 +250,9 @@ export default function Checkout() {
                 </div>
 
                 <div className="size-209">
-                  <span className="mtext-110 cl2">$ {subTotal.toFixed(2)}</span>
+                  <span data-testid="subTotal" className="mtext-110 cl2">
+                    $ {subTotal.toFixed(2)}
+                  </span>
                 </div>
               </div>
 
@@ -259,7 +264,10 @@ export default function Checkout() {
                 <div className="size-209 p-r-18 p-r-0-sm w-full-ssm">
                   {shippingPrice != "" && (
                     <div className="size-209">
-                      <span className="mtext-110 cl2">
+                      <span
+                        data-testid="shippingPrice"
+                        className="mtext-110 cl2"
+                      >
                         $ {Number(shippingPrice).toFixed(2)}
                       </span>
                     </div>
@@ -278,6 +286,7 @@ export default function Checkout() {
                       )}
                       <select
                         className="stext-111 cl8 plh3 size-111 p-lr-15"
+                        data-testid="city"
                         name="city"
                         id="city"
                         value={city.name}
@@ -314,6 +323,7 @@ export default function Checkout() {
                         {offices.length > 0 && (
                           <select
                             className="stext-111 cl8 plh3 size-111 p-lr-15"
+                            data-testid="office"
                             name="office"
                             id="office"
                             value={office.name}
@@ -417,7 +427,7 @@ export default function Checkout() {
                 </div>
 
                 <div className="size-209 p-t-1">
-                  <span className="mtext-110 cl2">
+                  <span data-testid="total" className="mtext-110 cl2">
                     $ {Number(subTotal + shippingPrice).toFixed(2)}
                   </span>
                 </div>
