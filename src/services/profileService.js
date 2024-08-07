@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/data/profiles";
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/profiles`;
 
 export async function createProfile(auth) {
   if (!auth || !auth.accessToken) {

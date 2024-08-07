@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/data/products";
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/products`;
 
 export async function getAllProducts(category, page = 1, pageSize = 6) {
   const offset = (page - 1) * pageSize;
