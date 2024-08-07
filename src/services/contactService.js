@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/jsonstore";
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/jsonstore`;
 
 export async function sendMessage(message) {
   try {

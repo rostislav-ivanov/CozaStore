@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/data/orders";
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/orders`;
 
 export async function createOrder(order) {
   try {

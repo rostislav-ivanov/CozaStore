@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/users";
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/users`;
 
 export async function login({ email, password }) {
   const user = {

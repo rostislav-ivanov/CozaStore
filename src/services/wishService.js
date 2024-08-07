@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3030/data/wishes";
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/wishes`;
 
 export async function createWish(auth) {
   try {
