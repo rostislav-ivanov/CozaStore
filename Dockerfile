@@ -5,12 +5,12 @@ FROM node:20 AS build
 WORKDIR /app
 
 # Install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json package-lock.json ./
+RUN npm install
 
 # Copy all files and build the app
 COPY . .
-RUN yarn build
+RUN npm run build
 
 # Step 2: Serve the React app with a lightweight web server
 FROM nginx:alpine
@@ -23,6 +23,7 @@ EXPOSE 80
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
+
 
 # docker build -t rostislav1/cozastore-client:0.1 .
 # docker tag rostislav1/cozastore-client:0.1 rostislav1/cozastore-client:latest
