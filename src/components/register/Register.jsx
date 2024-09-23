@@ -85,15 +85,21 @@ export default function Register() {
 
     try {
       const response = await authService.register(user);
-      // If email already exists
-      if (response.code > 200) {
-        currentErrors.error = "A user with the same email already exists";
-        setUser({ ...user, password: "", confirmPassword: "" });
-        setErrors({ ...currentErrors });
+      if (response.status === 400) {
+        setUser({ email: "", password: "", confirmPassword: "" });
+        setErrors({ error: "A user with the same email already exists" });
         return;
       }
-      await profileService.createProfile(response);
-      setAuth(response);
+      if (!response.ok) {
+        setUser({ email: "", password: "", confirmPassword: "" });
+        setErrors({ error: "Something went wrong" });
+        return;
+      }
+      //await profileService.createProfile(response);
+      setAuth({
+        _id: "my id",
+        accessToken: "my access token",
+      });
       const wishes = await wishService.createWish(response);
       setWish(wishes);
       navigate("/");

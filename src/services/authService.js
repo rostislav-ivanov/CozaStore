@@ -1,16 +1,19 @@
-const baseUrl = `${import.meta.env.VITE_BASE_URL}/users`;
+const baseUrl = `${import.meta.env.VITE_BASE_URL}`;
 
 export async function login({ email, password }) {
   const user = {
     email,
     password,
   };
-  const response = await fetch(`${baseUrl}/login`, {
+
+  const response = await fetch(`${baseUrl}/api/Account/login`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
+    credentials: "include",
   });
-  return response.json();
+
+  return response;
 }
 
 export async function register({ email, password }) {
@@ -18,21 +21,23 @@ export async function register({ email, password }) {
     email,
     password,
   };
-  const response = await fetch(`${baseUrl}/register`, {
+
+  const response = await fetch(`${baseUrl}/api/Account/register`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
+    credentials: "include",
   });
-  return response.json();
+
+  return response;
 }
 
 export async function logout() {
-  const auth = localStorage.getItem("auth");
-  const authObj = JSON.parse(auth);
-  const accessToken = authObj.accessToken;
-  const response = await fetch(`${baseUrl}/logout`, {
-    method: "get",
-    headers: { "X-Authorization": accessToken },
+  const response = await fetch(`${baseUrl}/api/Account/logout`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}),
+    credentials: "include",
   });
-  return response.status === 204 ? "ok" : "error";
+  return response;
 }

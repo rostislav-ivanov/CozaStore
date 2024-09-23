@@ -1,19 +1,21 @@
-const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/products`;
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/products`;
+const productsCountUrl = `${import.meta.env.VITE_BASE_URL}/api/productsCount`;
 
 export async function getAllProducts(category, page = 1, pageSize = 6) {
   const offset = (page - 1) * pageSize;
 
   const query = new URLSearchParams({
-    select: "_id,name,images,price",
     offset,
     pageSize,
-    where: `category LIKE "${category}"`,
+    category,
   });
 
-  const queryString = query.toString().replace(/\+/g, "%20");
-
   try {
-    const response = await fetch(`${baseUrl}?${queryString}`);
+    const response = await fetch(`${baseUrl}?${query}`, {
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -28,14 +30,11 @@ export async function getAllProducts(category, page = 1, pageSize = 6) {
 
 export async function getProductsCount(category) {
   const query = new URLSearchParams({
-    where: `category LIKE "${category}"`,
-    count: true,
+    category,
   });
 
-  const queryString = query.toString().replace(/\+/g, "%20");
-
   try {
-    const response = await fetch(`${baseUrl}?${queryString}`);
+    const response = await fetch(`${productsCountUrl}?${query}`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);

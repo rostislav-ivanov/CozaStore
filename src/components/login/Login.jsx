@@ -67,12 +67,21 @@ export default function Login() {
 
     try {
       const response = await authService.login({ ...user });
-      if (response.code === 403) {
+      if (response.status === 401) {
         setUser({ email: "", password: "" });
         setErrors({ error: "Email or password don't match" });
         return;
       }
-      setAuth(response);
+      if (!response.ok) {
+        setUser({ email: "", password: "" });
+        setErrors({ error: "Something went wrong" });
+        return;
+      }
+
+      setAuth({
+        _id: "my id",
+        accessToken: "my access token",
+      });
       const wishList = await wishService.getWish(response);
       setWish(wishList);
       navigate("/");

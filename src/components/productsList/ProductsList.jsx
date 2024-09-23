@@ -21,7 +21,6 @@ export default function ProductLists() {
   const [previewProducts, setPreviewProducts] = useState([]);
 
   useEffect(() => {
-    console.log(category);
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -135,7 +134,7 @@ export default function ProductLists() {
 
           <div className="row isotope-grid">
             {products.map((product) => (
-              <ProductItem key={product._id} {...product} />
+              <ProductItem key={product.id} {...product} />
             ))}
           </div>
 
