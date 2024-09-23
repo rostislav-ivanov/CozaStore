@@ -95,13 +95,11 @@ export default function Register() {
         setErrors({ error: "Something went wrong" });
         return;
       }
-      //await profileService.createProfile(response);
       setAuth({
         _id: "my id",
         accessToken: "my access token",
       });
-      const wishes = await wishService.createWish(response);
-      setWish(wishes);
+      setWish({});
       navigate("/");
     } catch (error) {
       alert(`Failed to register: ${error.message}`);

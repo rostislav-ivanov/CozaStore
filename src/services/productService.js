@@ -1,5 +1,4 @@
 const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/products`;
-const productsCountUrl = `${import.meta.env.VITE_BASE_URL}/api/productsCount`;
 
 export async function getAllProducts(category, page = 1, pageSize = 6) {
   const offset = (page - 1) * pageSize;
@@ -34,7 +33,7 @@ export async function getProductsCount(category) {
   });
 
   try {
-    const response = await fetch(`${productsCountUrl}?${query}`);
+    const response = await fetch(`${baseUrl}/count?${query}`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
