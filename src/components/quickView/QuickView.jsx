@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { WishContext } from "../../context/wishContext";
 
-export default function QuickView({ _id, closeQuickView }) {
+export default function QuickView({ id, closeQuickView }) {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
   const { isWish, addWish, removeWish } = useContext(WishContext);
@@ -30,13 +30,13 @@ export default function QuickView({ _id, closeQuickView }) {
   useEffect(() => {
     setLoading(true);
     productService
-      .getProductById(_id)
+      .getProductById(id)
       .then((data) => {
         setProduct((prev) => ({ ...prev, ...data }));
         setLoading(false);
       })
       .catch(() => navigate("/NotFound", { replace: true }));
-  }, [_id]);
+  }, [id]);
 
   const validateInputs = () => {
     const newErrors = {};
@@ -54,7 +54,7 @@ export default function QuickView({ _id, closeQuickView }) {
     console.log(product);
     if (!validateInputs()) return;
     const item = {
-      _id: product._id,
+      id: product.id,
       name: product.name,
       image: product.images[0],
       price: product.price,
@@ -214,20 +214,20 @@ export default function QuickView({ _id, closeQuickView }) {
                             </button>
                             {isAuthenticated && (
                               <button className="btn-addwish-b2 dis-block pos-relative js-addwish-b2 ms-5">
-                                {!isWish(_id) && (
+                                {!isWish(id) && (
                                   <img
                                     className="icon-heart1 dis-block trans-04"
                                     src="/images/icons/icon-heart-01.png"
                                     alt="ICON"
-                                    onClick={() => addWish(_id)}
+                                    onClick={() => addWish(id)}
                                   />
                                 )}
-                                {isWish(_id) && (
+                                {isWish(id) && (
                                   <img
                                     className="icon-heart1 dis-block trans-04"
                                     src="/images/icons/icon-heart-02.png"
                                     alt="ICON"
-                                    onClick={() => removeWish(_id)}
+                                    onClick={() => removeWish(id)}
                                   />
                                 )}
                               </button>

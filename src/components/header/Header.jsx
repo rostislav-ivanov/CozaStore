@@ -10,7 +10,7 @@ import { WishContext } from "../../context/wishContext";
 export default function Header() {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
   const { setBag } = useContext(BagContext);
-  const { wishList, setWish } = useContext(WishContext);
+  const { wishes, setWish } = useContext(WishContext);
   const navigate = useNavigate();
   const { count } = useContext(BagContext);
   const [showCart, setShowCart] = useState(false);
@@ -168,7 +168,7 @@ export default function Header() {
                     </div>
                     <div
                       className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                      data-notify={wishList.length}
+                      data-notify={Object.keys(wishes).length}
                     >
                       <Nav.Link as={Link} to="/wishes-list">
                         <i className="zmdi zmdi-favorite-outline"></i>

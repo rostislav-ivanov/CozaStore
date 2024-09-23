@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/authContext";
 import { WishContext } from "../../context/wishContext";
 
 export default function Details() {
-  const { _id } = useParams();
+  const { id } = useParams();
   const { isAuthenticated } = useContext(AuthContext);
   const { isWish, addWish, removeWish } = useContext(WishContext);
   const navigate = useNavigate();
@@ -34,13 +34,13 @@ export default function Details() {
   useEffect(() => {
     setLoading(true);
     productService
-      .getDetailsById(_id)
+      .getDetailsById(id)
       .then((data) => {
         setProduct((prev) => ({ ...prev, ...data }));
         setLoading(false);
       })
       .catch(() => navigate("/NotFound", { replace: true }));
-  }, [_id]);
+  }, [id]);
 
   const validateInputs = () => {
     const newErrors = {};
@@ -57,7 +57,7 @@ export default function Details() {
   const addItemHandler = (product) => {
     if (!validateInputs()) return;
     const item = {
-      _id: product._id,
+      id: product.id,
       name: product.name,
       image: product.images[0],
       price: product.price,
@@ -219,20 +219,20 @@ export default function Details() {
                               </button>
                               {isAuthenticated && (
                                 <button className="btn-addwish-b2 dis-block pos-relative js-addwish-b2 ms-5">
-                                  {!isWish(_id) && (
+                                  {!isWish(id) && (
                                     <img
                                       className="icon-heart1 dis-block trans-04"
                                       src="/images/icons/icon-heart-01.png"
                                       alt="ICON"
-                                      onClick={() => addWish(_id)}
+                                      onClick={() => addWish(id)}
                                     />
                                   )}
-                                  {isWish(_id) && (
+                                  {isWish(id) && (
                                     <img
                                       className="icon-heart1 dis-block trans-04"
                                       src="/images/icons/icon-heart-02.png"
                                       alt="ICON"
-                                      onClick={() => removeWish(_id)}
+                                      onClick={() => removeWish(id)}
                                     />
                                   )}
                                 </button>

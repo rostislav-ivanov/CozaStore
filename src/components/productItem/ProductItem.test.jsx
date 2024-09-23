@@ -45,7 +45,7 @@ describe("ProductItem", () => {
     // Wait for the QuickView component to render with the mock data
     await waitFor(() =>
       expect(productService.getProductById).toHaveBeenCalledWith(
-        mockProductData._id
+        mockProductData.id
       )
     );
 
@@ -74,7 +74,7 @@ describe("ProductItem", () => {
     // Check if the wish button is functional
     fireEvent.click(wishButton);
     expect(mockWishContextValue.addWish).toHaveBeenCalledWith(
-      mockProductData._id
+      mockProductData.id
     );
   });
 
@@ -89,7 +89,7 @@ describe("ProductItem", () => {
     // Check if the wish button is functional
     fireEvent.click(wishButton);
     expect(mockWishContextValue.addWish).toHaveBeenCalledWith(
-      mockProductData._id
+      mockProductData.id
     );
   });
 
@@ -98,7 +98,7 @@ describe("ProductItem", () => {
     const wishButton = screen.getByAltText("ICON");
     fireEvent.click(wishButton);
     expect(mockWishContextValue.addWish).toHaveBeenCalledWith(
-      mockProductData._id
+      mockProductData.id
     );
   });
 

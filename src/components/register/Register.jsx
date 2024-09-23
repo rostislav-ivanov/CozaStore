@@ -96,7 +96,7 @@ export default function Register() {
         return;
       }
       setAuth({
-        _id: "my id",
+        id: "my id",
         accessToken: "my access token",
       });
       setWish({});

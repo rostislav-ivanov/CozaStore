@@ -44,7 +44,7 @@ export default function CartModal({ hideCartHendler }) {
 
                   <div className="header-cart-item-txt">
                     <Link
-                      to={`/details/${item._id}`}
+                      to={`/details/${item.id}`}
                       className="header-cart-item-name hov-cl1 trans-04"
                       onClick={hideCartHendler}
                     >

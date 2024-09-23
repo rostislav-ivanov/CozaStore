@@ -77,7 +77,7 @@ export default function Orders() {
             >
               {orders.map((order, index) => (
                 <Accordion.Item
-                  key={order._id}
+                  key={order.id}
                   eventKey={index}
                   className="border-3 border-secondary"
                 >
@@ -100,11 +100,11 @@ export default function Orders() {
 
                   <Accordion.Body>
                     {order.products.map((product) => (
-                      <div key={product._id}>
+                      <div key={product.id}>
                         {/* <!-- Product Start --> */}
                         <Row className="mb-5">
                           <Col md="5" lg="3" xl="3">
-                            <Nav.Link as={Link} to={`/details/${product._id}`}>
+                            <Nav.Link as={Link} to={`/details/${product.id}`}>
                               <div className="product-img">
                                 <img
                                   src={product.image}

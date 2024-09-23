@@ -34,7 +34,7 @@ export async function getOrders() {
     }
 
     const query = new URLSearchParams({
-      where: `_ownerId="${auth._id}"`,
+      where: `_ownerId="${auth.id}"`,
       sortBy: "_createdOn desc",
     });
 

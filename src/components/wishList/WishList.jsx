@@ -54,7 +54,7 @@ export default function WishList() {
               <p>Loading...</p>
             ) : (
               products.map((product) => (
-                <ProductItem key={product._id} {...product} />
+                <ProductItem key={product.id} {...product} />
               ))
             )}
           </div>

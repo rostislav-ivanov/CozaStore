@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = usePresistedState("auth", {});
 
   const values = {
-    userId: auth._id,
+    userId: auth.id,
     username: auth.username,
     email: auth.email,
     accessToken: auth.accessToken,

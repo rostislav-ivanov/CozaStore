@@ -5,21 +5,17 @@ import * as wishService from "../services/wishService";
 export const WishContext = createContext();
 
 export const WishProvider = ({ children }) => {
-  const [wishes, setWish] = usePresistedState("wishes", {
-    wishList: {},
-  });
+  const [wishes, setWish] = usePresistedState("wishes", {});
 
-  const wishList = Object.keys(wishes.wishList || {});
+  const wishList = Object.keys(wishes || {});
 
   const isWish = (id) => {
-    return id in wishes.wishList;
+    return id in wishes;
   };
 
   const addWish = async (id) => {
-    const wishData = {
-      ...wishes,
-      wishList: { ...wishes.wishList, [id]: true },
-    };
+    const wishData = { ...wishes, [id]: true };
+
     try {
       const responce = await wishService.updateWish(wishData);
       setWish(wishData);
@@ -29,8 +25,8 @@ export const WishProvider = ({ children }) => {
   };
 
   const removeWish = async (id) => {
-    const wishData = { ...wishes, wishList: { ...wishes.wishList } };
-    delete wishData.wishList[id];
+    const wishData = { ...wishes };
+    delete wishData[id];
     try {
       await wishService.updateWish(wishData);
       setWish(wishData);
@@ -40,6 +36,7 @@ export const WishProvider = ({ children }) => {
   };
 
   const values = {
+    wishes,
     wishList,
     isWish,
     addWish,

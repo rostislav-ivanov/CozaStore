@@ -79,10 +79,10 @@ export default function Login() {
       }
 
       setAuth({
-        _id: "my id",
+        id: "my id",
         accessToken: "my access token",
       });
-      const wishList = await wishService.getWish(response);
+      const wishList = await wishService.getWish();
       setWish(wishList);
       navigate("/");
     } catch (error) {

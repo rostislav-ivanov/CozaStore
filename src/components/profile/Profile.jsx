@@ -11,7 +11,7 @@ import { AuthContext } from "../../context/authContext";
 
 export default function Profile() {
   const [profile, setProfile] = useState({
-    _id: "",
+    id: "",
     email: "",
     firstName: "",
     lastName: "",
@@ -44,7 +44,7 @@ export default function Profile() {
         setLoading(true);
         const profileData = await profileService.getProfile();
         const profileState = {
-          _id: profileData._id,
+          id: profileData.id,
           email: profileData.email,
           firstName: profileData.firstName,
           lastName: profileData.lastName,
@@ -146,7 +146,7 @@ export default function Profile() {
     }
 
     const profileData = {
-      _id: profile._id,
+      id: profile.id,
       email: profile.email,
       firstName: profile.firstName,
       lastName: profile.lastName,

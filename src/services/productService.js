@@ -48,7 +48,7 @@ export async function getProductsCount(category) {
 
 export async function getProductById(id) {
   const query = new URLSearchParams({
-    select: "_id,name,images,price,sizes,colors",
+    select: "id,name,images,price,sizes,colors",
   });
   const response = await fetch(`${baseUrl}/${id}?${query}`);
   const data = await response.json();
@@ -61,28 +61,17 @@ export async function getDetailsById(id) {
   return data;
 }
 
-export async function getWishListProducts(ids) {
-  if (ids.length < 1) {
-    return [];
-  }
+export async function getWishListProducts() {
+  console.log("getWishListProducts");
   try {
     const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!auth || !auth.accessToken || !auth._id) {
+    if (!auth || !auth.accessToken || !auth.id) {
       throw new Error("User is not logged in");
     }
 
-    const query = new URLSearchParams({
-      select: "_id,name,images,price",
-      where: `_id IN (${ids.map((id) => `"${id}"`).join(",")})`,
-    });
-
-    const queryString = query.toString().replace(/\+/g, "%20");
-
-    const response = await fetch(`${baseUrl}?${queryString}`, {
+    const response = await fetch(`${baseUrl}/user`, {
       method: "GET",
-      headers: {
-        "X-Authorization": auth.accessToken,
-      },
+      credentials: "include",
     });
 
     if (!response.ok) {

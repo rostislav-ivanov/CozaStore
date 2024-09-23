@@ -35,12 +35,12 @@ export async function createProfile(auth) {
 export async function getProfile() {
   try {
     const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!auth || !auth.accessToken || !auth._id) {
+    if (!auth || !auth.accessToken || !auth.id) {
       throw new Error("User is not logged in");
     }
 
     const query = new URLSearchParams({
-      where: `_ownerId="${auth._id}"`,
+      where: `_ownerId="${auth.id}"`,
     });
 
     const response = await fetch(`${baseUrl}?${query}`, {
@@ -71,7 +71,7 @@ export async function updateProfile(profile) {
       throw new Error("User is not logged in");
     }
 
-    const response = await fetch(`${baseUrl}/${profile._id}`, {
+    const response = await fetch(`${baseUrl}/${profile.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export async function validateToken() {
     return;
   }
 
-  if (!auth.accessToken || !auth._id) {
+  if (!auth.accessToken || !auth.id) {
     localStorage.removeItem("auth");
     localStorage.removeItem("wishes");
     localStorage.removeItem("bag");
@@ -106,7 +106,7 @@ export async function validateToken() {
 
   try {
     const query = new URLSearchParams({
-      where: `_ownerId="${auth._id}"`,
+      where: `_ownerId="${auth.id}"`,
     });
 
     const response = await fetch(`${baseUrl}?${query}`, {
