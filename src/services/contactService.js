@@ -1,13 +1,12 @@
-const baseUrl = `${import.meta.env.VITE_BASE_URL}/jsonstore`;
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/contacts`;
 
 export async function sendMessage(message) {
   try {
     const response = await fetch(`${baseUrl}/messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: "post",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(message),
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -23,12 +22,11 @@ export async function sendMessage(message) {
 
 export async function subscribe(email) {
   try {
-    const response = await fetch(`${baseUrl}/subscribe`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
+    const response = await fetch(`${baseUrl}/subscribers`, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(email),
+      credentials: "include",
     });
 
     if (!response.ok) {

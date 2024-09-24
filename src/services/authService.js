@@ -1,4 +1,4 @@
-const baseUrl = `${import.meta.env.VITE_BASE_URL}`;
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/account`;
 
 export async function login({ email, password }) {
   const user = {
@@ -6,7 +6,7 @@ export async function login({ email, password }) {
     password,
   };
 
-  const response = await fetch(`${baseUrl}/api/Account/login`, {
+  const response = await fetch(`${baseUrl}/login`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
@@ -22,7 +22,7 @@ export async function register({ email, password }) {
     password,
   };
 
-  const response = await fetch(`${baseUrl}/api/Account/register`, {
+  const response = await fetch(`${baseUrl}/register`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
@@ -33,7 +33,7 @@ export async function register({ email, password }) {
 }
 
 export async function logout() {
-  const response = await fetch(`${baseUrl}/api/Account/logout`, {
+  const response = await fetch(`${baseUrl}/logout`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({}),

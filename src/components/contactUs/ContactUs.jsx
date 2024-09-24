@@ -23,6 +23,7 @@ export default function ContactUs() {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
 
   useEffect(() => {
+    console.log("ContactUs useEffect", isAuthenticated);
     if (!isAuthenticated) {
       return;
     }
