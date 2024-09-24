@@ -50,7 +50,7 @@ export default function Checkout() {
         setPhone(profileData.phone);
         setCity({ id: "", name: profileData.shippingCity });
         setOffice({ id: "", name: profileData.shippingOffice });
-        setShippingPrice(profileData.shippingOffice ? 4.99 : "");
+        setShippingPrice(profileData.shippingPrice ?? "");
       } catch (error) {
         if (error.message.includes("403")) {
           setAuth({});

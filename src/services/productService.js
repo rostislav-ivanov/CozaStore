@@ -10,11 +10,7 @@ export async function getAllProducts(category, page = 1, pageSize = 6) {
   });
 
   try {
-    const response = await fetch(`${baseUrl}?${query}`, {
-      method: "get",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await fetch(`${baseUrl}?${query}`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -47,10 +43,7 @@ export async function getProductsCount(category) {
 }
 
 export async function getProductById(id) {
-  const query = new URLSearchParams({
-    select: "id,name,images,price,sizes,colors",
-  });
-  const response = await fetch(`${baseUrl}/${id}?${query}`);
+  const response = await fetch(`${baseUrl}/${id}/quick`);
   const data = await response.json();
   return data;
 }
@@ -62,7 +55,6 @@ export async function getDetailsById(id) {
 }
 
 export async function getWishListProducts() {
-  console.log("getWishListProducts");
   try {
     const auth = JSON.parse(localStorage.getItem("auth"));
     if (!auth || !auth.accessToken || !auth.id) {

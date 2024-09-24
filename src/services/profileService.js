@@ -1,36 +1,4 @@
-const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/profiles`;
-
-export async function createProfile(auth) {
-  if (!auth || !auth.accessToken) {
-    throw new Error("User is not logged in");
-  }
-
-  try {
-    const response = await fetch(`${baseUrl}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": auth.accessToken,
-      },
-      body: JSON.stringify({
-        email: auth.email,
-        firstName: "",
-        lastName: "",
-        phone: "",
-        shippingCity: "",
-        shippingOffice: "",
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-
-    return response.json();
-  } catch (error) {
-    throw new Error(`Failed to extend user: ${error.message}`);
-  }
-}
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/profiles`;
 
 export async function getProfile() {
   try {
@@ -39,15 +7,9 @@ export async function getProfile() {
       throw new Error("User is not logged in");
     }
 
-    const query = new URLSearchParams({
-      where: `_ownerId="${auth.id}"`,
-    });
-
-    const response = await fetch(`${baseUrl}?${query}`, {
+    const response = await fetch(baseUrl, {
       method: "GET",
-      headers: {
-        "X-Authorization": auth.accessToken,
-      },
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -55,10 +17,8 @@ export async function getProfile() {
     }
 
     const data = await response.json();
-    if (data.length < 1) {
-      throw new Error("User not found");
-    }
-    return data[0];
+
+    return data;
   } catch (error) {
     throw new Error(`Failed to get user: ${error.message}`);
   }
@@ -71,13 +31,11 @@ export async function updateProfile(profile) {
       throw new Error("User is not logged in");
     }
 
-    const response = await fetch(`${baseUrl}/${profile.id}`, {
+    const response = await fetch(baseUrl, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": auth.accessToken,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...profile }),
+      credentials: "include",
     });
 
     if (!response.ok) {
