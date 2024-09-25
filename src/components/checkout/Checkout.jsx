@@ -67,7 +67,7 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
-    if (city.id === undefined) {
+    if (city.id === undefined || city.id === "") {
       return;
     }
     setLoading(true);
