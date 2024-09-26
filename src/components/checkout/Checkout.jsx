@@ -127,7 +127,6 @@ export default function Checkout() {
       return;
     }
     const order = {
-      status: "Unfulfilled",
       city: city.name,
       office: office.name,
       firstName,
@@ -138,11 +137,9 @@ export default function Checkout() {
       total: subTotal + shippingPrice,
     };
     try {
-      const result = await orderService.createOrder(order);
+      const orderNumber = await orderService.createOrder(order);
       clearBag();
-      alert(
-        `Order placed successfully! Your order number is #${result._createdOn}`
-      );
+      alert(`Order placed successfully! Your order number is #${orderNumber}`);
       navigate("/");
     } catch (error) {
       alert(error.message);

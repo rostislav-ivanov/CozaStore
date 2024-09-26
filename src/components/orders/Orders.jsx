@@ -15,11 +15,11 @@ export default function Orders() {
   const [loading, setLoading] = useState(false);
 
   const statusColors = {
-    Unfulfilled: "text-secondary",
-    Canceled: "text-danger",
-    Fulfilled: "text-primary",
-    Received: "text-success",
-    Returned: "text-danger",
+    Неизпълнена: "text-secondary",
+    Отменена: "text-danger",
+    Изпълнена: "text-primary",
+    Получена: "text-success",
+    Върната: "text-danger",
   };
 
   useEffect(() => {
@@ -77,24 +77,24 @@ export default function Orders() {
             >
               {orders.map((order, index) => (
                 <Accordion.Item
-                  key={order.id}
+                  key={order.orderNumber}
                   eventKey={index}
                   className="border-3 border-secondary"
                 >
                   <Accordion.Header>
                     <Col lg="3">
-                      <strong>{formatDate(order._createdOn)}</strong>
+                      <strong>{order.createdOn}</strong>
                     </Col>
                     <Col lg="3">
-                      <strong>#{order._createdOn}</strong>
+                      <strong>#{order.orderNumber}</strong>
                     </Col>
                     <Col lg="3">
-                      <strong className={statusColors[order.status]}>
-                        {order.status}
+                      <strong className={statusColors[order.orderStatus]}>
+                        {order.orderStatus}
                       </strong>
                     </Col>
                     <Col lg="2">
-                      <strong>$ {order.total.toFixed(2)}</strong>
+                      <strong>$ {order.totalPrice.toFixed(2)}</strong>
                     </Col>
                   </Accordion.Header>
 
@@ -107,7 +107,7 @@ export default function Orders() {
                             <Nav.Link as={Link} to={`/details/${product.id}`}>
                               <div className="product-img">
                                 <img
-                                  src={product.image}
+                                  src={product.imagePath}
                                   className="img-fluid w-50"
                                   alt=""
                                 />
@@ -142,7 +142,7 @@ export default function Orders() {
                     <div className="d-flex justify-content-between mb-3">
                       <span>Subtotal:</span>
                       <span className="mb-0">
-                        $ {(order.total - order.shippingPrice).toFixed(2)}
+                        $ {(order.totalPrice - order.shippingPrice).toFixed(2)}
                       </span>
                     </div>
                     <div className="d-flex justify-content-between mb-3">
@@ -151,7 +151,7 @@ export default function Orders() {
                     </div>
                     <hr />
                     <div className="d-flex justify-content-between my-3 fs-4">
-                      <span>Total:</span>$ {order.total.toFixed(2)}
+                      <span>Total:</span>$ {order.totalPrice.toFixed(2)}
                     </div>
                   </Accordion.Body>
                 </Accordion.Item>

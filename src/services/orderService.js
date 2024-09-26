@@ -1,4 +1,4 @@
-const baseUrl = `${import.meta.env.VITE_BASE_URL}/data/orders`;
+const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/orders`;
 
 export async function createOrder(order) {
   try {
@@ -7,20 +7,18 @@ export async function createOrder(order) {
       throw new Error("User is not logged in");
     }
     const response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Authorization": auth.accessToken,
-      },
+      method: "post",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(order),
+      credentials: "include",
     });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    const orderNumber = await response.json();
+    return orderNumber;
   } catch (error) {
     throw new Error(`Failed to fetch orders: ${error.message}`);
   }
@@ -33,17 +31,9 @@ export async function getOrders() {
       throw new Error("User is not logged in");
     }
 
-    const query = new URLSearchParams({
-      where: `_ownerId="${auth.id}"`,
-      sortBy: "_createdOn desc",
-    });
-
-    const queryString = query.toString().replace(/\+/g, "%20");
-
-    const response = await fetch(`${baseUrl}?${queryString}`, {
-      headers: {
-        "X-Authorization": auth.accessToken,
-      },
+    const response = await fetch(baseUrl, {
+      method: "get",
+      credentials: "include",
     });
 
     if (!response.ok) {
