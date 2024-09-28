@@ -8,7 +8,7 @@ export async function getWish() {
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw response.status;
     }
 
     let data = await response.json();
@@ -18,9 +18,9 @@ export async function getWish() {
       return acc;
     }, {});
 
-    return wishes;
+    return await wishes;
   } catch (error) {
-    throw new Error(`Failed to get wishes list: ${error.message}`);
+    throw error;
   }
 }
 
@@ -38,11 +38,11 @@ export async function updateWish(wishData) {
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw response.status;
     }
 
-    return response.json();
+    return await response.json();
   } catch (error) {
-    throw new Error(`Failed to add wishes: ${error.message}`);
+    throw error;
   }
 }

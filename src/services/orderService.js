@@ -2,10 +2,6 @@ const baseUrl = `${import.meta.env.VITE_BASE_URL}/api/orders`;
 
 export async function createOrder(order) {
   try {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!auth || !auth.accessToken) {
-      throw new Error("User is not logged in");
-    }
     const response = await fetch(baseUrl, {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -14,35 +10,30 @@ export async function createOrder(order) {
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw response.status;
     }
 
     const orderNumber = await response.json();
     return orderNumber;
   } catch (error) {
-    throw new Error(`Failed to fetch orders: ${error.message}`);
+    throw error;
   }
 }
 
 export async function getOrders() {
   try {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!auth || !auth.accessToken) {
-      throw new Error("User is not logged in");
-    }
-
     const response = await fetch(baseUrl, {
       method: "get",
       credentials: "include",
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw response.status;
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    throw new Error(`Failed to fetch orders: ${error.message}`);
+    throw error;
   }
 }

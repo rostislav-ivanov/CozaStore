@@ -56,8 +56,9 @@ export default function Profile() {
         setInitialProfile(profileState);
         setLoading(false);
       } catch (error) {
-        if (error.message.includes("403")) {
+        if (error == 401) {
           setAuth({});
+          alert("User is not logged in");
           navigate("/login");
         } else {
           alert(error.message);
@@ -70,7 +71,7 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    if (profile.city.id === undefined) {
+    if (profile.city.id === undefined || profile.city.id === "") {
       return;
     }
 
@@ -160,8 +161,9 @@ export default function Profile() {
       alert("Profile updated successfully");
       setInitialProfile(profile);
     } catch (error) {
-      if (error.message.includes("403")) {
+      if (error == 401) {
         setAuth({});
+        alert("User is not logged in");
         navigate("/login");
       } else {
         alert(error.message);

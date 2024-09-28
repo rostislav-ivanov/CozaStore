@@ -17,9 +17,14 @@ export const WishProvider = ({ children }) => {
     const wishData = { ...wishes, [id]: true };
 
     try {
-      const responce = await wishService.updateWish(wishData);
+      await wishService.updateWish(wishData);
       setWish(wishData);
     } catch (error) {
+      if (error == 401) {
+        setAuth({});
+        alert("User is not logged in");
+        navigate("/login");
+      }
       alert("Failed to add wishes");
     }
   };
@@ -31,6 +36,11 @@ export const WishProvider = ({ children }) => {
       await wishService.updateWish(wishData);
       setWish(wishData);
     } catch (error) {
+      if (error == 401) {
+        setAuth({});
+        alert("User is not logged in");
+        navigate("/login");
+      }
       alert("Failed to remove wishes");
     }
   };

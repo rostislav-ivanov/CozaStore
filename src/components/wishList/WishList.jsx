@@ -21,8 +21,9 @@ export default function WishList() {
         const products = await productService.getWishListProducts(wishList);
         setProducts(products);
       } catch (error) {
-        if (error.message.includes("403")) {
+        if (error == 401) {
           setAuth({});
+          alert("User is not logged in");
           navigate("/login");
         } else {
           alert(error.message);

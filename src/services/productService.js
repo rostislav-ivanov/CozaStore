@@ -56,23 +56,18 @@ export async function getDetailsById(id) {
 
 export async function getWishListProducts() {
   try {
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    if (!auth || !auth.accessToken || !auth.id) {
-      throw new Error("User is not logged in");
-    }
-
     const response = await fetch(`${baseUrl}/user`, {
       method: "GET",
       credentials: "include",
     });
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw response.status;
     }
 
     const data = await response.json();
     return Object.values(data);
   } catch (error) {
-    throw new Error(`Failed to get wishes: ${error.message}`);
+    throw error;
   }
 }

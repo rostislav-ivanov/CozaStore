@@ -20,10 +20,9 @@ export default function ContactUs() {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { isAuthenticated, setAuth } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("ContactUs useEffect", isAuthenticated);
     if (!isAuthenticated) {
       return;
     }
@@ -40,11 +39,7 @@ export default function ContactUs() {
           });
         }
       } catch (error) {
-        if (error.message.includes("403")) {
-          setAuth({});
-        } else {
-          alert(error.message);
-        }
+        alert(error.message);
       } finally {
         setLoading(false);
       }
@@ -93,12 +88,7 @@ export default function ContactUs() {
       const responce = await contactService.sendMessage(message);
       alert(`Message sent successfully. ${responce.content}`);
     } catch (error) {
-      if (error.message.includes("403")) {
-        setAuth({});
-        navigate("/login");
-      } else {
-        alert(error.message);
-      }
+      alert(error.message);
     } finally {
       setLoading(false);
     }

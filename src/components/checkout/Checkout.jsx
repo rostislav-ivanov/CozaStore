@@ -142,8 +142,14 @@ export default function Checkout() {
       alert(`Order placed successfully! Your order number is #${orderNumber}`);
       navigate("/");
     } catch (error) {
-      alert(error.message);
-      return;
+      if (error == 401) {
+        setAuth({});
+        alert("User is not logged in");
+        navigate("/login");
+      } else {
+        alert(error.message);
+      }
+      navigate("/");
     }
   };
 

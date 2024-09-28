@@ -29,8 +29,9 @@ export default function Orders() {
         const orders = await orderService.getOrders();
         setOrders(orders);
       } catch (error) {
-        if (error.message.includes("403")) {
+        if (error == 401) {
           setAuth({});
+          alert("User is not logged in");
           navigate("/login");
         } else {
           alert(error.message);

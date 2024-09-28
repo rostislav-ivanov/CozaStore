@@ -1,10 +1,7 @@
 import { createContext } from "react";
 import usePresistedState from "../hooks/usePresistedState";
-import { validateToken } from "../services/profileService";
 
 export const AuthContext = createContext();
-
-validateToken();
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = usePresistedState("auth", {});
