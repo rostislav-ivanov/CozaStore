@@ -8,6 +8,7 @@ import * as shippingService from "../../services/shippingService";
 import * as profileService from "../../services/profileService";
 import * as orderService from "../../services/orderService";
 import { AuthContext } from "../../context/authContext";
+import formatValidationErrors from "../../utils/formatValidationErrors";
 
 export default function Checkout() {
   const { bag, removeItem, updateItem, clearBag } = useContext(BagContext);
@@ -52,8 +53,9 @@ export default function Checkout() {
         setOffice({ id: "", name: profileData.shippingOffice });
         setShippingPrice(profileData.shippingPrice ?? "");
       } catch (error) {
-        if (error.message.includes("403")) {
+        if (error == 401) {
           setAuth({});
+          alert("User is not logged in");
           navigate("/login");
         } else {
           alert(error.message);
@@ -142,13 +144,15 @@ export default function Checkout() {
       alert(`Order placed successfully! Your order number is #${orderNumber}`);
       navigate("/");
     } catch (error) {
-      if (error == 401) {
+      if (error.status == 401) {
         setAuth({});
-        alert("User is not logged in");
+        alert(`Error ${error.status}: ${error.title}`);
         navigate("/login");
-      } else {
-        alert(error.message);
+      } else if (error.status == 400) {
+        alert(formatValidationErrors(error.errors));
+        return;
       }
+      alert(`Error ${error.status}: ${error.title}`);
       navigate("/");
     }
   };

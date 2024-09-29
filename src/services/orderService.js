@@ -10,7 +10,9 @@ export async function createOrder(order) {
     });
 
     if (!response.ok) {
-      throw response.status;
+      const error = await response.json();
+      console.log(error);
+      throw error;
     }
 
     const orderNumber = await response.json();
